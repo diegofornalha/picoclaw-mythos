@@ -29,10 +29,10 @@ description: Para o backend, reinicia e verifica que esta saudavel. Usa log file
 4. **Verificar se subiu**
    ```bash
    tail -5 /tmp/chat-backend.log
-   curl -s http://localhost:8080/health | python3 -m json.tool
+   curl -s http://localhost:3456/health | python3 -m json.tool
    ```
 
-5. **Confirmar** que aparece "Enhanced Claude Code SDK Server running on port 8080"
+5. **Confirmar** que aparece "Enhanced Claude Code SDK Server running on port 3456"
 
 ## Se falhar
 Mostrar os ultimos 20 linhas do log:

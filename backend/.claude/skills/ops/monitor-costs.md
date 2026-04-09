@@ -9,7 +9,7 @@ description: Verifica custo acumulado das chamadas ao Claude na sessao atual do 
 
 1. **Buscar sessoes com metadados de custo**
    ```bash
-   curl -s http://localhost:8080/api/sessions | python3 -c "
+   curl -s http://localhost:3456/api/sessions | python3 -c "
    import json,sys
    sessions = json.load(sys.stdin)
    total = 0
@@ -27,7 +27,7 @@ description: Verifica custo acumulado das chamadas ao Claude na sessao atual do 
 
 2. **Verificar metricas de health**
    ```bash
-   curl -s http://localhost:8080/health | python3 -m json.tool
+   curl -s http://localhost:3456/health | python3 -m json.tool
    ```
 
 ## Nota

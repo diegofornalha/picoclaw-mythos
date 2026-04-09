@@ -16,7 +16,6 @@ description: Backup das configuracoes do backend (.env) e estado atual do projet
 2. **Backup do package.json** (versoes das dependencias)
    ```bash
    cp backend/package.json /tmp/chat-backend-package.bak
-   cp frontend/package.json /tmp/chat-frontend-package.bak
    echo "package.json salvos"
    ```
 
@@ -27,12 +26,10 @@ description: Backup das configuracoes do backend (.env) e estado atual do projet
    echo "=== Backend .env ===" >> /tmp/chat-config-snapshot.txt
    cat backend/.env >> /tmp/chat-config-snapshot.txt
    echo "=== Model default ===" >> /tmp/chat-config-snapshot.txt
-   grep "model:" frontend/src/App.tsx | grep -v "//" | head -1 >> /tmp/chat-config-snapshot.txt
    echo "=== Node ===" >> /tmp/chat-config-snapshot.txt
    node --version >> /tmp/chat-config-snapshot.txt
    cat /tmp/chat-config-snapshot.txt
    ```
 
 ## Nota
-- Configuracoes do frontend (UI settings) ficam no localStorage do browser — nao tem como fazer backup por aqui
 - Sessoes ficam em memoria — exportar com /export-sessions antes de reiniciar

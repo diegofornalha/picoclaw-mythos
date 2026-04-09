@@ -1,6 +1,5 @@
 ---
 name: audit-deps
-description: Roda npm audit no frontend e backend juntos. Reporta vulnerabilidades e dependencias desatualizadas.
 ---
 
 # Auditar Dependencias
@@ -14,13 +13,11 @@ description: Roda npm audit no frontend e backend juntos. Reporta vulnerabilidad
 
 2. **Frontend**
    ```bash
-   cd frontend && echo "=== FRONTEND ===" && npm audit 2>&1 | tail -15 && echo "" && npm outdated 2>/dev/null
    ```
 
 3. **Fix automatico** (se usuario autorizar)
    ```bash
    cd backend && npm audit fix
-   cd frontend && npm audit fix
    ```
 
 ## Reportar

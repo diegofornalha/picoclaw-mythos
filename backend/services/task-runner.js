@@ -30,7 +30,11 @@ function expandSkill(prompt, workspace) {
           return rest ? `${body}\n\n---\nContexto adicional: ${rest}` : body;
         }
       }
-    } catch { /* diretório não existe */ }
+    } catch (err) {
+        if (err.code !== 'ENOENT') {
+          console.error(`❌ skill expansion error in ${root}: ${err.message}`);
+        }
+      }
   }
 
   console.warn(`⚠️ Skill não encontrada: ${skillName}`);
@@ -108,9 +112,11 @@ _load();
 // ── Rate limit detection ──
 
 function _isRateLimitError(msg) {
-  return msg.includes('usage limit') ||
-    msg.includes('rate limit') ||
-    msg.includes('Claude AI usage limit reached');
+  const lower = msg.toLowerCase();
+  return lower.includes('usage limit') ||
+    lower.includes('rate limit') ||
+    lower.includes('limit reached') ||
+    lower.includes('claude ai usage limit');
 }
 
 function _extractResetTimestamp(msg) {
@@ -219,10 +225,10 @@ async function _runTask(task, io) {
   try {
     const queryOptions = {
       maxTurns: task.maxTurns,
-      permissionMode: 'acceptEdits',
+      permissionMode: (task.tags?.includes('auto-pr') || task.tags?.includes('instagram')) ? 'bypassPermissions' : 'acceptEdits',
       abortController: abort,
       cwd: task.workspace,
-      model: task.model || process.env.MYTHOS_MODEL || 'claude-sonnet-4-6',
+      model: task.model || process.env.MYTHOS_MODEL || 'claude-opus-4-6',
     };
 
     let fullPrompt = expandSkill(task.prompt, task.workspace);
@@ -310,7 +316,38 @@ async function _runTask(task, io) {
       cost: task.cost,
     });
     console.log(`✅ Task ${task.id} ${task.status} (${((task.finishedAt - task.startedAt) / 1000).toFixed(1)}s)`);
+
+    if (task.status === 'done' && task.source === 'cron') {
+      memory.append('changelog', {
+        taskId: task.id,
+        desc: task.prompt.substring(0, 120),
+        cost: task.cost,
+        duration: task.finishedAt - task.startedAt,
+      }, 100);
+
+      if (task.prompt !== '/auto-commit-pr') {
+        _checkAndCommit(task.workspace);
+      }
+    }
   }
+}
+
+// Verifica se há mudanças no git após task autônoma
+function _checkAndCommit(workspace) {
+  try {
+    const { execSync } = require('child_process');
+    const changes = execSync('git status --porcelain', { cwd: workspace, encoding: 'utf8' }).trim();
+    if (changes) {
+      console.log(`📝 Mudanças detectadas após task autônoma — agendando auto-commit-pr`);
+      createTask({
+        prompt: '/auto-commit-pr',
+        workspace,
+        tags: ['autonomous', 'auto-pr'],
+        source: 'cron',
+        maxTurns: 10,
+      });
+    }
+  } catch { /* sem git ou erro — ignora */ }
 }
 
 function _emit(io, taskId, event, data) {
@@ -343,15 +380,22 @@ const LOGS_PATH = process.env.PICOCLAW_LOGS || '/Users/2a/.picoclaw/logs';
 const AGENTS_PATH = process.env.CLAUDE_AGENTS_PATH || '/Users/2a/.claude/agents';
 
 const SELF_MISSIONS = [
+  // Diagnóstico
   '/self-review',
   '/analyze-logs',
-  'Analise server.js e task-runner.js. Identifique: handlers sem try/catch, Maps sem limite, rotas mortas. Liste com severidade.',
+  // Resolução de débitos (a cada 3 ciclos)
+  'Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corrigir, atualize debts.json mudando status para "resolved" e resolvedAt com Date.now(). Teste com node --check.',
+  // Avaliação de skills
+  '/eval-skills',
+  // Diagnóstico profundo
   '/self-review',
   `Leia os logs em ${LOGS_PATH}/ e verifique se as skills cobrem os padrões de erro encontrados. Sugira novas skills se necessário.`,
+  // Mais resolução de débitos
+  'Leia data/memory/debts.json. Se todos os debts estão "resolved", analise o código e adicione NOVOS débitos técnicos que encontrar (com id, desc, file, severity, status:"open"). Se houver debts open, resolva o de maior severidade.',
+  // Melhoria contínua
+  '/self-improve',
   '/analyze-logs',
   `Verifique os agentes em ${AGENTS_PATH}/. Liste os mais relevantes para melhorar o picoclaw-mythos.`,
-  'Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corrigir, atualize debts.json mudando status para "resolved". Teste com node --check.',
-  '/self-improve',
 ];
 
 const PICOCLAW_MISSIONS = [

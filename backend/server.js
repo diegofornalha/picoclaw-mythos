@@ -792,6 +792,38 @@ app.post('/api/tasks/:id/retry', (req, res) => {
   res.json({ success: true, task: _sanitizeTask(task) });
 });
 
+// POST /api/translate-instagram — traduz post do Instagram e envia via WhatsApp
+app.post('/api/translate-instagram', express.json(), (req, res) => {
+  const { url, to } = req.body;
+  if (!url || !to) {
+    return res.status(400).json({ error: 'url and to (LID) are required' });
+  }
+  const prompt = `Traduza o post do Instagram para PT-BR e envie pro usuário:
+
+1. Baixar imagens:
+cd /Users/2a/.picoclaw/workspace/scripts && uv run download-instagram.py "${url}"
+
+2. Para CADA imagem baixada (ig_*_.jpg), traduzir:
+cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png
+
+3. Ler a legenda original em ig_*_caption.txt e traduzir para PT-BR. Adaptar CTA (ex: "Comenta CREAR" → "Comenta claude").
+
+4. Enviar legenda traduzida:
+curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
+
+5. Enviar cada imagem traduzida SEM caption, intervalo de 2s:
+curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_TRADUZIDA"}'`;
+
+  const task = taskRunner.createTask({
+    prompt,
+    workspace: '/Users/2a/.picoclaw/workspace/scripts',
+    tags: ['instagram', 'translate'],
+    source: 'picoclaw',
+    maxTurns: 40,
+  });
+  res.json({ success: true, taskId: task.id, status: task.status });
+});
+
 // POST /api/autonomous/start — iniciar modo autônomo
 app.post('/api/autonomous/start', express.json(), (req, res) => {
   const intervalMin = parseInt(req.body.intervalMin || 60);

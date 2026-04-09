@@ -1,0 +1,42 @@
+{
+  "key": "changelog",
+  "content": [
+    {
+      "taskId": "00f2997f-5ffa-4232-811a-b6752e80a5ec",
+      "desc": "/self-review",
+      "cost": 1.763289,
+      "duration": 52633,
+      "at": 1775750948481
+    },
+    {
+      "taskId": "67dc3ba9-6ad3-432e-bd10-ef7f76335afb",
+      "desc": "/auto-commit-pr",
+      "cost": 1.1681595,
+      "duration": 48132,
+      "at": 1775751086195
+    },
+    {
+      "taskId": "f715e65c-c51b-4bfc-b7f1-d16734413ff5",
+      "desc": "/self-review",
+      "cost": 1.194945,
+      "duration": 49577,
+      "at": 1775751215325
+    },
+    {
+      "taskId": "a2fe921b-8132-4bcc-85f2-2a74dd0a8205",
+      "desc": "/auto-commit-pr",
+      "cost": 1.18305375,
+      "duration": 54034,
+      "at": 1775751463423
+    },
+    {
+      "taskId": "e5b22ad1-d436-4939-a24d-6bd364493460",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.54974225,
+      "duration": 37277,
+      "at": 1775753003152
+    }
+  ],
+  "sha256": "cf0075b4d091846b",
+  "updatedAt": 1775753003155
+}

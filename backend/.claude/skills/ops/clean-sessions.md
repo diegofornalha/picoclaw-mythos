@@ -11,7 +11,7 @@ O backend guarda sessoes em memoria (Map). Com uso continuo, isso acumula e cons
 
 1. **Verificar quantas sessoes existem**
    ```bash
-   curl -s http://localhost:8080/api/sessions | python3 -c "
+   curl -s http://localhost:3456/api/sessions | python3 -c "
    import json,sys
    sessions = json.load(sys.stdin)
    print(f'Total: {len(sessions)} sessoes')
@@ -24,7 +24,7 @@ O backend guarda sessoes em memoria (Map). Com uso continuo, isso acumula e cons
 
 2. **Verificar contextos do SessionContextManager**
    ```bash
-   curl -s http://localhost:8080/health | python3 -c "
+   curl -s http://localhost:3456/health | python3 -c "
    import json,sys
    d = json.load(sys.stdin)
    print(json.dumps(d, indent=2))
@@ -33,7 +33,6 @@ O backend guarda sessoes em memoria (Map). Com uso continuo, isso acumula e cons
 
 3. **Para limpar**: a forma mais simples e reiniciar o backend (perde todas as sessoes em memoria)
    - Se quiser preservar sessoes ativas, considerar implementar endpoint DELETE /api/sessions/:id
-   - O frontend ja tem botao "Limpar Chat" que deleta sessao individual via socket
 
 ## Nota
 O SessionContextManager ja limpa contextos com mais de 2h automaticamente (cleanOldContexts).

@@ -30,7 +30,6 @@ description: Mostra ultimos erros e warnings do backend do chat app. Util para d
 5. **Verificar portas**
    ```bash
    lsof -i :3456 -P | head -5   # backend
-   lsof -i :3000 -P | head -5   # frontend
    ```
 
 ## Reportar

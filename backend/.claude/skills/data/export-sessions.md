@@ -9,7 +9,7 @@ description: Exporta conversas do chat para JSON ou markdown. Util para backup o
 
 1. **Listar sessoes ativas**
    ```bash
-   curl -s http://localhost:8080/api/sessions | python3 -c "
+   curl -s http://localhost:3456/api/sessions | python3 -c "
    import json,sys
    sessions = json.load(sys.stdin)
    for s in sessions:
@@ -22,7 +22,7 @@ description: Exporta conversas do chat para JSON ou markdown. Util para backup o
 
 2. **Exportar todas para JSON**
    ```bash
-   curl -s http://localhost:8080/api/sessions | python3 -c "
+   curl -s http://localhost:3456/api/sessions | python3 -c "
    import json,sys
    sessions = json.load(sys.stdin)
    with open('/tmp/chat-sessions-export.json', 'w') as f:
@@ -33,7 +33,7 @@ description: Exporta conversas do chat para JSON ou markdown. Util para backup o
 
 3. **Exportar para Markdown** (mais legivel)
    ```bash
-   curl -s http://localhost:8080/api/sessions | python3 -c "
+   curl -s http://localhost:3456/api/sessions | python3 -c "
    import json,sys
    sessions = json.load(sys.stdin)
    for s in sessions:
@@ -48,5 +48,3 @@ description: Exporta conversas do chat para JSON ou markdown. Util para backup o
    "
    ```
 
-## Via frontend
-O botao "Exportar" no chat UI tambem exporta a sessao atual.

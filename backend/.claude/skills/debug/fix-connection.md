@@ -1,55 +1,34 @@
 ---
 name: fix-connection
-description: Passo a passo para diagnosticar e corrigir quando o chat nao conecta. Problema mais comum do projeto.
+description: Diagnostica problemas de conexao do backend. Verifica se server.js esta rodando, health, e WebSocket.
 ---
 
 # Fix Connection
 
-Quando o chat mostra "Desconectado" ou mensagens nao chegam.
-
-## Diagnostico
+## Passos
 
 1. **Backend rodando?**
    ```bash
-   pgrep -f "node server.js" && echo "SIM" || echo "NAO — precisa iniciar"
+   curl -s http://localhost:3456/api/health | python3 -m json.tool
    ```
 
-2. **Frontend rodando?**
+2. **Processo node ativo?**
    ```bash
-   pgrep -f "craco start" && echo "SIM" || echo "NAO — rodar: cd frontend && npm start"
+   pgrep -f "node server.js" && echo "RODANDO" || echo "PARADO"
    ```
 
-3. **Portas ocupadas?**
+3. **Porta 3456 ocupada?**
    ```bash
-   lsof -i :8080 -P | head -3
-   lsof -i :3000 -P | head -3
+   lsof -i :3456 -P | head -5
    ```
 
-4. **Backend responde?**
+4. **Reiniciar se necessario**
    ```bash
-   curl -s http://localhost:8080/health | head -1 || echo "NAO RESPONDE"
+   lsof -ti :3456 | xargs kill -9; sleep 1
+   node server.js &
    ```
 
-5. **WebSocket funciona?**
-   ```bash
-   curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/socket.io/?EIO=4\&transport=polling
-   ```
-   Deve retornar 200. Se 404, o socket.io nao esta configurado.
-
-6. **Proxy do frontend aponta certo?**
-   ```bash
-   cat frontend/src/setupProxy.js
-   ```
-   Deve apontar para localhost:8080.
-
-7. **Erros no log?**
-   ```bash
-   grep -i "error\|ECONNREFUSED\|EADDRINUSE" /tmp/chat-backend.log | tail -10
-   ```
-
-## Fixes comuns
-
-- **EADDRINUSE**: porta ocupada — `kill $(lsof -ti :8080)` e reiniciar
-- **CORS error**: verificar configuracao CORS no server.js
-- **Proxy error**: frontend nao encontra backend — verificar setupProxy.js
-- **WebSocket timeout**: reiniciar backend e recarregar pagina
+## Causas comuns
+- Porta ocupada por processo antigo
+- Crash sem reinicio (sem launchd ainda)
+- Rate limit pausou o ciclo autonomo
