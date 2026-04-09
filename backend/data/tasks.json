@@ -1,5 +1,374 @@
 [
   {
+    "id": "db154b1c-5365-455f-a29d-aca997911f52",
+    "prompt": "/auto-commit-pr",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 10,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "auto-pr"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "Vou ver os diffs detalhados para criar mensagens de commit adequadas:",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775755527820
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755531056,
+        "text": "\n\nVou verificar as mudanças em todos os repos monitorados."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755532180
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755532588
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755536636
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755536868
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755540782
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755540816
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755546609,
+        "text": "Repos com mudanças: **picoclaw-mythos**, **picoclaw**, **whatsmeow**. picoclaw_docs está limpo.\n\nVou ver os diffs dos repos que precisam de commit:"
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755547127
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755548196
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755548707
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755548886
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755549010
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755549467
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755552513,
+        "text": "Vou ver os diffs detalhados para criar mensagens de commit adequadas:"
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755552939
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755553891
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755554442
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755554958
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755555371
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755555439
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755555481
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755555578
+      },
+      {
+        "type": "result",
+        "timestamp": 1775755555581,
+        "result": "Vou ver os diffs detalhados para criar mensagens de commit adequadas:",
+        "cost": 0.9738442500000001
+      }
+    ],
+    "cost": 0.9738442500000001,
+    "createdAt": 1775755444654,
+    "startedAt": 1775755518694,
+    "finishedAt": 1775755556347,
+    "_abortController": null
+  },
+  {
+    "id": "c72a4642-7003-4367-91b8-b026e7850e0f",
+    "prompt": "Traduza a imagem para português brasileiro e envie pro usuário:\n\n1. Traduzir a imagem:\ncd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i \"/Users/2a/.picoclaw/workspace/media/images/obsidian.jpg\" -f \"/Users/2a/.picoclaw/workspace/media/translated/$(require('path').basename('/Users/2a/.picoclaw/workspace/media/images/obsidian.jpg', require('path').extname('/Users/2a/.picoclaw/workspace/media/images/obsidian.jpg'))}_ptbr.png\"\n\n2. Enviar a imagem traduzida:\ncurl -s -X POST http://127.0.0.1:18790/api/send-image -H \"Content-Type: application/json\" -d '{\"to\": \"176437373976751@lid\", \"file\": \"/Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png\"}'\n\nSubstituir NOME pelo nome do arquivo sem extensão.",
+    "workspace": "/Users/2a/.picoclaw/workspace/scripts",
+    "systemPrompt": null,
+    "maxTurns": 10,
+    "model": null,
+    "tags": [
+      "instagram",
+      "translate"
+    ],
+    "source": "picoclaw",
+    "status": "done",
+    "result": "Imagem traduzida e enviada com sucesso para o usuário.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775755460906
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755465007
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755465033
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755468248
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755501605
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755505742
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755505857
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755509204
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755512516
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755515257
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755515279
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755518042,
+        "text": "Imagem traduzida e enviada com sucesso para o usuário."
+      },
+      {
+        "type": "result",
+        "timestamp": 1775755518069,
+        "result": "Imagem traduzida e enviada com sucesso para o usuário.",
+        "cost": 0.99228225
+      }
+    ],
+    "cost": 0.99228225,
+    "createdAt": 1775755395533,
+    "startedAt": 1775755444668,
+    "finishedAt": 1775755518672,
+    "_abortController": null
+  },
+  {
+    "id": "b0aeacf9-df4f-45a3-80f6-3b446bc8d542",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 15,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "Parece que os comandos de rede estão bloqueados. Vou focar na revisão de código que posso fazer diretamente.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775755404605
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755408958,
+        "text": "\n\nVou executar a self-review completa. Começando com as verificações em paralelo."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755410067
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755410141
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755414499
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755416199
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755416474
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755417757
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755418519
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755419706
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755420284
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755421771
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755424865
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755425787
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755426165
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755426237
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755426608
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755426621
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755429592
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755430047
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755430705
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755430722
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755430736
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755431531
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755435058,
+        "text": "Parece que os comandos de rede estão bloqueados. Vou focar na revisão de código que posso fazer diretamente."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755436954
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755437450
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755437549
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755437850
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755442917
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775755443827
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755443887
+      },
+      {
+        "type": "user",
+        "timestamp": 1775755443913
+      },
+      {
+        "type": "result",
+        "timestamp": 1775755443919,
+        "result": "Parece que os comandos de rede estão bloqueados. Vou focar na revisão de código que posso fazer diretamente.",
+        "cost": 1.4394285
+      }
+    ],
+    "cost": 1.4394285,
+    "createdAt": 1775755393308,
+    "startedAt": 1775755393321,
+    "finishedAt": 1775755444527,
+    "_abortController": null
+  },
+  {
     "id": "2bc60bb6-983e-454c-be72-6bbacf9975c1",
     "prompt": "/analyze-logs",
     "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",

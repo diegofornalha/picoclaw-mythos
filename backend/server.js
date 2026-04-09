@@ -824,6 +824,33 @@ curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: applicat
   res.json({ success: true, taskId: task.id, status: task.status });
 });
 
+// POST /api/translate-image — traduz uma imagem avulsa e envia via WhatsApp
+app.post('/api/translate-image', express.json(), (req, res) => {
+  const { file, to, lang } = req.body;
+  if (!file || !to) {
+    return res.status(400).json({ error: 'file and to (LID) are required' });
+  }
+  const targetLang = lang || 'português brasileiro';
+  const prompt = `Traduza a imagem para ${targetLang} e envie pro usuário:
+
+1. Traduzir a imagem:
+cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i "${file}" -f "/Users/2a/.picoclaw/workspace/media/translated/$(require('path').basename('${file}', require('path').extname('${file}'))}_ptbr.png"
+
+2. Enviar a imagem traduzida:
+curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "/Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png"}'
+
+Substituir NOME pelo nome do arquivo sem extensão.`;
+
+  const task = taskRunner.createTask({
+    prompt,
+    workspace: '/Users/2a/.picoclaw/workspace/scripts',
+    tags: ['instagram', 'translate'],
+    source: 'picoclaw',
+    maxTurns: 10,
+  });
+  res.json({ success: true, taskId: task.id, status: task.status });
+});
+
 // POST /api/autonomous/start — iniciar modo autônomo
 app.post('/api/autonomous/start', express.json(), (req, res) => {
   const intervalMin = parseInt(req.body.intervalMin || 60);
