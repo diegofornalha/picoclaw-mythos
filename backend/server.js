@@ -33,6 +33,21 @@ const io = socketIo(server, {
 app.use(cors());
 app.use(express.json());
 
+// Auth middleware — só ativa se MYTHOS_API_KEY estiver configurada
+const MYTHOS_API_KEY = process.env.MYTHOS_API_KEY;
+if (MYTHOS_API_KEY) {
+  app.use((req, res, next) => {
+    // Health check é público
+    if (req.path === '/api/health') return next();
+    const auth = req.headers.authorization;
+    if (!auth || auth !== `Bearer ${MYTHOS_API_KEY}`) {
+      return res.status(401).json({ error: 'Unauthorized — set Authorization: Bearer <key>' });
+    }
+    next();
+  });
+  console.log('🔒 API key auth enabled');
+}
+
 // Storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -79,37 +94,23 @@ const upload = multer({
   }
 });
 
-// In-memory session storage (in production, use Redis or database)
-const sessions = new Map();
 const activeConnections = new Map();
 // Sistema de deduplicação de mensagens
 const processedMessages = new Map();
 
 const MESSAGE_TTL = 30000; // 30 seconds
+const cleanupTimers = [];
 
 // Limpeza automática de mensagens antigas
-setInterval(() => {
+cleanupTimers.push(setInterval(() => {
   const now = Date.now();
   for (const [messageId, timestamp] of processedMessages.entries()) {
     if (now - timestamp > MESSAGE_TTL) {
       processedMessages.delete(messageId);
     }
   }
-}, 60000); // Limpar a cada minuto
+}, 60000));
 
-// Limpeza de sessões sem atividade (4 horas)
-setInterval(() => {
-  const now = Date.now();
-  const SESSION_TTL = 4 * 60 * 60 * 1000;
-  let cleaned = 0;
-  for (const [sessionId, data] of sessions.entries()) {
-    if (data.lastActivity && (now - data.lastActivity > SESSION_TTL)) {
-      sessions.delete(sessionId);
-      cleaned++;
-    }
-  }
-  if (cleaned > 0) logger.info(`🧹 Cleaned ${cleaned} stale sessions`);
-}, 3600000); // A cada hora
 
 // Função para detectar se um erro é de limite do Claude
 function isClaudeLimitError(errorMsg) {
@@ -560,14 +561,9 @@ app.get('/api/debug/session/:sessionId', async (req, res) => {
   const { sessionId } = req.params;
 
   try {
-    // Buscar informações da sessão
-    const sessionData = sessions.get(sessionId);
-
-    // Obter contexto formatado da sessão local
-    const contextFormatted = await sessionContextManager.getFormattedContext(sessionId, "[PRÓXIMA MENSAGEM]");
-
-    // Estatísticas do contexto
-    const stats = await sessionContextManager.getStats();
+    const sessionData = sessionContextManager.get(sessionId);
+    const contextFormatted = sessionContextManager.getFormattedContext(sessionId, "[PRÓXIMA MENSAGEM]");
+    const stats = sessionContextManager.getStats();
 
     res.json({
       sessionId,
@@ -586,25 +582,7 @@ app.get('/api/debug/session/:sessionId', async (req, res) => {
 // Endpoint para visualizar todos os diálogos ativos
 app.get('/api/debug/dialogs', async (req, res) => {
   try {
-    const dialogs = [];
-
-    for (const [sessionId, sessionData] of sessions.entries()) {
-      const lastMessage = sessionData.messages[sessionData.messages.length - 1];
-
-      dialogs.push({
-        sessionId,
-        title: sessionData.title || 'Sessão sem título',
-        messageCount: sessionData.messages.length,
-        createdAt: sessionData.createdAt,
-        lastActivity: sessionData.lastActivity,
-        lastMessage: lastMessage ? {
-          type: lastMessage.type,
-          preview: lastMessage.content ? lastMessage.content.substring(0, 100) + '...' : '',
-          timestamp: lastMessage.timestamp
-        } : null
-      });
-    }
-
+    const dialogs = sessionContextManager.listSessions();
     res.json({
       activeDialogs: dialogs.length,
       dialogs,
@@ -642,102 +620,21 @@ app.get('/api/claude-reset-info', async (req, res) => {
 
 // Session management endpoints
 app.get('/api/sessions', (req, res) => {
-  const sessionList = Array.from(sessions.entries()).map(([id, data]) => ({
-    id: id,
-    created: data.created,
-    lastActivity: data.lastActivity,
-    messageCount: data.messages ? data.messages.length : 0,
-    title: data.title || `Session ${id.slice(0, 8)}...`
-  }));
-  
-  res.json({ sessions: sessionList });
+  res.json({ sessions: sessionContextManager.listSessions() });
 });
 
 app.get('/api/sessions/:sessionId', (req, res) => {
-  const sessionData = sessions.get(req.params.sessionId);
+  const sessionData = sessionContextManager.get(req.params.sessionId);
   if (!sessionData) {
     return res.status(404).json({ error: 'Session not found' });
   }
-  
   res.json(sessionData);
 });
 
 app.delete('/api/sessions/:sessionId', (req, res) => {
-  const deleted = sessions.delete(req.params.sessionId);
+  const deleted = sessionContextManager.delete(req.params.sessionId);
   res.json({ success: deleted });
 });
-
-// Funções auxiliares para respostas naturais
-function generateNaturalResponse(message) {
-  const lowerMessage = message.toLowerCase();
-  
-  // Respostas contextuais baseadas em padrões
-  if (lowerMessage.includes('olá') || lowerMessage.includes('oi') || lowerMessage.includes('hello')) {
-    const greetings = [
-      'Olá! É um prazer conversar com você. Como posso ajudar hoje?',
-      'Oi! Estou aqui para ajudar. Em que posso ser útil?',
-      'Olá! Bem-vindo! Estou pronto para auxiliar você com análise de dados, extração de informações ou qualquer outra necessidade.',
-      'Oi! Como está? Posso ajudar com análise de dados, geração de relatórios ou qualquer processamento que precisar.'
-    ];
-    return greetings[Math.floor(Math.random() * greetings.length)];
-  }
-  
-  if (lowerMessage.includes('como você está') || lowerMessage.includes('tudo bem')) {
-    return 'Estou funcionando perfeitamente e pronto para ajudar! Tenho o suporte do CrewAI com agentes especializados para análise de dados, extração de padrões e geração de relatórios. Como posso auxiliar você hoje?';
-  }
-  
-  if (lowerMessage.includes('dados') || lowerMessage.includes('extrair') || lowerMessage.includes('extract')) {
-    return `Entendi que você precisa trabalhar com dados. Vou acionar nossa equipe CrewAI especializada em extração de dados para processar sua solicitação: "${message}". Os agentes especializados já estão analisando o contexto para fornecer a melhor solução.`;
-  }
-  
-  if (lowerMessage.includes('analis') || lowerMessage.includes('padrão') || lowerMessage.includes('pattern')) {
-    return `Perfeito! Vejo que você precisa de análise de padrões. O CrewAI possui agentes especializados exatamente para isso. Estou coordenando com o analisador de padrões para processar: "${message}". Em breve terei insights valiosos para compartilhar.`;
-  }
-  
-  if (lowerMessage.includes('relatório') || lowerMessage.includes('resumo') || lowerMessage.includes('report')) {
-    return `Compreendi sua necessidade de um relatório. Vou mobilizar o agente gerador de relatórios do CrewAI para criar um documento estruturado sobre: "${message}". O relatório será completo e organizado.`;
-  }
-  
-  if (lowerMessage.includes('ajud') || lowerMessage.includes('help') || lowerMessage.includes('pode')) {
-    return `Claro! Posso ajudar você com diversas tarefas através do sistema CrewAI:\n\n• Extração de dados estruturados\n• Análise de padrões e tendências\n• Geração de relatórios detalhados\n• Processamento de informações complexas\n\nSobre o que especificamente você gostaria de ajuda?`;
-  }
-  
-  // Resposta genérica contextual
-  return `Entendi sua mensagem: "${message}". Estou processando sua solicitação com o suporte dos agentes especializados do CrewAI. Nossa equipe inclui extratores de dados, analisadores de padrões e geradores de relatórios. Vou coordenar o melhor approach para atender sua necessidade.`;
-}
-
-function detectCrewAINeeded(message) {
-  const lowerMessage = message.toLowerCase();
-  return lowerMessage.includes('dados') || 
-         lowerMessage.includes('extrair') || 
-         lowerMessage.includes('analis') ||
-         lowerMessage.includes('padrão') ||
-         lowerMessage.includes('relatório') ||
-         lowerMessage.includes('process') ||
-         lowerMessage.includes('arquivo') ||
-         lowerMessage.includes('resumo');
-}
-
-function detectTaskType(message) {
-  const lowerMessage = message.toLowerCase();
-  
-  if (lowerMessage.includes('extrair') || lowerMessage.includes('extract') || 
-      lowerMessage.includes('dados') || lowerMessage.includes('arquivo')) {
-    return 'data_extraction';
-  }
-  
-  if (lowerMessage.includes('analis') || lowerMessage.includes('padrão') || 
-      lowerMessage.includes('pattern') || lowerMessage.includes('trend')) {
-    return 'pattern_analysis';
-  }
-  
-  if (lowerMessage.includes('relatório') || lowerMessage.includes('resumo') || 
-      lowerMessage.includes('report') || lowerMessage.includes('summary')) {
-    return 'report_generation';
-  }
-  
-  return 'general_query';
-}
 
 // ══════════════════════════════════════════════
 // Task Runner — REST Endpoints
@@ -792,11 +689,28 @@ app.post('/api/tasks/:id/retry', (req, res) => {
   res.json({ success: true, task: _sanitizeTask(task) });
 });
 
+// Validação de inputs para endpoints de tradução
+function validateLID(lid) {
+  return typeof lid === 'string' && /^\d+@lid$/.test(lid);
+}
+function validateURL(url) {
+  try { new URL(url); return true; } catch { return false; }
+}
+function validateFilePath(fp) {
+  return typeof fp === 'string' && /^[a-zA-Z0-9_\-\.\/\s]+$/.test(fp) && !fp.includes('..');
+}
+
 // POST /api/translate-instagram — traduz post do Instagram e envia via WhatsApp
 app.post('/api/translate-instagram', express.json(), (req, res) => {
   const { url, to } = req.body;
   if (!url || !to) {
     return res.status(400).json({ error: 'url and to (LID) are required' });
+  }
+  if (!validateURL(url)) {
+    return res.status(400).json({ error: 'Invalid URL format' });
+  }
+  if (!validateLID(to)) {
+    return res.status(400).json({ error: 'Invalid LID format (expected: digits@lid)' });
   }
   const prompt = `Traduza o post do Instagram para PT-BR e envie pro usuário:
 
@@ -829,6 +743,12 @@ app.post('/api/translate-image', express.json(), (req, res) => {
   const { file, to, lang } = req.body;
   if (!file || !to) {
     return res.status(400).json({ error: 'file and to (LID) are required' });
+  }
+  if (!validateFilePath(file)) {
+    return res.status(400).json({ error: 'Invalid file path' });
+  }
+  if (!validateLID(to)) {
+    return res.status(400).json({ error: 'Invalid LID format (expected: digits@lid)' });
   }
   const targetLang = lang || 'português brasileiro';
   const prompt = `Traduza a imagem para ${targetLang} e envie pro usuário:
@@ -878,7 +798,7 @@ io.on('connection', (socket) => {
   // Send connection stats
   socket.emit('connection_stats', {
     active_connections: activeConnections.size,
-    active_sessions: sessions.size
+    active_sessions: sessionContextManager.getStats().totalSessions
   });
 
   // Cancelar mensagem em andamento
@@ -941,27 +861,20 @@ io.on('connection', (socket) => {
 
       // Generate session ID if not provided
       const currentSessionId = sessionId || uuidv4();
-      
+
       // Get or create session
-      let sessionData = sessions.get(currentSessionId) || {
-        id: currentSessionId,
-        created: Date.now(),
-        messages: [],
-        title: message.length > 50 ? message.substring(0, 50) + '...' : message
-      };
+      const sessionData = sessionContextManager.getOrCreate(currentSessionId, message);
 
       // Add user message to session
       const userMessage = {
         id: uuidv4(),
         type: 'user',
-        role: 'user', // IMPORTANTE: Adicionar role para consistência
+        role: 'user',
         content: message,
         timestamp: Date.now()
       };
-      
-      sessionData.messages.push(userMessage);
-      sessionData.lastActivity = Date.now();
-      sessions.set(currentSessionId, sessionData);
+
+      sessionContextManager.addMessage(currentSessionId, userMessage);
       
       // Emit user message
       socket.emit('message', {
@@ -978,11 +891,8 @@ io.on('connection', (socket) => {
         includePartialMessages: true,  // Streaming real token a token
       };
 
-      // Adicionar mensagem do usuário ao contexto da sessão
-      await sessionContextManager.addToContext(currentSessionId, 'user', message);
-
       // Obter mensagem com contexto da conversa
-      let finalPrompt = await sessionContextManager.getFormattedContext(currentSessionId, message);
+      let finalPrompt = sessionContextManager.getFormattedContext(currentSessionId, message);
 
       // System prompt via SDK (melhor que concatenar strings)
       if (systemPrompt) {
@@ -1130,15 +1040,10 @@ io.on('connection', (socket) => {
           ...responseMetadata
         };
         
-        // Adicionar resposta do assistente ao contexto da sessão
-        await sessionContextManager.addToContext(currentSessionId, 'assistant', assistantResponse);
-        
         logger.debug('💾 Saving:', assistantMessage.id);
 
         // Save to session
-        sessionData.messages.push(assistantMessage);
-        sessionData.lastActivity = Date.now();
-        sessions.set(currentSessionId, sessionData);
+        sessionContextManager.addMessage(currentSessionId, assistantMessage);
         
         socket.emit('message_complete', {
           ...assistantMessage,
@@ -1172,8 +1077,7 @@ io.on('connection', (socket) => {
           is_error: true
         };
         
-        sessionData.messages.push(errorMessage);
-        sessions.set(currentSessionId, sessionData);
+        sessionContextManager.addMessage(currentSessionId, errorMessage);
         
         socket.emit('error', {
           ...errorMessage,
@@ -1238,50 +1142,39 @@ Please provide a thorough analysis of this file.`;
   
   // Handle session management
   socket.on('load_session', (sessionId) => {
-    const sessionData = sessions.get(sessionId);
+    const sessionData = sessionContextManager.get(sessionId);
     if (sessionData) {
       socket.emit('session_loaded', sessionData);
     } else {
       socket.emit('error', { error: 'Session not found' });
     }
   });
-  
+
   socket.on('create_session', () => {
     const newSessionId = uuidv4();
-    const sessionData = {
-      id: newSessionId,
-      created: Date.now(),
-      messages: [],
-      title: 'Nova Sessão'
-    };
-    
-    sessions.set(newSessionId, sessionData);
+    const sessionData = sessionContextManager.getOrCreate(newSessionId, 'Nova Sessão');
     socket.emit('session_created', sessionData);
   });
-  
-  // Handle session deletion
+
   socket.on('delete_session', (sessionId) => {
     console.log('🗑️ Deleting session:', sessionId);
-    const deleted = sessions.delete(sessionId);
-    
+    const deleted = sessionContextManager.delete(sessionId);
+
     if (deleted) {
-      // Notify all connected clients about the deletion
       io.emit('session_deleted', {
         success: true,
-        sessionId: sessionId,
-        remainingSessions: sessions.size,
+        sessionId,
+        remainingSessions: sessionContextManager.getStats().totalSessions,
         timestamp: Date.now()
       });
-      
       console.log('✅ Session deleted successfully:', sessionId);
     } else {
       socket.emit('session_deleted', {
         success: false,
-        sessionId: sessionId,
+        sessionId,
         error: 'Session not found',
         timestamp: Date.now()
       });
-      
       console.log('❌ Session not found for deletion:', sessionId);
     }
   });
@@ -1292,7 +1185,7 @@ Please provide a thorough analysis of this file.`;
 });
 
 // Start server
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3456;
 server.listen(PORT, () => {
   console.log('🚀 Enhanced Claude Code SDK Server running on port', PORT);
   console.log('📋 Features enabled:');
@@ -1309,3 +1202,18 @@ server.listen(PORT, () => {
   }, 30000); // Check every 30 seconds
   console.log('  • Real-time metrics and monitoring');
 });
+
+// Graceful shutdown
+function gracefulShutdown(signal) {
+  console.log(`\n${signal} received — shutting down...`);
+  cleanupTimers.forEach(t => clearInterval(t));
+  taskRunner.stopAutonomous();
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+  // Force exit após 5s se algo travar
+  setTimeout(() => process.exit(1), 5000);
+}
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));

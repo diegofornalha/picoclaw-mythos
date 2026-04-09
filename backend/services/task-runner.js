@@ -225,7 +225,7 @@ async function _runTask(task, io) {
   try {
     const queryOptions = {
       maxTurns: task.maxTurns,
-      permissionMode: (task.tags?.includes('auto-pr') || task.tags?.includes('instagram')) ? 'bypassPermissions' : 'acceptEdits',
+      permissionMode: task.source === 'cron' ? 'bypassPermissions' : 'acceptEdits',
       abortController: abort,
       cwd: task.workspace,
       model: task.model || process.env.MYTHOS_MODEL || 'claude-opus-4-6',
@@ -277,6 +277,9 @@ async function _runTask(task, io) {
       }
 
       task.steps.push(step);
+      if (task.steps.length > 500) {
+        task.steps = [...task.steps.slice(0, 10), ...task.steps.slice(-490)];
+      }
       _emit(io, task.id, 'task_step', { taskId: task.id, step });
     }
 

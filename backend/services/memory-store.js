@@ -43,14 +43,21 @@ function write(key, content, precondition = null) {
   return { ok: true, sha256 };
 }
 
-// Append seguro a uma lista (lê → modifica → escreve com precondition).
+// Append seguro a uma lista com retry em caso de race condition.
 function append(key, item, maxItems = 200) {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const existing = read(key);
+    const list = existing?.content ?? [];
+    const sha256 = existing?.sha256 ?? null;
+    const updated = [...list, { ...item, at: Date.now() }].slice(-maxItems);
+    const result = write(key, updated, sha256);
+    if (result.ok) return result;
+  }
+  // Fallback: força escrita sem precondition
   const existing = read(key);
   const list = existing?.content ?? [];
-  const sha256 = existing?.sha256 ?? null;
-
   const updated = [...list, { ...item, at: Date.now() }].slice(-maxItems);
-  return write(key, updated, sha256);
+  return write(key, updated, null);
 }
 
 // Lista todas as chaves disponíveis.

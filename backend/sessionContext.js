@@ -1,136 +1,109 @@
-// Sistema de contexto de sessão simples
+// Sistema unificado de sessões — fonte única de verdade
 class SessionContextManager {
   constructor() {
-    // Armazena contexto de cada sessão
-    this.sessionContexts = new Map();
-    
-    // Limpar contextos antigos a cada hora
-    setInterval(() => this.cleanOldContexts(), 3600000);
+    this.sessions = new Map();
+
+    // Limpar sessões antigas a cada hora
+    this._cleanupTimer = setInterval(() => this.cleanOldSessions(), 3600000);
   }
 
-  // Adicionar mensagem ao contexto da sessão
-  addToContext(sessionId, role, content) {
-    if (!this.sessionContexts.has(sessionId)) {
-      this.sessionContexts.set(sessionId, {
+  // Obter ou criar sessão
+  getOrCreate(sessionId, title) {
+    if (!this.sessions.has(sessionId)) {
+      this.sessions.set(sessionId, {
+        id: sessionId,
         messages: [],
+        title: title || `Session ${sessionId.slice(0, 8)}...`,
         createdAt: Date.now(),
         lastActivity: Date.now()
       });
     }
-
-    const context = this.sessionContexts.get(sessionId);
-    
-    // Adicionar mensagem ao histórico
-    context.messages.push({
-      role,
-      content,
-      timestamp: Date.now()
-    });
-
-    // Limitar a 20 mensagens mais recentes para economizar memória
-    if (context.messages.length > 20) {
-      context.messages = context.messages.slice(-20);
-    }
-
-    context.lastActivity = Date.now();
-    
-    console.log(`📝 [CONTEXT] Added ${role} message to session ${sessionId.slice(0, 8)}. Total messages: ${context.messages.length}`);
+    return this.sessions.get(sessionId);
   }
 
-  // Obter contexto formatado para enviar ao Claude
+  // Obter sessão existente (ou null)
+  get(sessionId) {
+    return this.sessions.get(sessionId) || null;
+  }
+
+  // Adicionar mensagem ao contexto da sessão
+  addMessage(sessionId, message) {
+    const session = this.getOrCreate(sessionId);
+    session.messages.push(message);
+    session.lastActivity = Date.now();
+    // Atualizar título com a primeira mensagem do usuário
+    if (message.role === 'user' && session.messages.filter(m => m.role === 'user').length === 1) {
+      session.title = message.content.length > 50
+        ? message.content.substring(0, 50) + '...'
+        : message.content;
+    }
+  }
+
+  // Obter contexto formatado para enviar ao Claude (últimas 10 mensagens)
   getFormattedContext(sessionId, currentMessage) {
-    const context = this.sessionContexts.get(sessionId);
-    
-    if (!context || context.messages.length === 0) {
+    const session = this.sessions.get(sessionId);
+
+    if (!session || session.messages.length === 0) {
       return currentMessage;
     }
 
-    // Construir prompt com contexto
+    const recentMessages = session.messages.slice(-10);
+
     let contextPrompt = "Contexto da conversa anterior:\n";
-    
-    // Adicionar últimas mensagens para contexto
-    const recentMessages = context.messages.slice(-10); // Últimas 10 mensagens
-    
     recentMessages.forEach(msg => {
-      if (msg.role === 'user') {
-        contextPrompt += `\nUsuário: ${msg.content}`;
-      } else {
-        contextPrompt += `\nAssistente: ${msg.content}`;
-      }
+      const role = msg.role === 'user' ? 'Usuário' : 'Assistente';
+      contextPrompt += `\n${role}: ${msg.content}`;
     });
 
     contextPrompt += `\n\n---\nNova mensagem do usuário: ${currentMessage}`;
     contextPrompt += `\n\nIMPORTANTE: Use o contexto acima para responder de forma coerente e lembrando das informações anteriores da conversa.`;
-    
+
     return contextPrompt;
   }
 
-  // Obter resumo do contexto
-  getContextSummary(sessionId) {
-    const context = this.sessionContexts.get(sessionId);
-    
-    if (!context) {
-      return null;
-    }
-
-    // Extrair informações importantes do contexto
-    const summary = {
-      messageCount: context.messages.length,
-      sessionAge: Date.now() - context.createdAt,
-      lastActivity: Date.now() - context.lastActivity
-    };
-
-    // Tentar extrair nome do usuário se mencionado
-    const userNameMatch = context.messages.find(msg => 
-      msg.content.match(/meu nome é (\w+)/i) || 
-      msg.content.match(/me chamo (\w+)/i) ||
-      msg.content.match(/sou o (\w+)/i) ||
-      msg.content.match(/sou a (\w+)/i)
-    );
-
-    if (userNameMatch) {
-      const match = userNameMatch.content.match(/(?:meu nome é|me chamo|sou o|sou a) (\w+)/i);
-      if (match) {
-        summary.userName = match[1];
-      }
-    }
-
-    return summary;
+  // Listar todas as sessões (para endpoint REST)
+  listSessions() {
+    return Array.from(this.sessions.entries()).map(([id, data]) => ({
+      id,
+      created: data.createdAt,
+      lastActivity: data.lastActivity,
+      messageCount: data.messages.length,
+      title: data.title
+    }));
   }
 
-  // Limpar contexto de uma sessão
-  clearContext(sessionId) {
-    this.sessionContexts.delete(sessionId);
-    console.log(`🧹 [CONTEXT] Cleared context for session ${sessionId.slice(0, 8)}`);
+  // Deletar sessão
+  delete(sessionId) {
+    return this.sessions.delete(sessionId);
   }
 
-  // Limpar contextos antigos (mais de 2 horas sem atividade)
-  cleanOldContexts() {
-    const twoHoursAgo = Date.now() - 7200000;
+  // Limpar sessões antigas (sem atividade por 4 horas)
+  cleanOldSessions() {
+    const fourHoursAgo = Date.now() - (4 * 60 * 60 * 1000);
     let cleaned = 0;
 
-    for (const [sessionId, context] of this.sessionContexts.entries()) {
-      if (context.lastActivity < twoHoursAgo) {
-        this.sessionContexts.delete(sessionId);
+    for (const [sessionId, session] of this.sessions.entries()) {
+      if (session.lastActivity < fourHoursAgo) {
+        this.sessions.delete(sessionId);
         cleaned++;
       }
     }
 
     if (cleaned > 0) {
-      console.log(`🧹 [CONTEXT] Cleaned ${cleaned} old session contexts`);
+      console.log(`🧹 Cleaned ${cleaned} old sessions`);
     }
   }
 
   // Obter estatísticas
   getStats() {
     const stats = {
-      totalSessions: this.sessionContexts.size,
+      totalSessions: this.sessions.size,
       totalMessages: 0,
       averageMessagesPerSession: 0
     };
 
-    for (const context of this.sessionContexts.values()) {
-      stats.totalMessages += context.messages.length;
+    for (const session of this.sessions.values()) {
+      stats.totalMessages += session.messages.length;
     }
 
     if (stats.totalSessions > 0) {
@@ -138,6 +111,11 @@ class SessionContextManager {
     }
 
     return stats;
+  }
+
+  // Cleanup para graceful shutdown
+  destroy() {
+    clearInterval(this._cleanupTimer);
   }
 }
 
