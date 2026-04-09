@@ -182,8 +182,22 @@
       "cost": 0.9973169999999999,
       "duration": 37356,
       "at": 1775773431096
+    },
+    {
+      "taskId": "f837f632-bf6a-4ada-b7db-6b404ba310bb",
+      "desc": "/auto-commit-pr",
+      "cost": 1.0853414999999997,
+      "duration": 35997,
+      "at": 1775773467130
+    },
+    {
+      "taskId": "2116ddd7-3ebf-45fd-80e5-284c26fe9143",
+      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
+      "cost": 0.8862300000000001,
+      "duration": 32448,
+      "at": 1775775226643
     }
   ],
-  "sha256": "67a3ace27de0e1d4",
-  "updatedAt": 1775773431096
+  "sha256": "48e6b23842660cc8",
+  "updatedAt": 1775775226644
 }
