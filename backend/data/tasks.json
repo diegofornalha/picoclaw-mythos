@@ -1,0 +1,232 @@
+[
+  {
+    "id": "345321c2-6486-4427-8f50-8dbcf5d1eb67",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 15,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "error",
+    "result": "API Error: 404 {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: opus\"},\"request_id\":\"req_011CZt4ZZ2p4s2DiyeXrCHjk\"}",
+    "error": "Claude Code process exited with code 1",
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775731539200
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775731539918,
+        "text": "API Error: 404 {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: opus\"},\"request_id\":\"req_011CZt4ZZ2p4s2DiyeXrCHjk\"}"
+      },
+      {
+        "type": "result",
+        "timestamp": 1775731539922,
+        "result": "API Error: 404 {\"type\":\"error\",\"error\":{\"type\":\"not_found_error\",\"message\":\"model: opus\"},\"request_id\":\"req_011CZt4ZZ2p4s2DiyeXrCHjk\"}",
+        "cost": null
+      }
+    ],
+    "cost": null,
+    "createdAt": 1775731529525,
+    "startedAt": 1775731529528,
+    "finishedAt": 1775731540107,
+    "_abortController": null
+  },
+  {
+    "id": "cd02edfd-05ed-4e2d-aa1e-1abc8ee7ab21",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 5,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "Vou prosseguir com a revisão do código diretamente.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775730495795
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730499907,
+        "text": "Vou executar uma revisão completa do sistema picoclaw-mythos. Deixe-me começar verificando cada componente sistematicamente."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730504318
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730504339
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730507454
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730508317
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730511494
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730511563
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730514964
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730514980
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730518354,
+        "text": "Vou prosseguir com a revisão do código diretamente."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730521247
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730521266
+      },
+      {
+        "type": "result",
+        "timestamp": 1775730521266,
+        "result": "Vou prosseguir com a revisão do código diretamente.",
+        "cost": 0.90643275
+      }
+    ],
+    "cost": 0.90643275,
+    "createdAt": 1775730487663,
+    "startedAt": 1775730487666,
+    "finishedAt": 1775730521906,
+    "_abortController": null
+  },
+  {
+    "id": "b1470f5c-8d33-4923-b4c5-d2dca5645a37",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 5,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "done",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775730370406
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730374478,
+        "text": "Vou realizar uma revisão completa e autônoma do sistema picoclaw-mythos. Deixe-me executar todos os testes de saúde e análises necessárias."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730379811
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730380000
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730386072
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730386115
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730389370
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730389871
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730393221
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730393244
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775730398856
+      },
+      {
+        "type": "user",
+        "timestamp": 1775730398874
+      },
+      {
+        "type": "result",
+        "timestamp": 1775730398879,
+        "cost": 0.9299069999999999
+      }
+    ],
+    "cost": 0.9299069999999999,
+    "createdAt": 1775730361420,
+    "startedAt": 1775730361424,
+    "finishedAt": 1775730399519,
+    "_abortController": null
+  },
+  {
+    "id": "c888d5ab-56ab-4495-a072-25fe9c299eb0",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 5,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775730193221
+      },
+      {
+        "type": "result",
+        "timestamp": 1775730193282,
+        "result": "",
+        "cost": null
+      }
+    ],
+    "cost": null,
+    "createdAt": 1775730186170,
+    "startedAt": 1775730186173,
+    "finishedAt": 1775730193351,
+    "_abortController": null
+  }
+]

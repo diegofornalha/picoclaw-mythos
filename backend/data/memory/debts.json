@@ -1,0 +1,56 @@
+{
+  "key": "debts",
+  "content": [
+    {
+      "id": 1,
+      "desc": "processedMessages Map sem TTL — cresce infinito",
+      "file": "server.js:86",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 2,
+      "desc": "sessions Map sem limpeza periódica",
+      "file": "server.js:83",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 3,
+      "desc": "Skills com porta hardcoded 8080 em check-logs.md",
+      "file": ".claude/skills/ops/check-logs.md",
+      "severity": "low",
+      "status": "open"
+    },
+    {
+      "id": 4,
+      "desc": "Skill expansion falha silenciosamente sem logar erro",
+      "file": "services/task-runner.js",
+      "severity": "low",
+      "status": "open"
+    },
+    {
+      "id": 5,
+      "desc": "missionIndex nunca reseta causando comportamento imprevisível",
+      "file": "services/task-runner.js",
+      "severity": "low",
+      "status": "open"
+    },
+    {
+      "id": 6,
+      "desc": "maxTurns: 5 muito baixo para análises autônomas complexas",
+      "file": "services/task-runner.js",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 7,
+      "desc": "Sem changelog de mudanças aplicadas pelo self-improve",
+      "file": "data/",
+      "severity": "low",
+      "status": "open"
+    }
+  ],
+  "sha256": "82f92170600b05e8",
+  "updatedAt": 1775730892176
+}
