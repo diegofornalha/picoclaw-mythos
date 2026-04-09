@@ -345,9 +345,14 @@ async function _runTask(task, io) {
 function _getChangedFiles(workspace) {
   try {
     const { execSync } = require('child_process');
-    const output = execSync('git diff --name-only HEAD 2>/dev/null || git diff --name-only', {
+    let output = execSync('git diff --name-only HEAD 2>/dev/null', {
       cwd: workspace, encoding: 'utf8', timeout: 5000,
     }).trim();
+    if (!output) {
+      output = execSync('git diff --name-only HEAD~1 HEAD 2>/dev/null', {
+        cwd: workspace, encoding: 'utf8', timeout: 5000,
+      }).trim();
+    }
     if (!output) return [];
     return output.split('\n').filter(Boolean).slice(0, 20);
   } catch { return []; }
