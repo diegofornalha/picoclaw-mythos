@@ -1,5 +1,165 @@
 [
   {
+    "id": "ce69c4c1-db48-464f-8cab-607a1bf9a2ad",
+    "prompt": "/auto-commit-pr",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",
+    "systemPrompt": null,
+    "maxTurns": 10,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "auto-pr"
+    ],
+    "source": "cron",
+    "status": "running",
+    "result": null,
+    "error": null,
+    "steps": [],
+    "cost": null,
+    "createdAt": 1775757235875,
+    "startedAt": 1775757236000,
+    "finishedAt": null,
+    "_abortController": {}
+  },
+  {
+    "id": "69523245-25cb-4b7a-8b2a-68b0700c44d9",
+    "prompt": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",
+    "systemPrompt": null,
+    "maxTurns": 15,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "picoclaw-analysis"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "O roadmap está na seção `## Roadmap` do README.md (linhas 160-164). Aqui está a análise:\n\n## Roadmap vs Código Atual\n\n| # | Item | Status | Detalhes |\n|---|------|--------|----------|\n| 1 | `POST /api/query` — endpoint REST síncrono | **PENDENTE** | Não existe nenhum endpoint `/api/query` em `server.js`. Toda interação via Claude usa WebSocket (`send_message`). A API REST tem tasks (`POST /api/tasks`), mas não é síncrono — é async por fila. |\n| 2 | Provider `motor` nativo no picoclaw Go | **PENDENTE** | Não há código Go neste repo. Seria implementado no picoclaw principal. O README documenta como seria (`\"model\": \"motor/claude-opus-4-6\"`), mas nada implementado. |\n| 3 | Suporte a Claude Mythos quando disponível | **PARCIAL** | `task-runner.js:231` usa `process.env.MYTHOS_MODEL` como modelo. `server.js:998` aceita `customOptions.model`. O nome do projeto é \"mythos\". Mas não há lógica específica para o modelo Mythos (detecção de capabilities, fallback, etc.). |\n| 4 | Roteamento automático picoclaw → mythos por complexidade | **PENDENTE** | Nenhum analisador de complexidade ou regra de roteamento implementada. O task runner agenda missões por ciclo fixo, não por complexidade. |\n| 5 | Interface web para monitoramento de sessões | **PENDENTE** | APIs de dados existem (`/api/sessions`, `/api/tasks`, `/api/debug/*`, `/api/health`), mas nenhum frontend. |\n\n**Resumo: 0 implementados, 1 parcial, 4 pendentes.**",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775757199153
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757202555,
+        "text": "\n\nVou ler o ROADMAP.md e analisar o código atual em paralelo."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757202996
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757203495
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757204182
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757204234
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757204336
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757204349
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757207198,
+        "text": "Não existe `ROADMAP.md` no projeto. Vou procurar se está em outro local ou com outro nome."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757207700
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757208370
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757208532
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757208578
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757208591
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757208600
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757212010,
+        "text": "O roadmap está dentro do próprio README.md (linhas 160-164). Vou agora analisar o código para verificar cada item."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757212388
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757212878
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757213060
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757213143
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757213395
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757213491
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757218726,
+        "text": "Agora vou ler o task-runner para verificar os itens do roadmap."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757218973
+      },
+      {
+        "type": "user",
+        "timestamp": 1775757219025
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775757233152,
+        "text": "O roadmap está na seção `## Roadmap` do README.md (linhas 160-164). Aqui está a análise:\n\n## Roadmap vs Código Atual\n\n| # | Item | Status | Detalhes |\n|---|------|--------|----------|\n| 1 | `POST /api/query` — endpoint REST síncrono | **PENDENTE** | Não existe nenhum endpoint `/api/query` em `server.js`. Toda interação via Claude usa WebSocket (`send_message`). A API REST tem tasks (`POST /api/tasks`), mas não é síncrono — é async por fila. |\n| 2 | Provider `motor` nativo no picoclaw Go | **PENDENTE** | Não há código Go neste repo. Seria implementado no picoclaw principal. O README documenta como seria (`\"model\": \"motor/claude-opus-4-6\"`), mas nada implementado. |\n| 3 | Suporte a Claude Mythos quando disponível | **PARCIAL** | `task-runner.js:231` usa `process.env.MYTHOS_MODEL` como modelo. `server.js:998` aceita `customOptions.model`. O nome do projeto é \"mythos\". Mas não há lógica específica para o modelo Mythos (detecção de capabilities, fallback, etc.). |\n| 4 | Roteamento automático picoclaw → mythos por complexidade | **PENDENTE** | Nenhum analisador de complexidade ou regra de roteamento implementada. O task runner agenda missões por ciclo fixo, não por complexidade. |\n| 5 | Interface web para monitoramento de sessões | **PENDENTE** | APIs de dados existem (`/api/sessions`, `/api/tasks`, `/api/debug/*`, `/api/health`), mas nenhum frontend. |\n\n**Resumo: 0 implementados, 1 parcial, 4 pendentes.**"
+      },
+      {
+        "type": "result",
+        "timestamp": 1775757233339,
+        "result": "O roadmap está na seção `## Roadmap` do README.md (linhas 160-164). Aqui está a análise:\n\n## Roadmap vs Código Atual\n\n| # | Item | Status | Detalhes |\n|---|------|--------|----------|\n| 1 | `POST /api/query` — endpoint REST síncrono | **PENDENTE** | Não existe nenhum endpoint `/api/query` em `server.js`. Toda interação via Claude usa WebSocket (`send_message`). A API REST tem tasks (`POST /api/tasks`), mas não é síncrono — é async por fila. |\n| 2 | Provider `motor` nativo no picoclaw Go | **PENDENTE** | Não há código Go neste repo. Seria implementado no picoclaw principal. O README documenta como seria (`\"model\": \"motor/claude-opus-4-6\"`), mas nada implementado. |\n| 3 | Suporte a Claude Mythos quando disponível | **PARCIAL** | `task-runner.js:231` usa `process.env.MYTHOS_MODEL` como modelo. `server.js:998` aceita `customOptions.model`. O nome do projeto é \"mythos\". Mas não há lógica específica para o modelo Mythos (detecção de capabilities, fallback, etc.). |\n| 4 | Roteamento automático picoclaw → mythos por complexidade | **PENDENTE** | Nenhum analisador de complexidade ou regra de roteamento implementada. O task runner agenda missões por ciclo fixo, não por complexidade. |\n| 5 | Interface web para monitoramento de sessões | **PENDENTE** | APIs de dados existem (`/api/sessions`, `/api/tasks`, `/api/debug/*`, `/api/health`), mas nenhum frontend. |\n\n**Resumo: 0 implementados, 1 parcial, 4 pendentes.**",
+        "cost": 3.26187
+      }
+    ],
+    "cost": 3.26187,
+    "createdAt": 1775757193369,
+    "startedAt": 1775757193413,
+    "finishedAt": 1775757235008,
+    "_abortController": null
+  },
+  {
     "id": "db154b1c-5365-455f-a29d-aca997911f52",
     "prompt": "/auto-commit-pr",
     "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
