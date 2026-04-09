@@ -1,8 +1,8 @@
 [
   {
-    "id": "2a7de5f4-5f2e-4440-a702-96ea1756464a",
+    "id": "74bd148c-2b8a-4982-85b3-f5008b785f3a",
     "prompt": "/auto-commit-pr",
-    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",
     "systemPrompt": null,
     "maxTurns": 10,
     "model": null,
@@ -16,10 +16,263 @@
     "error": null,
     "steps": [],
     "cost": null,
-    "createdAt": 1775777073880,
-    "startedAt": 1775777073886,
+    "createdAt": 1775778837692,
+    "startedAt": 1775778837697,
     "finishedAt": null,
     "_abortController": {}
+  },
+  {
+    "id": "18157885-ea97-4010-96cf-0151c058c5de",
+    "prompt": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",
+    "systemPrompt": null,
+    "maxTurns": 15,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "picoclaw-analysis"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "Agora tenho tudo. O roadmap está no README.md (linhas 158-165). Aqui está a análise:\n\n## Roadmap vs Código Atual\n\n| Item | Status |\n|------|--------|\n| `POST /api/query` — endpoint REST síncrono | **Pendente** — não existe. Só há WebSocket (`send_message`) e endpoints de tasks |\n| Provider `motor` nativo no picoclaw Go | **Parcial** — o README documenta a integração (`motor/claude-opus-4-6` em config.json), mas é via WebSocket. Não há provider Go neste repo |\n| Suporte a Claude Mythos | **Pendente** — usa `@anthropic-ai/claude-code` SDK com Opus. Nenhum código específico para Mythos |\n| Roteamento automático por complexidade | **Pendente** — não há lógica de classificação de complexidade. O picoclaw decide externamente |\n| Interface web para monitoramento | **Pendente** — só endpoints REST de debug (`/api/debug/session/:id`, `/api/debug/dialogs`) e health check. Nenhum frontend/HTML servido |\n\n**Resumo:** 0 implementados, 1 parcial, 4 pendentes.\n\nO item mais próximo de \"implementado\" é o provider motor — a documentação de integração existe e o backend aceita conexões, mas o provider Go em si vive no repo do picoclaw, não aqui.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775778802789
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778806381,
+        "text": "\n\nVou ler o ROADMAP.md e analisar o código atual em paralelo."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778806738
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778806920
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778807012
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778807054
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778809951
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778810308
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778810459
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778810471
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778814158
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778814439
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778818840,
+        "text": "Não existe `ROADMAP.md` neste repositório. Só existe o `README.md` na raiz. Vou lê-lo para verificar se contém algo semelhante a um roadmap."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778819148
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778819227
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778822855,
+        "text": "O roadmap está na seção \"## Roadmap\" do README.md (linha 158-165). Agora vou analisar o código para verificar o status de cada item."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778823216
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778823690
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778824357
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778824391
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778824446
+      },
+      {
+        "type": "user",
+        "timestamp": 1775778824635
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775778836983,
+        "text": "Agora tenho tudo. O roadmap está no README.md (linhas 158-165). Aqui está a análise:\n\n## Roadmap vs Código Atual\n\n| Item | Status |\n|------|--------|\n| `POST /api/query` — endpoint REST síncrono | **Pendente** — não existe. Só há WebSocket (`send_message`) e endpoints de tasks |\n| Provider `motor` nativo no picoclaw Go | **Parcial** — o README documenta a integração (`motor/claude-opus-4-6` em config.json), mas é via WebSocket. Não há provider Go neste repo |\n| Suporte a Claude Mythos | **Pendente** — usa `@anthropic-ai/claude-code` SDK com Opus. Nenhum código específico para Mythos |\n| Roteamento automático por complexidade | **Pendente** — não há lógica de classificação de complexidade. O picoclaw decide externamente |\n| Interface web para monitoramento | **Pendente** — só endpoints REST de debug (`/api/debug/session/:id`, `/api/debug/dialogs`) e health check. Nenhum frontend/HTML servido |\n\n**Resumo:** 0 implementados, 1 parcial, 4 pendentes.\n\nO item mais próximo de \"implementado\" é o provider motor — a documentação de integração existe e o backend aceita conexões, mas o provider Go em si vive no repo do picoclaw, não aqui."
+      },
+      {
+        "type": "result",
+        "timestamp": 1775778837005,
+        "result": "Agora tenho tudo. O roadmap está no README.md (linhas 158-165). Aqui está a análise:\n\n## Roadmap vs Código Atual\n\n| Item | Status |\n|------|--------|\n| `POST /api/query` — endpoint REST síncrono | **Pendente** — não existe. Só há WebSocket (`send_message`) e endpoints de tasks |\n| Provider `motor` nativo no picoclaw Go | **Parcial** — o README documenta a integração (`motor/claude-opus-4-6` em config.json), mas é via WebSocket. Não há provider Go neste repo |\n| Suporte a Claude Mythos | **Pendente** — usa `@anthropic-ai/claude-code` SDK com Opus. Nenhum código específico para Mythos |\n| Roteamento automático por complexidade | **Pendente** — não há lógica de classificação de complexidade. O picoclaw decide externamente |\n| Interface web para monitoramento | **Pendente** — só endpoints REST de debug (`/api/debug/session/:id`, `/api/debug/dialogs`) e health check. Nenhum frontend/HTML servido |\n\n**Resumo:** 0 implementados, 1 parcial, 4 pendentes.\n\nO item mais próximo de \"implementado\" é o provider motor — a documentação de integração existe e o backend aceita conexões, mas o provider Go em si vive no repo do picoclaw, não aqui.",
+        "cost": 1.6561694999999999
+      }
+    ],
+    "cost": 1.6561694999999999,
+    "createdAt": 1775778793521,
+    "startedAt": 1775778793673,
+    "finishedAt": 1775778837646,
+    "_abortController": null
+  },
+  {
+    "id": "2a7de5f4-5f2e-4440-a702-96ea1756464a",
+    "prompt": "/auto-commit-pr",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 10,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "auto-pr"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "Já estou na branch `mythos/auto-20260409-1454`. Vou commitar e criar o PR.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775777084911
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777087763,
+        "text": "\n\nVou verificar as mudanças em todos os repos."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777088737
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777089123
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777095552
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777096126
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777099844
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777099867
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777102785,
+        "text": "Apenas **picoclaw-mythos** tem mudanças. Os demais repos estão limpos. Vou ver o diff e criar o commit/PR."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777103766
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777104261
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777104549
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777104654
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777104666
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777104676
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777108806
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777108890
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777112041,
+        "text": "Já estou na branch `mythos/auto-20260409-1454`. Vou commitar e criar o PR."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777114305
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777114482
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777117510
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777120407
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775777125564
+      },
+      {
+        "type": "user",
+        "timestamp": 1775777126841
+      },
+      {
+        "type": "result",
+        "timestamp": 1775777126842,
+        "result": "Já estou na branch `mythos/auto-20260409-1454`. Vou commitar e criar o PR.",
+        "cost": 1.1816257500000003
+      }
+    ],
+    "cost": 1.1816257500000003,
+    "createdAt": 1775777073880,
+    "startedAt": 1775777073886,
+    "finishedAt": 1775777127394,
+    "_abortController": null
   },
   {
     "id": "200bc742-f827-4b64-840c-b2da2b34cf2d",
