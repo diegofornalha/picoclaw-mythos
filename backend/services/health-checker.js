@@ -177,16 +177,21 @@ class HealthChecker {
    */
   startMonitoring(dependencies, interval = 30000) {
     this.checkInterval = interval;
-    
-    // Executa primeira verificação
+
     this.performFullCheck(dependencies);
-    
-    // Configura verificações periódicas
-    setInterval(() => {
+
+    this._monitoringTimer = setInterval(() => {
       this.performFullCheck(dependencies);
     }, interval);
-    
+
     console.log(`🏥 Health monitoring started (interval: ${interval/1000}s)`);
+  }
+
+  stopMonitoring() {
+    if (this._monitoringTimer) {
+      clearInterval(this._monitoringTimer);
+      this._monitoringTimer = null;
+    }
   }
 }
 

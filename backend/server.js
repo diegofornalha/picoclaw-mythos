@@ -6,11 +6,21 @@ const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs-extra');
 const path = require('path');
+const crypto = require('crypto');
 const { v4: uuidv4 } = require('uuid');
 const { query } = require('@anthropic-ai/claude-code');
 const SessionContextManager = require('./sessionContext');
 const HealthChecker = require('./services/health-checker');
 const taskRunner = require('./services/task-runner');
+
+// Crash handlers — log e sai limpo
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason);
+});
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  process.exit(1);
+});
 
 
 // Logger com níveis — TRACE só aparece em development
@@ -143,12 +153,6 @@ function extractResetTime(errorMsg) {
     };
   }
 
-  return null;
-}
-
-// Wrapper legado para compatibilidade com endpoint /api/claude-reset-info
-async function getClaudeResetTime() {
-  // Não spawnar processo extra — retornar null se não temos info em cache
   return null;
 }
 
@@ -593,31 +597,6 @@ app.get('/api/debug/dialogs', async (req, res) => {
   }
 });
 
-// Endpoint para obter informações do próximo reset do Claude
-app.get('/api/claude-reset-info', async (req, res) => {
-  try {
-    // Tentar obter info do timestamp real do Claude
-    const resetInfo = await getClaudeResetTime();
-    
-    if (resetInfo && resetInfo.timestamp) {
-      res.json({
-        success: true,
-        resetTimestamp: resetInfo.timestamp,
-        resetDate: resetInfo.date,
-        formatted: resetInfo.formatted
-      });
-    } else {
-      // Se não tem info do Claude, verificar se temos salvo quando o limite foi atingido
-      res.json({
-        success: false,
-        message: 'No reset information available'
-      });
-    }
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // Session management endpoints
 app.get('/api/sessions', (req, res) => {
   res.json({ sessions: sessionContextManager.listSessions() });
@@ -689,6 +668,11 @@ app.post('/api/tasks/:id/retry', (req, res) => {
   res.json({ success: true, task: _sanitizeTask(task) });
 });
 
+// Paths configuráveis para endpoints de tradução
+const PICOCLAW_SCRIPTS = process.env.PICOCLAW_SCRIPTS || '/Users/2a/.picoclaw/workspace/scripts';
+const PICOCLAW_MEDIA = process.env.PICOCLAW_MEDIA || '/Users/2a/.picoclaw/workspace/media/translated';
+const PICOCLAW_GATEWAY = process.env.PICOCLAW_GATEWAY || 'http://127.0.0.1:18790';
+
 // Validação de inputs para endpoints de tradução
 function validateLID(lid) {
   return typeof lid === 'string' && /^\d+@lid$/.test(lid);
@@ -715,22 +699,22 @@ app.post('/api/translate-instagram', express.json(), (req, res) => {
   const prompt = `Traduza o post do Instagram para PT-BR e envie pro usuário:
 
 1. Baixar imagens:
-cd /Users/2a/.picoclaw/workspace/scripts && uv run download-instagram.py "${url}"
+cd ${PICOCLAW_SCRIPTS} && uv run download-instagram.py "${url}"
 
 2. Para CADA imagem baixada (ig_*_.jpg), traduzir:
-cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png
+cd ${PICOCLAW_SCRIPTS} && uv run translate-image.py -i ARQUIVO_ORIGINAL -f ${PICOCLAW_MEDIA}/NOME_ptbr.png
 
 3. Ler a legenda original em ig_*_caption.txt e traduzir para PT-BR. Adaptar CTA (ex: "Comenta CREAR" → "Comenta claude").
 
 4. Enviar legenda traduzida:
-curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
+curl -s -X POST ${PICOCLAW_GATEWAY}/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
 
 5. Enviar cada imagem traduzida SEM caption, intervalo de 2s:
-curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_TRADUZIDA"}'`;
+curl -s -X POST ${PICOCLAW_GATEWAY}/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_TRADUZIDA"}'`;
 
   const task = taskRunner.createTask({
     prompt,
-    workspace: '/Users/2a/.picoclaw/workspace/scripts',
+    workspace: PICOCLAW_SCRIPTS,
     tags: ['instagram', 'translate'],
     source: 'picoclaw',
     maxTurns: 40,
@@ -750,20 +734,20 @@ app.post('/api/translate-image', express.json(), (req, res) => {
   if (!validateLID(to)) {
     return res.status(400).json({ error: 'Invalid LID format (expected: digits@lid)' });
   }
-  const targetLang = lang || 'português brasileiro';
+  const targetLang = (lang || 'português brasileiro').replace(/[^a-zA-ZÀ-ÿ\s]/g, '').slice(0, 50);
+  const baseName = path.basename(file, path.extname(file));
+  const outputFile = `${PICOCLAW_MEDIA}/${baseName}_ptbr.png`;
   const prompt = `Traduza a imagem para ${targetLang} e envie pro usuário:
 
 1. Traduzir a imagem:
-cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i "${file}" -f "/Users/2a/.picoclaw/workspace/media/translated/$(require('path').basename('${file}', require('path').extname('${file}'))}_ptbr.png"
+cd ${PICOCLAW_SCRIPTS} && uv run translate-image.py -i "${file}" -f "${outputFile}"
 
 2. Enviar a imagem traduzida:
-curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "/Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png"}'
-
-Substituir NOME pelo nome do arquivo sem extensão.`;
+curl -s -X POST ${PICOCLAW_GATEWAY}/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "${outputFile}"}'`;
 
   const task = taskRunner.createTask({
     prompt,
-    workspace: '/Users/2a/.picoclaw/workspace/scripts',
+    workspace: PICOCLAW_SCRIPTS,
     tags: ['instagram', 'translate'],
     source: 'picoclaw',
     maxTurns: 10,
@@ -887,8 +871,8 @@ io.on('connection', (socket) => {
       
       // Prepare Claude Code query options
       const queryOptions = {
-        maxTurns: maxTurns,
-        includePartialMessages: true,  // Streaming real token a token
+        maxTurns: Math.max(1, Math.min(parseInt(maxTurns) || 5, 50)),
+        includePartialMessages: true,
       };
 
       // Obter mensagem com contexto da conversa
@@ -1105,38 +1089,22 @@ io.on('connection', (socket) => {
   });
 
 
-  // Handle file analysis requests
-  socket.on('analyze_file', async (data) => {
-    try {
-      const { content, filename, prompt = 'Analyze this code file' } = data;
-      
-      if (!content) {
-        socket.emit('error', { error: 'No file content provided' });
-        return;
-      }
-      
-      const analysisPrompt = `${prompt}
+  // Handle file analysis requests — redireciona para o handler send_message
+  socket.on('analyze_file', (data) => {
+    const { content, filename, prompt = 'Analyze this code file' } = data;
 
-File: ${filename}
-Content:
-\`\`\`
-${content}
-\`\`\`
+    if (!content) {
+      socket.emit('error', { error: 'No file content provided' });
+      return;
+    }
 
-Please provide a thorough analysis of this file.`;
-      
-      // Trigger analysis using the same message flow
-      socket.emit('send_message', {
-        message: analysisPrompt,
-        maxTurns: 3
-      });
-      
-    } catch (error) {
-      console.error('File analysis error:', error);
-      socket.emit('error', { 
-        error: 'Failed to analyze file',
-        details: error.message 
-      });
+    const analysisPrompt = `${prompt}\n\nFile: ${filename}\nContent:\n\`\`\`\n${content}\n\`\`\`\n\nPlease provide a thorough analysis of this file.`;
+
+    const handlers = socket.listeners('send_message');
+    if (handlers.length > 0) {
+      handlers[0]({ message: analysisPrompt, maxTurns: 3 });
+    } else {
+      socket.emit('error', { error: 'Message handler not available' });
     }
   });
   
@@ -1180,6 +1148,9 @@ Please provide a thorough analysis of this file.`;
   });
   socket.on('disconnect', () => {
     console.log('Client disconnected:', socket.id);
+    if (currentAbortController && !currentAbortController.signal.aborted) {
+      currentAbortController.abort();
+    }
     activeConnections.delete(socket.id);
   });
 });
@@ -1207,6 +1178,8 @@ server.listen(PORT, () => {
 function gracefulShutdown(signal) {
   console.log(`\n${signal} received — shutting down...`);
   cleanupTimers.forEach(t => clearInterval(t));
+  sessionContextManager.destroy();
+  healthChecker.stopMonitoring();
   taskRunner.stopAutonomous();
   server.close(() => {
     console.log('Server closed');

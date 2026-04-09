@@ -70,8 +70,78 @@
       "cost": 1.005879,
       "duration": 37629,
       "at": 1775759031095
+    },
+    {
+      "taskId": "94beadc6-aa1b-4a4c-941c-bdfca1302811",
+      "desc": "/auto-commit-pr",
+      "cost": 0.8719792500000001,
+      "duration": 44952,
+      "at": 1775759076083
+    },
+    {
+      "taskId": "e8ff5ca3-8121-41df-9809-4c02abff191d",
+      "desc": "/eval-skills",
+      "cost": 6.628385699999999,
+      "duration": 412611,
+      "at": 1775761206128
+    },
+    {
+      "taskId": "00969a5b-c083-4765-a533-c67ec3f87181",
+      "desc": "/auto-commit-pr",
+      "cost": 0.9673522500000001,
+      "duration": 34435,
+      "at": 1775761240655
+    },
+    {
+      "taskId": "0c5cafa5-33fe-4d88-a392-f2cee44f9772",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 1.2065876999999998,
+      "duration": 98508,
+      "at": 1775762692044
+    },
+    {
+      "taskId": "a18de847-dd7e-42d1-b6a7-4c9f41654e38",
+      "desc": "/auto-commit-pr",
+      "cost": 0.6180015,
+      "duration": 31045,
+      "at": 1775762723132
+    },
+    {
+      "taskId": "91827933-bdc3-41ef-83e9-87ece605d54d",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.0186829999999998,
+      "duration": 41418,
+      "at": 1775764434989
+    },
+    {
+      "taskId": "eebeb7fb-29db-4668-9af7-90ea6d6ba742",
+      "desc": "/auto-commit-pr",
+      "cost": 1.32412575,
+      "duration": 36586,
+      "at": 1775764471656
+    },
+    {
+      "taskId": "fd1015b7-14fa-429d-810f-f8b8ef6c1cf8",
+      "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
+      "cost": 1.9333319999999998,
+      "duration": 66073,
+      "at": 1775766259618
+    },
+    {
+      "taskId": "1540752a-0e1b-4650-b2c4-22f623e55061",
+      "desc": "/auto-commit-pr",
+      "cost": 0.98632575,
+      "duration": 35965,
+      "at": 1775766295643
+    },
+    {
+      "taskId": "964fbd31-9227-4011-9674-b0968d0ddb28",
+      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
+      "cost": 0.9503489999999999,
+      "duration": 37634,
+      "at": 1775768031808
     }
   ],
-  "sha256": "8401c926f442cf7e",
-  "updatedAt": 1775759031098
+  "sha256": "1bbf184eb979a944",
+  "updatedAt": 1775768031815
 }
