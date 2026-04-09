@@ -1,5 +1,27 @@
 [
   {
+    "id": "39f81616-2c4b-4630-94f0-6d89f149c38d",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 15,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "running",
+    "result": null,
+    "error": null,
+    "steps": [],
+    "cost": null,
+    "createdAt": 1775731652247,
+    "startedAt": 1775731652251,
+    "finishedAt": null,
+    "_abortController": {}
+  },
+  {
     "id": "345321c2-6486-4427-8f50-8dbcf5d1eb67",
     "prompt": "/self-review",
     "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",

@@ -222,8 +222,8 @@ async function _runTask(task, io) {
       permissionMode: 'acceptEdits',
       abortController: abort,
       cwd: task.workspace,
+      model: task.model || process.env.MYTHOS_MODEL || 'claude-sonnet-4-6',
     };
-    if (task.model) queryOptions.model = task.model;
 
     let fullPrompt = expandSkill(task.prompt, task.workspace);
 
