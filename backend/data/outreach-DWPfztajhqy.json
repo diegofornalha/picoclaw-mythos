@@ -6,10 +6,10 @@
   "total": 1970,
   "message": "Oi\nEstá aqui meu Claw: https://wa.me/5521923670743\nestou te convidando para conhecer o meu agente automatizado de claude code",
   "stats": {
-    "pending": 1221,
-    "sent": 360,
+    "pending": 1213,
+    "sent": 364,
     "skipped": 0,
-    "no_dm": 323,
+    "no_dm": 327,
     "error": 66
   },
   "users": [
@@ -4019,50 +4019,50 @@
     {
       "username": "cgbatinga",
       "url": "https://instagram.com/cgbatinga",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "chaconjp",
       "url": "https://instagram.com/chaconjp",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "charles.hansen.rodrigues",
       "url": "https://instagram.com/charles.hansen.rodrigues",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "charles_albuquerque",
       "url": "https://instagram.com/charles_albuquerque",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "charlespitter",
       "url": "https://instagram.com/charlespitter",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "chpatofeio",
       "url": "https://instagram.com/chpatofeio",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "chrishoh",
       "url": "https://instagram.com/chrishoh",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "christiannunnenkamp",
       "url": "https://instagram.com/christiannunnenkamp",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "cicerofreitas.com.br",
