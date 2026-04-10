@@ -62,7 +62,8 @@
       "desc": "resetTime hardcoded (1755644400) no health-checker — check do SDK sempre incorreto",
       "file": "services/health-checker.js:29",
       "severity": "high",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": 1744250400000
     },
     {
       "id": 9,

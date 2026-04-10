@@ -812,14 +812,27 @@ cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i ARQUIVO
 curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
 
 5. Enviar cada imagem traduzida SEM caption, intervalo de 2s:
-curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_TRADUZIDA"}'`;
+curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_TRADUZIDA"}'
+
+6. Após enviar todas as imagens, gerar PDF com todas as imagens traduzidas e enviar como documento:
+python3 -c "
+from PIL import Image; import os, glob, re
+base = '/Users/2a/.picoclaw/workspace/media/translated'
+files = sorted(glob.glob(os.path.join(base, 'ig_POST_ID_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))
+imgs = [Image.open(f).convert('RGB') for f in files]
+out = os.path.join(base, 'ig_POST_ID_ptbr_completo.pdf')
+imgs[0].save(out, save_all=True, append_images=imgs[1:])
+print(out)
+"
+Substituir POST_ID pelo ID do post (ex: DW1WZmhFFWa). Depois enviar:
+curl -s -X POST http://127.0.0.1:18790/api/send-document -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_PDF", "filename": "Post_Instagram_Traduzido.pdf"}'`;
 
   const task = taskRunner.createTask({
     prompt,
     workspace: '/Users/2a/.picoclaw/workspace/scripts',
     tags: ['instagram', 'translate'],
     source: 'picoclaw',
-    maxTurns: 40,
+    maxTurns: 80,
   });
   res.json({ success: true, taskId: task.id, status: task.status });
 });
