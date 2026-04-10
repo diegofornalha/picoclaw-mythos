@@ -134,7 +134,7 @@ function createTask({ prompt, workspace, systemPrompt, maxTurns, model, tags, so
     prompt,
     workspace: workspace || DEFAULT_WORKSPACE,
     systemPrompt: systemPrompt || null,
-    maxTurns: maxTurns || 10,
+    maxTurns: Math.max(1, Math.min(parseInt(maxTurns) || 10, 100)),
     model: model || process.env.DEFAULT_MODEL || null,
     tags: tags || [],
     source: source || 'api',
@@ -225,7 +225,7 @@ async function _runTask(task, io) {
   try {
     const queryOptions = {
       maxTurns: task.maxTurns,
-      permissionMode: (task.tags?.includes('auto-pr') || task.tags?.includes('instagram')) ? 'bypassPermissions' : 'acceptEdits',
+      permissionMode: task.source === 'cron' ? 'bypassPermissions' : 'acceptEdits',
       abortController: abort,
       cwd: task.workspace,
       model: task.model || process.env.MYTHOS_MODEL || 'claude-opus-4-6',
@@ -277,6 +277,9 @@ async function _runTask(task, io) {
       }
 
       task.steps.push(step);
+      if (task.steps.length > 500) {
+        task.steps = [...task.steps.slice(0, 10), ...task.steps.slice(-490)];
+      }
       _emit(io, task.id, 'task_step', { taskId: task.id, step });
     }
 
@@ -318,12 +321,19 @@ async function _runTask(task, io) {
     console.log(`✅ Task ${task.id} ${task.status} (${((task.finishedAt - task.startedAt) / 1000).toFixed(1)}s)`);
 
     if (task.status === 'done' && task.source === 'cron') {
-      memory.append('changelog', {
+      const changelogEntry = {
         taskId: task.id,
         desc: task.prompt.substring(0, 120),
         cost: task.cost,
         duration: task.finishedAt - task.startedAt,
-      }, 100);
+      };
+
+      const changedFiles = _getChangedFiles(task.workspace);
+      if (changedFiles.length > 0) {
+        changelogEntry.files = changedFiles;
+      }
+
+      memory.append('changelog', changelogEntry, 100);
 
       if (task.prompt !== '/auto-commit-pr') {
         _checkAndCommit(task.workspace);
@@ -332,7 +342,22 @@ async function _runTask(task, io) {
   }
 }
 
-// Verifica se há mudanças no git após task autônoma
+function _getChangedFiles(workspace) {
+  try {
+    const { execSync } = require('child_process');
+    let output = execSync('git diff --name-only HEAD 2>/dev/null', {
+      cwd: workspace, encoding: 'utf8', timeout: 5000,
+    }).trim();
+    if (!output) {
+      output = execSync('git diff --name-only HEAD~1 HEAD 2>/dev/null', {
+        cwd: workspace, encoding: 'utf8', timeout: 5000,
+      }).trim();
+    }
+    if (!output) return [];
+    return output.split('\n').filter(Boolean).slice(0, 20);
+  } catch { return []; }
+}
+
 function _checkAndCommit(workspace) {
   try {
     const { execSync } = require('child_process');

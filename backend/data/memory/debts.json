@@ -54,9 +54,52 @@
       "desc": "Sem changelog de mudanças aplicadas pelo self-improve",
       "file": "data/",
       "severity": "low",
+      "status": "resolved",
+      "resolvedAt": 1744228800000
+    },
+    {
+      "id": 8,
+      "desc": "CORS origin:* no Socket.IO permite conexão de qualquer domínio",
+      "file": "server.js:39",
+      "severity": "high",
+      "status": "open"
+    },
+    {
+      "id": 9,
+      "desc": "_save() usa writeJsonSync bloqueando event loop em cada task",
+      "file": "services/task-runner.js:104",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 10,
+      "desc": "Endpoints /api/debug/* expostos em produção sem flag NODE_ENV",
+      "file": "server.js:564",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 11,
+      "desc": "getFormattedContext sem limite de caracteres pode gerar prompts enormes",
+      "file": "sessionContext.js:43",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 12,
+      "desc": "checkClaudeSDK usa grep genérico — falso positivo com qualquer processo 'claude'",
+      "file": "services/health-checker.js:23",
+      "severity": "low",
+      "status": "open"
+    },
+    {
+      "id": 13,
+      "desc": "activeConnections Map pode vazar se disconnect não dispara",
+      "file": "server.js:107",
+      "severity": "low",
       "status": "open"
     }
   ],
-  "sha256": "7697e54ed981e07a",
-  "updatedAt": 1775732260371
+  "sha256": "placeholder",
+  "updatedAt": 1744307200000
 }
