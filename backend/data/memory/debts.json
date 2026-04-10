@@ -54,7 +54,8 @@
       "desc": "Sem changelog de mudanças aplicadas pelo self-improve",
       "file": "data/",
       "severity": "low",
-      "status": "open"
+      "status": "resolved",
+      "resolvedAt": 1775843400000
     }
   ],
   "sha256": "7697e54ed981e07a",
