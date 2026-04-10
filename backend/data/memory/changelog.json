@@ -49,8 +49,295 @@
       "cost": 0.9738442500000001,
       "duration": 37653,
       "at": 1775755556386
+    },
+    {
+      "taskId": "69523245-25cb-4b7a-8b2a-68b0700c44d9",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 3.26187,
+      "duration": 41595,
+      "at": 1775757235148
+    },
+    {
+      "taskId": "ce69c4c1-db48-464f-8cab-607a1bf9a2ad",
+      "desc": "/auto-commit-pr",
+      "cost": 0.7604985,
+      "duration": 58846,
+      "at": 1775757294869
+    },
+    {
+      "taskId": "d7efbf94-dff7-419b-ac4b-d48244667f46",
+      "desc": "/analyze-logs",
+      "cost": 1.005879,
+      "duration": 37629,
+      "at": 1775759031095
+    },
+    {
+      "taskId": "94beadc6-aa1b-4a4c-941c-bdfca1302811",
+      "desc": "/auto-commit-pr",
+      "cost": 0.8719792500000001,
+      "duration": 44952,
+      "at": 1775759076083
+    },
+    {
+      "taskId": "e8ff5ca3-8121-41df-9809-4c02abff191d",
+      "desc": "/eval-skills",
+      "cost": 6.628385699999999,
+      "duration": 412611,
+      "at": 1775761206128
+    },
+    {
+      "taskId": "00969a5b-c083-4765-a533-c67ec3f87181",
+      "desc": "/auto-commit-pr",
+      "cost": 0.9673522500000001,
+      "duration": 34435,
+      "at": 1775761240655
+    },
+    {
+      "taskId": "0c5cafa5-33fe-4d88-a392-f2cee44f9772",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 1.2065876999999998,
+      "duration": 98508,
+      "at": 1775762692044
+    },
+    {
+      "taskId": "a18de847-dd7e-42d1-b6a7-4c9f41654e38",
+      "desc": "/auto-commit-pr",
+      "cost": 0.6180015,
+      "duration": 31045,
+      "at": 1775762723132
+    },
+    {
+      "taskId": "91827933-bdc3-41ef-83e9-87ece605d54d",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.0186829999999998,
+      "duration": 41418,
+      "at": 1775764434989
+    },
+    {
+      "taskId": "eebeb7fb-29db-4668-9af7-90ea6d6ba742",
+      "desc": "/auto-commit-pr",
+      "cost": 1.32412575,
+      "duration": 36586,
+      "at": 1775764471656
+    },
+    {
+      "taskId": "fd1015b7-14fa-429d-810f-f8b8ef6c1cf8",
+      "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
+      "cost": 1.9333319999999998,
+      "duration": 66073,
+      "at": 1775766259618
+    },
+    {
+      "taskId": "1540752a-0e1b-4650-b2c4-22f623e55061",
+      "desc": "/auto-commit-pr",
+      "cost": 0.98632575,
+      "duration": 35965,
+      "at": 1775766295643
+    },
+    {
+      "taskId": "964fbd31-9227-4011-9674-b0968d0ddb28",
+      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
+      "cost": 0.9503489999999999,
+      "duration": 37634,
+      "at": 1775768031808
+    },
+    {
+      "taskId": "5aef0a30-9d29-44d5-b5d9-0fb834392ec3",
+      "desc": "/auto-commit-pr",
+      "cost": 1.107759,
+      "duration": 45534,
+      "at": 1775768077392
+    },
+    {
+      "taskId": "f1e21ff9-e84b-4959-a567-f4ca70274e2d",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 1.0479154499999999,
+      "duration": 59350,
+      "at": 1775769853111
+    },
+    {
+      "taskId": "2af80293-2d2f-4331-a589-d520ad4d50b7",
+      "desc": "/auto-commit-pr",
+      "cost": 1.0792034999999998,
+      "duration": 36462,
+      "at": 1775769889621
+    },
+    {
+      "taskId": "dfb1517a-828c-460b-9b49-9d5be373d0ba",
+      "desc": "Verifique os agentes em /Users/2a/.claude/agents/. Liste os mais relevantes para melhorar o picoclaw-mythos.",
+      "cost": 1.4710215,
+      "duration": 127463,
+      "at": 1775771721211
+    },
+    {
+      "taskId": "9da916ae-3e0e-42c0-903e-ba5bcee2bcb2",
+      "desc": "/auto-commit-pr",
+      "cost": 1.12629825,
+      "duration": 46110,
+      "at": 1775771767393
+    },
+    {
+      "taskId": "c8927f2f-e857-44b9-96a5-be7fcaa268d8",
+      "desc": "/analyze-logs",
+      "cost": 0.9973169999999999,
+      "duration": 37356,
+      "at": 1775773431096
+    },
+    {
+      "taskId": "f837f632-bf6a-4ada-b7db-6b404ba310bb",
+      "desc": "/auto-commit-pr",
+      "cost": 1.0853414999999997,
+      "duration": 35997,
+      "at": 1775773467130
+    },
+    {
+      "taskId": "2116ddd7-3ebf-45fd-80e5-284c26fe9143",
+      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
+      "cost": 0.8862300000000001,
+      "duration": 32448,
+      "at": 1775775226643
+    },
+    {
+      "taskId": "15127dec-defc-4dbd-98a6-bfb544fe45c0",
+      "desc": "/auto-commit-pr",
+      "cost": 1.1278792499999997,
+      "duration": 38849,
+      "at": 1775775265533
+    },
+    {
+      "taskId": "200bc742-f827-4b64-840c-b2da2b34cf2d",
+      "desc": "Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corr",
+      "cost": 1.95710925,
+      "duration": 79498,
+      "at": 1775777073686
+    },
+    {
+      "taskId": "2a7de5f4-5f2e-4440-a702-96ea1756464a",
+      "desc": "/auto-commit-pr",
+      "cost": 1.1816257500000003,
+      "duration": 53508,
+      "at": 1775777127428
+    },
+    {
+      "taskId": "18157885-ea97-4010-96cf-0151c058c5de",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.6561694999999999,
+      "duration": 43973,
+      "at": 1775778837665
+    },
+    {
+      "taskId": "74bd148c-2b8a-4982-85b3-f5008b785f3a",
+      "desc": "/auto-commit-pr",
+      "cost": 1.07192625,
+      "duration": 41520,
+      "at": 1775778879225
+    },
+    {
+      "taskId": "d276df26-fae7-4705-a655-afad63b4844e",
+      "desc": "/self-review",
+      "cost": 1.078323,
+      "duration": 48690,
+      "at": 1775780642400
+    },
+    {
+      "taskId": "e19144f7-5536-4616-8742-5ea28d066dd3",
+      "desc": "/auto-commit-pr",
+      "cost": 1.1030205,
+      "duration": 51063,
+      "at": 1775780693789
+    },
+    {
+      "taskId": "09a3efd7-c421-46bf-80a2-ebb602fae5c6",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.5132945,
+      "duration": 38767,
+      "at": 1775782432533
+    },
+    {
+      "taskId": "60eb5539-cdd6-405e-af7c-db241a5c6d2c",
+      "desc": "/auto-commit-pr",
+      "cost": 1.085106,
+      "duration": 57203,
+      "at": 1775782490005
+    },
+    {
+      "taskId": "1de43071-8300-4660-8f21-0309cffb9f5d",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 1.16953185,
+      "duration": 75781,
+      "at": 1775787869464
+    },
+    {
+      "taskId": "c84455f7-f20b-41c9-aaa6-e9771431a516",
+      "desc": "/auto-commit-pr",
+      "cost": 1.1011057499999999,
+      "duration": 41327,
+      "at": 1775787910837
+    },
+    {
+      "taskId": "92c1b901-d700-49dd-bfcb-ba7c8c54986e",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 2.105601450000001,
+      "duration": 128717,
+      "at": 1775789722475
+    },
+    {
+      "taskId": "b27c4693-b7af-4367-a52f-034df5380f49",
+      "desc": "/auto-commit-pr",
+      "cost": 0.5459767499999999,
+      "duration": 42684,
+      "at": 1775789765199
+    },
+    {
+      "taskId": "b044afcc-6407-48a1-af35-c8fda9c5ac35",
+      "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
+      "cost": 2.2838175,
+      "duration": 64789,
+      "at": 1775791458541
+    },
+    {
+      "taskId": "6496f568-f7c4-4d7c-8ddc-5561128a5436",
+      "desc": "/auto-commit-pr",
+      "cost": 1.0908262499999999,
+      "duration": 36783,
+      "at": 1775791495363
+    },
+    {
+      "taskId": "be5b43f4-1ec1-4c46-94d4-bb3f4fa0baa0",
+      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
+      "cost": 0.766005,
+      "duration": 20710,
+      "at": 1775793214501
+    },
+    {
+      "taskId": "8ef45dcf-d09f-447b-b66c-da3521cc6cc1",
+      "desc": "/auto-commit-pr",
+      "cost": 1.12568925,
+      "duration": 38720,
+      "at": 1775793253257
+    },
+    {
+      "taskId": "ca00713d-7990-4c6c-b6eb-b30170aa205e",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 1.26037935,
+      "duration": 155828,
+      "at": 1775795149618
+    },
+    {
+      "taskId": "96ac5e35-7083-4a60-8c36-9f0dac07f4c8",
+      "desc": "/auto-commit-pr",
+      "cost": 0.43356225000000004,
+      "duration": 33119,
+      "at": 1775795182797
+    },
+    {
+      "taskId": "cc0261a1-c425-46dc-8c3b-6a4444f77eae",
+      "desc": "Verifique os agentes em /Users/2a/.claude/agents/. Liste os mais relevantes para melhorar o picoclaw-mythos.",
+      "cost": 0.9797053499999998,
+      "duration": 70582,
+      "at": 1775796864882
     }
   ],
-  "sha256": "0b592372d84c93bb",
-  "updatedAt": 1775755556389
+  "sha256": "3e1657f8a483707e",
+  "updatedAt": 1775796864884
 }
