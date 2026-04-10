@@ -20,23 +20,14 @@ class HealthChecker {
    */
   async checkClaudeSDK() {
     try {
-      // Verificar se o processo do Claude está rodando
       const { stdout } = await execAsync('ps aux | grep -i claude | grep -v grep | wc -l');
       const processCount = parseInt(stdout.trim());
-      
-      // Verificar limite da API
-      const now = Math.floor(Date.now() / 1000);
-      const resetTime = 1755644400; // Timestamp do reset conhecido
-      const isLimitReached = now < resetTime;
-      
+
       return {
         name: 'Claude Code SDK',
-        status: processCount > 0 && !isLimitReached ? 'healthy' : 'unhealthy',
+        status: processCount > 0 ? 'healthy' : 'unhealthy',
         processCount,
-        isLimitReached,
-        resetIn: isLimitReached ? resetTime - now : 0,
-        resetTime: isLimitReached ? new Date(resetTime * 1000).toISOString() : null,
-        message: isLimitReached ? 'API limit reached, waiting for reset' : 'SDK operational'
+        message: processCount > 0 ? 'SDK operational' : 'No Claude processes detected'
       };
     } catch (error) {
       return {

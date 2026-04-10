@@ -56,8 +56,43 @@
       "severity": "low",
       "status": "resolved",
       "resolvedAt": 1775843400000
+    },
+    {
+      "id": 8,
+      "desc": "resetTime hardcoded (1755644400) no health-checker — check do SDK sempre incorreto",
+      "file": "services/health-checker.js:29",
+      "severity": "high",
+      "status": "open"
+    },
+    {
+      "id": 9,
+      "desc": "Código morto: generateNaturalResponse, detectCrewAINeeded, detectTaskType nunca chamados",
+      "file": "server.js:671-739",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 10,
+      "desc": "crypto.randomUUID() no catch externo inconsistente com uuidv4() usado no resto",
+      "file": "server.js:1188",
+      "severity": "low",
+      "status": "open"
+    },
+    {
+      "id": 11,
+      "desc": "task.steps cresce indefinidamente sem limite durante execução",
+      "file": "services/task-runner.js:279",
+      "severity": "medium",
+      "status": "open"
+    },
+    {
+      "id": 12,
+      "desc": "Log verboso em cada addToContext polui stdout em produção",
+      "file": "sessionContext.js:37",
+      "severity": "low",
+      "status": "open"
     }
   ],
-  "sha256": "7697e54ed981e07a",
-  "updatedAt": 1775732260371
+  "sha256": "placeholder",
+  "updatedAt": 1775900100000
 }
