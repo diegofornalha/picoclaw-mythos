@@ -6,10 +6,10 @@
   "total": 440,
   "message": "Oi\nEstá aqui meu Claw: https://wa.me/5521923670743\nEstou convidando algumas pessoas para conhecer meu agente",
   "stats": {
-    "pending": 439,
-    "sent": 1,
+    "pending": 378,
+    "sent": 16,
     "skipped": 0,
-    "no_dm": 0,
+    "no_dm": 46,
     "error": 0
   },
   "users": [
@@ -22,368 +22,368 @@
     {
       "username": "danilonfc",
       "url": "https://instagram.com/danilonfc",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "victrmedeiros",
       "url": "https://instagram.com/victrmedeiros",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "rilleyalencar",
       "url": "https://instagram.com/rilleyalencar",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "igor.pmartins",
       "url": "https://instagram.com/igor.pmartins",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "_hyrumolivera_",
       "url": "https://instagram.com/_hyrumolivera_",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "brun0_camarg0",
       "url": "https://instagram.com/brun0_camarg0",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "cleytonaonesko",
       "url": "https://instagram.com/cleytonaonesko",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "filipe_redo",
       "url": "https://instagram.com/filipe_redo",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "highlander.akd",
       "url": "https://instagram.com/highlander.akd",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "dr.paulosylva",
       "url": "https://instagram.com/dr.paulosylva",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "julianokubo",
       "url": "https://instagram.com/julianokubo",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "fernandosilva.ai",
       "url": "https://instagram.com/fernandosilva.ai",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "ivan_tundelo_carvalho",
       "url": "https://instagram.com/ivan_tundelo_carvalho",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "jarlem.nas",
       "url": "https://instagram.com/jarlem.nas",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "tetsuoshimizu",
       "url": "https://instagram.com/tetsuoshimizu",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "cesarcontarelli",
       "url": "https://instagram.com/cesarcontarelli",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "wellcastelo",
       "url": "https://instagram.com/wellcastelo",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "camillafermiano",
       "url": "https://instagram.com/camillafermiano",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "william73lima",
       "url": "https://instagram.com/william73lima",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "well_a.silva",
       "url": "https://instagram.com/well_a.silva",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "kadupereirateam",
       "url": "https://instagram.com/kadupereirateam",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "mozcristian",
       "url": "https://instagram.com/mozcristian",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "diogo_zago",
       "url": "https://instagram.com/diogo_zago",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "caique",
       "url": "https://instagram.com/caique",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "brunoo_matoss",
       "url": "https://instagram.com/brunoo_matoss",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "cassiodlima.oficial",
       "url": "https://instagram.com/cassiodlima.oficial",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "eunestordejesus",
       "url": "https://instagram.com/eunestordejesus",
-      "status": "pending",
-      "followed": false
+      "status": "sent",
+      "followed": true
     },
     {
       "username": "julioramossd",
       "url": "https://instagram.com/julioramossd",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "joseluizrf",
       "url": "https://instagram.com/joseluizrf",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "brunobrossard",
       "url": "https://instagram.com/brunobrossard",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "renda_estar",
       "url": "https://instagram.com/renda_estar",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "guibinder",
       "url": "https://instagram.com/guibinder",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "sandrosilvio",
       "url": "https://instagram.com/sandrosilvio",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "lucasmoreira_wizzo",
       "url": "https://instagram.com/lucasmoreira_wizzo",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "cristianocrix",
       "url": "https://instagram.com/cristianocrix",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "gmendes333",
       "url": "https://instagram.com/gmendes333",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "drsorrisobr",
       "url": "https://instagram.com/drsorrisobr",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "rumo_certooo",
       "url": "https://instagram.com/rumo_certooo",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "3duardoabreu",
       "url": "https://instagram.com/3duardoabreu",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "alvesautor",
       "url": "https://instagram.com/alvesautor",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "robsonrobnet",
       "url": "https://instagram.com/robsonrobnet",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "edsonalmeidacosta",
       "url": "https://instagram.com/edsonalmeidacosta",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "esron",
       "url": "https://instagram.com/esron",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "beto_marchioreto",
       "url": "https://instagram.com/beto_marchioreto",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "rotavio26",
       "url": "https://instagram.com/rotavio26",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "leandro.nardii",
       "url": "https://instagram.com/leandro.nardii",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "abbacreator",
       "url": "https://instagram.com/abbacreator",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "caiophidavera",
       "url": "https://instagram.com/caiophidavera",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "llourencossilva",
       "url": "https://instagram.com/llourencossilva",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "guilhermevertein",
       "url": "https://instagram.com/guilhermevertein",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "gabrielhansenn_",
       "url": "https://instagram.com/gabrielhansenn_",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "ehsdiegonunes",
       "url": "https://instagram.com/ehsdiegonunes",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "leandroblatyta",
       "url": "https://instagram.com/leandroblatyta",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "_hvvinicius_",
       "url": "https://instagram.com/_hvvinicius_",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "viictorlazaro",
       "url": "https://instagram.com/viictorlazaro",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "adv_carloscavalcanti",
       "url": "https://instagram.com/adv_carloscavalcanti",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "eduardodejesusmatos",
       "url": "https://instagram.com/eduardodejesusmatos",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "papa.jayjay",
       "url": "https://instagram.com/papa.jayjay",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "lc.moreno",
       "url": "https://instagram.com/lc.moreno",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "rodrigobrosque",
       "url": "https://instagram.com/rodrigobrosque",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "fabiombriao.ia",
       "url": "https://instagram.com/fabiombriao.ia",
-      "status": "pending",
-      "followed": false
+      "status": "no_dm",
+      "followed": true
     },
     {
       "username": "wilderleal",
