@@ -2,20 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "b37ec862-71c9-4978-931c-9208ff0a7b43",
-      "desc": "/auto-commit-pr",
-      "cost": 0.9828277500000001,
-      "duration": 31409,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775871720028
-    },
-    {
       "taskId": "3310c8c3-a0e3-4166-9a0e-c8394522c54f",
       "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
       "cost": 1.1237604,
@@ -1418,8 +1404,18 @@
         "backend/data/tasks.json"
       ],
       "at": 1775991430093
+    },
+    {
+      "taskId": "77ba3abe-fc21-4883-8dd1-42149c985986",
+      "desc": "/self-review",
+      "cost": null,
+      "duration": 81172,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775991803128
     }
   ],
-  "sha256": "d226d3f76b9c5e46",
-  "updatedAt": 1775991430095
+  "sha256": "217be7ce67c6aa4a",
+  "updatedAt": 1775991803131
 }
