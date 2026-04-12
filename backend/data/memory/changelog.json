@@ -2,32 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "96a49db5-457a-4e44-b8b3-28d4e9a94772",
-      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.25333025,
-      "duration": 110289,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775868134958
-    },
-    {
-      "taskId": "744c2c7f-6f5e-45e1-abf6-cc5ba2664ec5",
-      "desc": "/auto-commit-pr",
-      "cost": 0.44994825000000005,
-      "duration": 34792,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775868169853
-    },
-    {
       "taskId": "4b00afe8-e659-40df-9da0-1187ace0c786",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
       "cost": 1.66577325,
@@ -1429,8 +1403,29 @@
         "backend/data/tasks.json"
       ],
       "at": 1775987763763
+    },
+    {
+      "taskId": "a0e81539-38ae-4b47-aceb-e724db762956",
+      "desc": "/auto-commit-pr",
+      "cost": 0.18277125,
+      "duration": 158937,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775987926392
+    },
+    {
+      "taskId": "ce661e9d-3938-47a4-82cb-87a7373985af",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 0.2807195,
+      "duration": 97453,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775989671081
     }
   ],
-  "sha256": "f07b393b6a2f55ae",
-  "updatedAt": 1775987764161
+  "sha256": "d8133db9405a14dc",
+  "updatedAt": 1775989671243
 }

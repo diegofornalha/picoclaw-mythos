@@ -3,16 +3,89 @@
  *
  * O SDK v2 (@anthropic-ai/claude-code) não exporta query() programaticamente.
  * Este módulo spawna o CLI e emite os mesmos eventos que a query() do SDK v1.
+ *
+ * Inclui semáforo de processos e throttle por memória para evitar OOM.
  */
 const { spawn } = require('child_process');
 const path = require('path');
+const os = require('os');
 
 const CLI_PATH = path.join(__dirname, 'node_modules', '@anthropic-ai', 'claude-code', 'cli.js');
 
 // Usa Node 22 se disponível (v1 cli.js crasha no Node 25)
 const NODE_BIN = process.env.CLAUDE_NODE_BIN || 'node';
 
+// ── Semáforo de processos ──
+const MAX_PROCESSES = parseInt(process.env.MAX_CLAUDE_PROCESSES || '2');
+const MEMORY_THROTTLE = parseInt(process.env.MEMORY_THROTTLE_PERCENT || '85');
+const SLOT_TIMEOUT_MS = 5 * 60 * 1000; // 5 min max de espera
+
+let activeProcesses = 0;
+const waitQueue = []; // Array de { resolve, timer }
+
+function getMemoryUsagePercent() {
+  const total = os.totalmem();
+  const free = os.freemem();
+  return ((total - free) / total) * 100;
+}
+
+function getActiveProcessCount() {
+  return activeProcesses;
+}
+
+function isThrottled() {
+  return activeProcesses >= MAX_PROCESSES || getMemoryUsagePercent() > MEMORY_THROTTLE;
+}
+
+async function acquireSlot() {
+  if (activeProcesses < MAX_PROCESSES && getMemoryUsagePercent() <= MEMORY_THROTTLE) {
+    activeProcesses++;
+    return;
+  }
+
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      const idx = waitQueue.findIndex(w => w.resolve === wrappedResolve);
+      if (idx !== -1) waitQueue.splice(idx, 1);
+      reject(new Error('Throttle timeout: could not acquire process slot within 5 minutes'));
+    }, SLOT_TIMEOUT_MS);
+
+    const wrappedResolve = () => { clearTimeout(timer); resolve(); };
+    waitQueue.push({ resolve: wrappedResolve });
+  });
+}
+
+function releaseSlot() {
+  activeProcesses = Math.max(0, activeProcesses - 1);
+
+  if (waitQueue.length > 0 && activeProcesses < MAX_PROCESSES && getMemoryUsagePercent() <= MEMORY_THROTTLE) {
+    const next = waitQueue.shift();
+    activeProcesses++;
+    next.resolve();
+  }
+}
+
+// Polling: drenar waitQueue quando memória cair sem que um processo termine
+setInterval(() => {
+  while (waitQueue.length > 0 && activeProcesses < MAX_PROCESSES && getMemoryUsagePercent() <= MEMORY_THROTTLE) {
+    const next = waitQueue.shift();
+    activeProcesses++;
+    next.resolve();
+  }
+}, 10000);
+
+// ── Query ──
+
 async function* query({ prompt, options = {} }) {
+  await acquireSlot();
+  try {
+    yield* _spawnQuery({ prompt, options });
+  } finally {
+    releaseSlot();
+  }
+}
+
+async function* _spawnQuery({ prompt, options }) {
   const args = [
     CLI_PATH,
     '--output-format', 'stream-json',
@@ -104,4 +177,4 @@ async function* query({ prompt, options = {} }) {
   }
 }
 
-module.exports = { query };
+module.exports = { query, getActiveProcessCount, isThrottled, getMemoryUsagePercent };

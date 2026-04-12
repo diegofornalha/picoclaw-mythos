@@ -113,6 +113,31 @@ class HealthChecker {
   }
 
   /**
+   * Verifica status de throttle de processos
+   */
+  checkThrottleStatus() {
+    const claudeQuery = require('../claude-query');
+    const active = claudeQuery.getActiveProcessCount();
+    const memPct = claudeQuery.getMemoryUsagePercent();
+    const throttled = claudeQuery.isThrottled();
+    const max = parseInt(process.env.MAX_CLAUDE_PROCESSES || '2');
+    const threshold = parseInt(process.env.MEMORY_THROTTLE_PERCENT || '85');
+
+    return {
+      name: 'Process Throttle',
+      status: throttled ? 'throttled' : 'healthy',
+      activeProcesses: active,
+      maxProcesses: max,
+      memoryPercent: memPct.toFixed(1),
+      throttleThreshold: threshold,
+      throttled,
+      message: throttled
+        ? `Throttled: ${active}/${max} processes, ${memPct.toFixed(1)}% memory`
+        : `OK: ${active}/${max} processes, ${memPct.toFixed(1)}% memory`
+    };
+  }
+
+  /**
    * Executa todos os health checks
    */
   async performFullCheck(dependencies = {}) {
@@ -123,7 +148,8 @@ class HealthChecker {
     const checks = await Promise.all([
       this.checkClaudeSDK(),
       this.checkSocketIO(io),
-      this.checkSystemMemory()
+      this.checkSystemMemory(),
+      Promise.resolve(this.checkThrottleStatus())
     ]);
 
     const overallStatus = this.calculateOverallStatus(checks);
@@ -157,8 +183,8 @@ class HealthChecker {
   calculateOverallStatus(checks) {
     const hasErrors = checks.some(c => c.status === 'error');
     const hasUnhealthy = checks.some(c => c.status === 'unhealthy');
-    const hasWarnings = checks.some(c => c.status === 'warning');
-    
+    const hasWarnings = checks.some(c => c.status === 'warning' || c.status === 'throttled');
+
     if (hasErrors || hasUnhealthy) return 'unhealthy';
     if (hasWarnings) return 'degraded';
     return 'healthy';

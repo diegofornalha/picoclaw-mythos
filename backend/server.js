@@ -7,7 +7,7 @@ const multer = require('multer');
 const fs = require('fs-extra');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { query } = require('./claude-query');
+const { query, isThrottled } = require('./claude-query');
 const SessionContextManager = require('./sessionContext');
 const HealthChecker = require('./services/health-checker');
 const taskRunner = require('./services/task-runner');
@@ -1017,6 +1017,14 @@ io.on('connection', (socket) => {
       logger.debug('⏳ Starting Claude query:', { sessionId: currentSessionId, model: queryOptions.model || 'default' });
 
       socket.emit('typing_start');
+      if (isThrottled()) {
+        socket.emit('processing_step', {
+          sessionId: currentSessionId,
+          step: 'queued',
+          message: 'Aguardando vaga — sistema em throttle por uso de memória.',
+          timestamp: Date.now()
+        });
+      }
       socket.emit('processing_step', {
         sessionId: currentSessionId,
         step: 'sending',

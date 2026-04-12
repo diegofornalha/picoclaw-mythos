@@ -1,4 +1,4 @@
-const { query } = require('../claude-query');
+const { query, isThrottled } = require('../claude-query');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs-extra');
 const path = require('path');
@@ -270,6 +270,14 @@ async function _drainQueue() {
   while (queue.length > 0) {
     // Checar cooldown entre tasks
     if (_cooldownUntil > Date.now()) break;
+
+    // Throttle: memória alta ou max processos atingido
+    if (isThrottled()) {
+      console.log('⏸️  Throttled — retrying in 30s');
+      running = false;
+      setTimeout(() => _drainQueue(), 30000);
+      return;
+    }
 
     const taskId = queue.shift();
     const task = tasks.get(taskId);
