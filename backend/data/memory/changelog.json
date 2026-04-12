@@ -2,46 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "4b00afe8-e659-40df-9da0-1187ace0c786",
-      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.66577325,
-      "duration": 37380,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775869861908
-    },
-    {
-      "taskId": "df281e85-e838-44da-9d4b-a8087c99e1da",
-      "desc": "/auto-commit-pr",
-      "cost": 1.04838075,
-      "duration": 33664,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775869895645
-    },
-    {
-      "taskId": "33cbae92-59ac-4c1d-a121-7fe3860a7b55",
-      "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
-      "cost": 1.7158425000000002,
-      "duration": 64005,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775871688527
-    },
-    {
       "taskId": "b37ec862-71c9-4978-931c-9208ff0a7b43",
       "desc": "/auto-commit-pr",
       "cost": 0.9828277500000001,
@@ -1424,8 +1384,42 @@
         "backend/data/tasks.json"
       ],
       "at": 1775989671081
+    },
+    {
+      "taskId": "ccf5523a-ead3-438a-9017-35cf55ff0180",
+      "desc": "/auto-commit-pr",
+      "cost": 0.37268025000000005,
+      "duration": 78493,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775990556409
+    },
+    {
+      "taskId": "4df58135-6bb5-4511-9536-9b1a79da14db",
+      "desc": "/self-review",
+      "cost": 0.6796305,
+      "duration": 122188,
+      "changes": [
+        "backend/.env",
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775991341583
+    },
+    {
+      "taskId": "a0ec0b91-c643-41b1-80c1-a03350430de6",
+      "desc": "/self-review",
+      "cost": null,
+      "duration": 87616,
+      "changes": [
+        "backend/.env",
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775991430093
     }
   ],
-  "sha256": "d8133db9405a14dc",
-  "updatedAt": 1775989671243
+  "sha256": "d226d3f76b9c5e46",
+  "updatedAt": 1775991430095
 }
