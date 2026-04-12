@@ -2,90 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "b37ec862-71c9-4978-931c-9208ff0a7b43",
-      "desc": "/auto-commit-pr",
-      "cost": 0.9828277500000001,
-      "duration": 31409,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775871720028
-    },
-    {
-      "taskId": "3310c8c3-a0e3-4166-9a0e-c8394522c54f",
-      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 1.1237604,
-      "duration": 57493,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775873482329
-    },
-    {
-      "taskId": "6c9c42db-d73f-4ca5-a25a-1d013812b2a6",
-      "desc": "/auto-commit-pr",
-      "cost": 1.0074435,
-      "duration": 38028,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775873520777
-    },
-    {
-      "taskId": "692b4452-c36d-44b3-b015-4320b46d7019",
-      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.5340445999999999,
-      "duration": 151945,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775875376681
-    },
-    {
-      "taskId": "193cb1d8-fd54-486c-b8ea-c3eaac2fa573",
-      "desc": "/auto-commit-pr",
-      "cost": 1.1400825,
-      "duration": 38837,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775875415726
-    },
-    {
-      "taskId": "18e3be1c-f85b-468e-9a60-322f000f6790",
-      "desc": "Verifique os agentes em /Users/2a/.claude/agents/. Liste os mais relevantes para melhorar o picoclaw-mythos.",
-      "cost": 0.9066118499999999,
-      "duration": 41408,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775877066058
-    },
-    {
       "taskId": "6038eafe-bb40-422d-9158-1318cc8b7d56",
       "desc": "/auto-commit-pr",
       "cost": 1.1501040000000002,
@@ -1418,8 +1334,73 @@
         "backend/data/tasks.json"
       ],
       "at": 1775991430093
+    },
+    {
+      "taskId": "40a38860-ced0-40ec-80e6-8e19a0da04bb",
+      "desc": "/auto-commit-pr",
+      "cost": 0.30309275,
+      "duration": 57385,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775993397604
+    },
+    {
+      "taskId": "efb1b65f-79a0-45b3-aa8b-863702ddf8ff",
+      "desc": "/analyze-logs",
+      "cost": 0.217206,
+      "duration": 36527,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1776008078572
+    },
+    {
+      "taskId": "d62618bd-7c67-4adc-8b88-e2d026b55618",
+      "desc": "/eval-skills",
+      "cost": null,
+      "duration": 118686,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1776008197532
+    },
+    {
+      "taskId": "b6926d50-2f58-4ee7-bc5c-1dea38ba05e3",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 0.27684795,
+      "duration": 77080,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1776010344978
+    },
+    {
+      "taskId": "1ed7ff14-3963-48ae-90dd-07cf88b94395",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 0.5794895,
+      "duration": 92404,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1776010437578
+    },
+    {
+      "taskId": "9f5d181f-6319-4eff-8220-b61c509a0b6d",
+      "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
+      "cost": 0.6478459999999999,
+      "duration": 183096,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1776010620939
     }
   ],
-  "sha256": "d226d3f76b9c5e46",
-  "updatedAt": 1775991430095
+  "sha256": "5c104fee5a59b2d9",
+  "updatedAt": 1776010620942
 }
