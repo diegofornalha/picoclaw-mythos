@@ -88,11 +88,38 @@ function _load() {
   try {
     if (fs.existsSync(TASKS_FILE)) {
       const data = fs.readJsonSync(TASKS_FILE);
+      let orphanCount = 0;
       for (const t of data) {
         tasks.set(t.id, t);
-        if (t.status === 'queued') queue.push(t.id);
+        if (t.status === 'queued') {
+          queue.push(t.id);
+        } else if (t.status === 'running') {
+          // Task órfã: estava running quando o backend reiniciou
+          console.log(`♻️  Orphan detected: ${t.id} — requeueing`);
+          t.status = 'queued';
+          t.startedAt = null;
+          t.retryCount = (t.retryCount || 0) + 1;
+          queue.push(t.id);
+          orphanCount++;
+        }
       }
-      console.log(`📋 Task Runner: loaded ${tasks.size} tasks (${queue.length} queued)`);
+      // Limpar tasks terminadas com mais de 24h
+      const DAY_MS = 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      let cleanedCount = 0;
+      for (const [id, t] of tasks) {
+        if (['done', 'error', 'cancelled'].includes(t.status) && t.createdAt && (now - t.createdAt) > DAY_MS) {
+          tasks.delete(id);
+          cleanedCount++;
+        }
+      }
+
+      if (orphanCount > 0 || cleanedCount > 0) {
+        if (orphanCount > 0) console.log(`♻️  ${orphanCount} orphaned task(s) requeued`);
+        if (cleanedCount > 0) console.log(`🧹 ${cleanedCount} old task(s) cleaned up`);
+        _save();
+      }
+      console.log(`📋 Task Runner: loaded ${tasks.size} tasks (${queue.length} queued, ${orphanCount} recovered, ${cleanedCount} cleaned)`);
     }
   } catch (e) {
     console.warn('⚠️ task-runner: failed to load tasks:', e.message);
@@ -233,6 +260,15 @@ function listTasks({ status, source, limit = 50 } = {}) {
   if (status) all = all.filter(t => t.status === status);
   if (source) all = all.filter(t => t.source === source);
   return all.slice(0, limit);
+}
+
+function findActiveByTag(tag) {
+  for (const task of tasks.values()) {
+    if ((task.status === 'running' || task.status === 'queued') && task.tags && task.tags.includes(tag)) {
+      return task;
+    }
+  }
+  return null;
 }
 
 function cancelTask(id) {
@@ -583,6 +619,7 @@ module.exports = {
   getTask,
   listTasks,
   cancelTask,
+  findActiveByTag,
   startAutonomous,
   stopAutonomous,
   _drainQueue,

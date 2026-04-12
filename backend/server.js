@@ -732,6 +732,12 @@ app.post('/api/translate-instagram', express.json(), (req, res) => {
   // Extrair shortcode da URL pra criar pasta isolada
   const scMatch = url.match(/\/(?:p|reel)\/([A-Za-z0-9_-]+)/);
   const shortcode = scMatch ? scMatch[1] : `post_${Date.now()}`;
+
+  // Deduplicação: se já tem task ativa pro mesmo post, retornar ela
+  const existing = taskRunner.findActiveByTag(`ig:${shortcode}`);
+  if (existing) {
+    return res.json({ success: true, taskId: existing.id, status: existing.status, deduplicated: true });
+  }
   const workDir = `/Users/2a/.picoclaw/workspace/media/jobs/${shortcode}`;
   const scriptsDir = '/Users/2a/.picoclaw/workspace/scripts';
   const igDir = '/Users/2a/.picoclaw/workspace/scripts/instagram';
@@ -797,7 +803,7 @@ curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: applic
   const task = taskRunner.createTask({
     prompt,
     workspace: scriptsDir,
-    tags: ['instagram', 'translate'],
+    tags: ['instagram', 'translate', `ig:${shortcode}`],
     source: 'picoclaw',
     maxTurns: 80,
   });
