@@ -236,15 +236,175 @@
       "auto-pr"
     ],
     "source": "cron",
-    "status": "running",
-    "result": null,
+    "status": "done",
+    "result": "Claude Code process exited with code 1",
     "error": null,
-    "steps": [],
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1776010741499
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010744641
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010745317,
+        "text": "Vou verificar mudanças em todos os repos monitorados."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010746460
+      },
+      {
+        "type": "rate_limit_event",
+        "timestamp": 1776010746512
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010749789
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010752522
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010752978,
+        "text": "Apenas **picoclaw-mythos** tem mudanças. Os outros repos estão limpos. Vou verificar o diff."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010753559
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010753755
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010756917
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010757286
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010757293
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010757751
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010757784
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010757911
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010769250
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010769265
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010769281
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010769383
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010769475
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010778597
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010778656
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010778705
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010782400
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010783808,
+        "text": "O `backend/.env` está no `.gitignore` mas ainda é rastreado pelo git (foi adicionado antes do ignore). A mudança é só ajuste de threshold (92→97), não tem segredo novo.\n\nVou criar branch, commit e PR."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010784789
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010784868
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010787691
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010787808
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010790723
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010790830
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010795480
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010795668
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776010798685
+      },
+      {
+        "type": "user",
+        "timestamp": 1776010800385
+      },
+      {
+        "type": "result",
+        "timestamp": 1776010800390,
+        "result": "O `backend/.env` está no `.gitignore` mas ainda é rastreado pelo git (foi adicionado antes do ignore). A mudança é só ajuste de threshold (92→97), não tem segredo novo.\n\nVou criar branch, commit e PR.",
+        "cost": 0.26398425000000003
+      },
+      {
+        "type": "result",
+        "timestamp": 1776010801299,
+        "result": "Claude Code process exited with code 1",
+        "cost": null
+      }
+    ],
     "cost": null,
     "retryCount": 0,
     "createdAt": 1776010437673,
     "startedAt": 1776010728859,
-    "finishedAt": null
+    "finishedAt": 1776010801300
   },
   {
     "id": "b2cbade0-a298-4f69-814a-8bad43ac463c",
@@ -258,14 +418,14 @@
       "auto-pr"
     ],
     "source": "cron",
-    "status": "queued",
+    "status": "running",
     "result": null,
     "error": null,
     "steps": [],
     "cost": null,
     "retryCount": 0,
     "createdAt": 1776010345078,
-    "startedAt": null,
+    "startedAt": 1776010801390,
     "finishedAt": null
   },
   {
