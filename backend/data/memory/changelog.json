@@ -2,32 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "b329f74f-c0b1-44b4-a4e0-b08f595eb4e3",
-      "desc": "/eval-skills",
-      "cost": 1.2179024999999999,
-      "duration": 50288,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775866274884
-    },
-    {
-      "taskId": "230ff3ae-fde6-4b8b-b9bf-565dd7babaf3",
-      "desc": "/auto-commit-pr",
-      "cost": 1.3714514999999998,
-      "duration": 43463,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775866318440
-    },
-    {
       "taskId": "96a49db5-457a-4e44-b8b3-28d4e9a94772",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
       "cost": 1.25333025,
@@ -1434,8 +1408,29 @@
         "backend/data/tasks.json"
       ],
       "at": 1775987428482
+    },
+    {
+      "taskId": "e2052451-6d57-4539-82ce-5d9887266fa3",
+      "desc": "/auto-commit-pr",
+      "cost": 0.31927324999999995,
+      "duration": 47565,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775987476113
+    },
+    {
+      "taskId": "e259ae85-5e0d-4a31-ac6c-0687c5bc5837",
+      "desc": "/self-review",
+      "cost": 0.83748925,
+      "duration": 168510,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775987763763
     }
   ],
-  "sha256": "9035dcfad30ace74",
-  "updatedAt": 1775987428484
+  "sha256": "f07b393b6a2f55ae",
+  "updatedAt": 1775987764161
 }

@@ -1,6 +1,6 @@
 [
   {
-    "id": "e2052451-6d57-4539-82ce-5d9887266fa3",
+    "id": "a0e81539-38ae-4b47-aceb-e724db762956",
     "prompt": "/auto-commit-pr",
     "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
     "systemPrompt": null,
@@ -17,9 +17,457 @@
     "steps": [],
     "cost": null,
     "retryCount": 0,
+    "createdAt": 1775987764299,
+    "startedAt": 1775987764342,
+    "finishedAt": null
+  },
+  {
+    "id": "e259ae85-5e0d-4a31-ac6c-0687c5bc5837",
+    "prompt": "/self-review",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 15,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "self-review"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "\n\nSelf-review completo. O relatório acima cobre todos os pontos. Resumindo os achados principais:\n\n**Novo bug encontrado**: `_drainQueue()` em `task-runner.js:258-282` não tem try/finally — se `_runTask` lançar exceção não tratada, o flag `running` fica `true` para sempre e a fila trava permanentemente.\n\n**5 débitos técnicos abertos** continuam pendentes (mesmos da última review):\n- #14 — activeConnections sem limpeza\n- #16 — health-checker interval sem ref\n- #17 — memory-store append sem retry\n- #18 — sessionContext 20/10 inconsistente\n- #20 — _save() síncrono bloqueia event loop\n\n**Dados**: tasks.json com 848KB (200 tasks com steps) — saudável por agora mas vale monitorar.\n\n**Ação prioritária**: Fix do try/finally em `_drainQueue()` para evitar travamento da fila.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775987608543
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987611989
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987612556,
+        "text": "Executando self-review do picoclaw-mythos. Vou rodar as verificações em paralelo."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987613764
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987613842
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987615514
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987615515
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987616663
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987616732
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987617056
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987617057
+      },
+      {
+        "type": "rate_limit_event",
+        "timestamp": 1775987617065
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987620260
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987620307
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987622647
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987622665
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987625283
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987625296
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987628791,
+        "text": "Parece que os comandos curl precisam de aprovação. Vou prosseguir com a leitura dos arquivos enquanto isso."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987628926
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987629425
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987629430
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987630346
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987630824
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987631145
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987641672
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987641673
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987644598
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987646340
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987646448
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987646492
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987649872
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987649872
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987649872
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987650791
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987653655
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987654136
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987654654
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987654654
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987654672
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987654712
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987658478
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987659130
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987659286
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987659377
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987662350
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987662561
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987662633
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987662815
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987667798
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987668252,
+        "text": "Agora vou verificar o tasks.json e dependências."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987669285
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987669850
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987670323
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987670434
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987670467
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987671049
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987674464
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987674916
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987675036
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987675195
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987701718
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987730164,
+        "text": "Revisão completa. Aqui está o relatório:\n\n---\n\n# Self-Review picoclaw-mythos — 2026-04-12\n\n## 1. Saúde do Servidor\n\nNão foi possível acessar o endpoint `/api/health` diretamente (curl bloqueado pelo sandbox), mas a análise do código e dos dados mostra:\n\n- **Uptime**: Servidor configurado na porta 8080 (variável `PORT`)\n- **Modo autônomo**: Ativo se `AUTONOMOUS_INTERVAL_MIN > 0`\n- **Health checker**: Rodando com checks a cada 30s (Claude SDK, Socket.IO, memória do sistema)\n\n## 2. Tasks Recentes\n\n- **tasks.json**: 848KB com até 200 tasks mantidas — arquivo crescendo\n- **changelog.json**: 44KB com histórico de mudanças autônomas\n- **debts.json**: 15 débitos resolvidos, 5 ainda abertos\n\n## ✅ O que está funcionando bem\n\n- **Rate limit handling robusto**: Detecção via `_isRateLimitError()`, cooldown com requeue automático, contexto de retomada via `_buildResumeContext()`, máximo 5 retries. Excelente.\n- **Skill expansion**: Busca em múltiplos diretórios, fallback gracioso se skill não encontrada\n- **Segurança melhorada**: CORS restrito a `ALLOWED_ORIGINS`, endpoints debug protegidos por `requireDevMode`, upload com whitelist de tipos/extensões, limite de 10MB\n- **Memory store**: Sistema leve com hash de concorrência (`sha256` precondition)\n- **Limpeza de sessões**: `processedMessages` com TTL de 30s, `sessions` limpas após 4h, `sessionContexts` após 2h\n- **Task steps limitados**: Cap de 200 steps com compactação automática (mantém últimos 100)\n- **Timeout de tasks**: Auto-abort após 15min evita tasks presas\n- **claude-query.js**: Wrapper limpo do SDK v2 via CLI spawn, parsing NDJSON correto, suporte a abort\n\n## ⚠️ Problemas Encontrados\n\n### Alta severidade\nNenhum novo.\n\n### Média severidade\n\n1. **`running` flag sem try/finally em `_drainQueue()`** (`task-runner.js:258-282`)\n   - Se `_runTask()` lançar exceção não capturada dentro do while, `running` fica `true` para sempre e a fila para de processar permanentemente.\n\n2. **tasks.json a 848KB e crescendo** (`task-runner.js:102-113`)\n   - `_save()` serializa até 200 tasks com steps completos. O arquivo já tem ~848KB. `writeJsonSync` bloqueia o event loop (débito #20 já registrado).\n\n3. **Sem graceful shutdown** (`server.js`)\n   - Nenhum handler para `SIGTERM`/`SIGINT`. Tasks em execução são abortadas abruptamente. Timers (`_retryTimer`, `autonomousTimer`, health monitoring) não são limpos.\n\n4. **`append()` no memory-store sem retry** (débito #17 — `memory-store.js:47`)\n   - Se duas tasks concorrentes fazem append, a segunda falha silenciosamente com `hash_mismatch` e o changelog perde a entrada.\n\n### Baixa severidade\n\n5. **activeConnections sem limpeza periódica** (débito #14 — `server.js:86`)\n   - Connections são adicionadas no `connection` e removidas no `disconnect`, mas se o socket morrer sem disparar `disconnect`, ficam para sempre.\n\n6. **Inconsistência 20/10 no sessionContext** (débito #18 — `sessionContext.js:31,52`)\n   - `addToContext` guarda 20 mensagens, `getFormattedContext` usa só as últimas 10. As 10 extras nunca são usadas.\n\n7. **health-checker setInterval sem referência** (débito #16 — `health-checker.js:194`)\n   - `startMonitoring()` não retorna nem armazena o interval ID.\n\n8. **`require('child_process')` inline** (`task-runner.js:456,467`)\n   - `_getChangedFiles()` e `_checkAndCommit()` fazem `require()` dentro da função. Melhor hoistar para o topo.\n\n## 🔧 Melhorias Sugeridas (priorizadas)\n\n| # | Melhoria | Severidade | Esforço |\n|---|----------|-----------|---------|\n| 1 | Envolver `_drainQueue` while loop em try/finally para resetar `running` | média | baixo |\n| 2 | Trocar `writeJsonSync` por `writeJson` (async) no `_save()` | média | baixo |\n| 3 | Adicionar retry (1x) no `memory-store.append()` em caso de `hash_mismatch` | média | baixo |\n| 4 | Adicionar handler de graceful shutdown (`SIGTERM`/`SIGINT`) | média | médio |\n| 5 | Limpeza periódica de `activeConnections` baseada em `socket.connected` | média | baixo |\n| 6 | Alinhar sessionContext: ambos em 10 ou ambos em 20 | baixa | trivial |\n| 7 | Guardar ref do setInterval no health-checker | baixa | trivial |\n\n## 📋 Próximas Ações Recomendadas\n\n1. **Imediato**: Fix do try/finally em `_drainQueue()` — é um bug latente que pode travar a fila\n2. **Próximo ciclo**: Converter `_save()` para async e adicionar retry no `append()`\n3. **Quando conveniente**: Graceful shutdown handler e limpeza de `activeConnections`\n4. **Housekeeping**: Monitorar tamanho do tasks.json — pode ser útil compactar tasks com status `done` removendo o campo `steps` após N dias\n\nAgora vou registrar os resultados no changelog."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987731276
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987733245
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987738983
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987740286
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987747611,
+        "text": "\n\nSelf-review completo. O relatório acima cobre todos os pontos. Resumindo os achados principais:\n\n**Novo bug encontrado**: `_drainQueue()` em `task-runner.js:258-282` não tem try/finally — se `_runTask` lançar exceção não tratada, o flag `running` fica `true` para sempre e a fila trava permanentemente.\n\n**5 débitos técnicos abertos** continuam pendentes (mesmos da última review):\n- #14 — activeConnections sem limpeza\n- #16 — health-checker interval sem ref\n- #17 — memory-store append sem retry\n- #18 — sessionContext 20/10 inconsistente\n- #20 — _save() síncrono bloqueia event loop\n\n**Dados**: tasks.json com 848KB (200 tasks com steps) — saudável por agora mas vale monitorar.\n\n**Ação prioritária**: Fix do try/finally em `_drainQueue()` para evitar travamento da fila."
+      },
+      {
+        "type": "result",
+        "timestamp": 1775987748908,
+        "result": "\n\nSelf-review completo. O relatório acima cobre todos os pontos. Resumindo os achados principais:\n\n**Novo bug encontrado**: `_drainQueue()` em `task-runner.js:258-282` não tem try/finally — se `_runTask` lançar exceção não tratada, o flag `running` fica `true` para sempre e a fila trava permanentemente.\n\n**5 débitos técnicos abertos** continuam pendentes (mesmos da última review):\n- #14 — activeConnections sem limpeza\n- #16 — health-checker interval sem ref\n- #17 — memory-store append sem retry\n- #18 — sessionContext 20/10 inconsistente\n- #20 — _save() síncrono bloqueia event loop\n\n**Dados**: tasks.json com 848KB (200 tasks com steps) — saudável por agora mas vale monitorar.\n\n**Ação prioritária**: Fix do try/finally em `_drainQueue()` para evitar travamento da fila.",
+        "cost": 0.83748925
+      }
+    ],
+    "cost": 0.83748925,
+    "retryCount": 0,
+    "createdAt": 1775987588679,
+    "startedAt": 1775987588706,
+    "finishedAt": 1775987757216
+  },
+  {
+    "id": "e2052451-6d57-4539-82ce-5d9887266fa3",
+    "prompt": "/auto-commit-pr",
+    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "systemPrompt": null,
+    "maxTurns": 10,
+    "model": null,
+    "tags": [
+      "autonomous",
+      "auto-pr"
+    ],
+    "source": "cron",
+    "status": "done",
+    "result": "## Relatório\n\n| Repo | Status | Detalhes |\n|------|--------|----------|\n| **picoclaw-mythos** | PR criado | Branch `mythos/auto-20260411-2130`, PR diegofornalha/picoclaw-mythos#4 |\n| **picoclaw_docs** | Sem mudanças | — |\n| **picoclaw** | Sem mudanças | — |\n| **whatsmeow** | Sem mudanças | — |\n\n**Arquivos commitados:**\n- `backend/data/memory/changelog.json` — novas entradas de auto-commit-pr e self-review\n- `backend/data/tasks.json` — resultados de execução com steps/status/timestamps + rotação de task antiga",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1775987436908
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987439963
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987440545,
+        "text": "Verificando mudanças em todos os repos monitorados."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987441774
+      },
+      {
+        "type": "rate_limit_event",
+        "timestamp": 1775987441803
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987443468
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987445601
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987446075,
+        "text": "Apenas **picoclaw-mythos** tem mudanças. Vamos ver o diff."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987446565
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987447564
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987447804
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987447874
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987447912
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987447938
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987452005
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987452476,
+        "text": "Mudanças apenas em dados do ciclo autônomo (changelog e tasks). Vou commitar na branch atual e fazer push + PR."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987454408
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987454504
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987456885
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987459142
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987461876
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987462280
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987464722
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987465026,
+        "text": "Nenhum PR existente. Vou criar."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987468423
+      },
+      {
+        "type": "user",
+        "timestamp": 1775987471191
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1775987475695,
+        "text": "## Relatório\n\n| Repo | Status | Detalhes |\n|------|--------|----------|\n| **picoclaw-mythos** | PR criado | Branch `mythos/auto-20260411-2130`, PR diegofornalha/picoclaw-mythos#4 |\n| **picoclaw_docs** | Sem mudanças | — |\n| **picoclaw** | Sem mudanças | — |\n| **whatsmeow** | Sem mudanças | — |\n\n**Arquivos commitados:**\n- `backend/data/memory/changelog.json` — novas entradas de auto-commit-pr e self-review\n- `backend/data/tasks.json` — resultados de execução com steps/status/timestamps + rotação de task antiga"
+      },
+      {
+        "type": "result",
+        "timestamp": 1775987475737,
+        "result": "## Relatório\n\n| Repo | Status | Detalhes |\n|------|--------|----------|\n| **picoclaw-mythos** | PR criado | Branch `mythos/auto-20260411-2130`, PR diegofornalha/picoclaw-mythos#4 |\n| **picoclaw_docs** | Sem mudanças | — |\n| **picoclaw** | Sem mudanças | — |\n| **whatsmeow** | Sem mudanças | — |\n\n**Arquivos commitados:**\n- `backend/data/memory/changelog.json` — novas entradas de auto-commit-pr e self-review\n- `backend/data/tasks.json` — resultados de execução com steps/status/timestamps + rotação de task antiga",
+        "cost": 0.31927324999999995
+      }
+    ],
+    "cost": 0.31927324999999995,
+    "retryCount": 0,
     "createdAt": 1775987428507,
     "startedAt": 1775987428517,
-    "finishedAt": null
+    "finishedAt": 1775987476082
   },
   {
     "id": "a64f074a-8cff-414b-b3b5-5016656f76f6",
@@ -28789,413 +29237,5 @@
     "createdAt": 1775839306269,
     "startedAt": 1775839306837,
     "finishedAt": 1775839385814
-  },
-  {
-    "id": "93f7b759-dc33-4edf-b96f-923e5a0d29be",
-    "prompt": "/auto-commit-pr",
-    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",
-    "systemPrompt": null,
-    "maxTurns": 10,
-    "model": null,
-    "tags": [
-      "autonomous",
-      "auto-pr"
-    ],
-    "source": "cron",
-    "status": "done",
-    "result": "Bom, agora vou processar ambos os repos. Primeiro o picoclaw-mythos, depois o picoclaw (upstream).",
-    "error": null,
-    "steps": [
-      {
-        "type": "system",
-        "timestamp": 1775837653766
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837656897,
-        "text": "Vou verificar as mudanças em todos os repos monitorados."
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837657971
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837658334
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837662652
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837662993
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837667160
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837667209
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837670546,
-        "text": "Mudanças encontradas em **picoclaw-mythos** e **picoclaw**. Vou verificar os diffs."
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837671023
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837671946
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837672641
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837672871
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837673047
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837673089
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837673100
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837673111
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837676334,
-        "text": "Vou ver o diff detalhado do picoclaw para entender as mudanças antes de commitar:"
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837676553
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837676648
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837680091,
-        "text": "Bom, agora vou processar ambos os repos. Primeiro o picoclaw-mythos, depois o picoclaw (upstream)."
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837680875
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837680986
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837685821
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837685983
-      },
-      {
-        "type": "result",
-        "timestamp": 1775837685983,
-        "result": "Bom, agora vou processar ambos os repos. Primeiro o picoclaw-mythos, depois o picoclaw (upstream).",
-        "cost": 1.15051425
-      }
-    ],
-    "cost": 1.15051425,
-    "createdAt": 1775837648984,
-    "startedAt": 1775837649019,
-    "finishedAt": 1775837687001
-  },
-  {
-    "id": "bdfd5786-ad37-4aed-ab00-17e2f6aad75b",
-    "prompt": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos",
-    "systemPrompt": null,
-    "maxTurns": 15,
-    "model": null,
-    "tags": [
-      "autonomous",
-      "picoclaw-analysis"
-    ],
-    "source": "cron",
-    "status": "done",
-    "result": "## Roadmap vs Código Atual\n\n| # | Item | Status |\n|---|------|--------|\n| 1 | `POST /api/query` REST síncrono | **PENDENTE** — toda comunicação com Claude é via WebSocket |\n| 2 | Provider `motor` nativo no picoclaw Go | **PENDENTE** — README documenta a ideia, mas sem código Go |\n| 3 | Suporte a Claude Mythos | **PARCIAL** — `task-runner.js:231` usa `process.env.MYTHOS_MODEL \\|\\| 'claude-opus-4-6'`, mas sem lógica específica de capacidades |\n| 4 | Roteamento automático por complexidade | **PENDENTE** — sem classificador ou roteamento |\n| 5 | Interface web de monitoramento | **PENDENTE** — só APIs REST de debug, sem frontend |\n\n**Resumo: 0 implementados, 1 parcial, 4 pendentes**\n\n### Funcionalidades extras (fora do roadmap)\n\nO desenvolvimento priorizou features não planejadas:\n\n- **Ciclo autônomo de tasks** — `task-runner.js` + `POST /api/tasks` com queue, retry, detecção de rate limit e cooldown\n- **Memory store persistente** — `memory-store.js` com changelog, débitos técnicos, concorrência via SHA256\n- **Expansão de skills** — transforma `/nome-skill` em conteúdo de `.md` com busca recursiva\n- **Health checker** — monitoramento periódico de SDK, Socket.IO e memória\n- **Tradução Instagram/imagem** — `POST /api/translate-instagram` e `POST /api/translate-image`\n- **Gerenciamento de sessões** — contexto persistente, limpeza automática, endpoints de debug",
-    "error": null,
-    "steps": [
-      {
-        "type": "system",
-        "timestamp": 1775837514891
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837520119,
-        "text": "\n\nVou ler o ROADMAP.md e depois analisar o código atual para comparar."
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837520129
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837520142
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837520173
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837520242
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837523227
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837523508
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837523565
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837523575
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837527843,
-        "text": "Não existe `ROADMAP.md` neste repositório. Vou procurar em locais alternativos:"
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837528153
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837529114
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837529336
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837529408
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837529433
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837529457
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837532965
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837533392
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837533474
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837533483
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837536291
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837536349
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837540455,
-        "text": "O roadmap está no final do README.md (linhas 158-165). Agora vou analisar o código para verificar cada item."
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837547630
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837551212
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837551525
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837556025
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837556121
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837557945
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837558002
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837560602
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837560642
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837564272
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837564343
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837568037
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837568073
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837570103
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837570154
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837571984
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837572025
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837574401
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837574475
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837579445
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837579700
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837583956
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837584081
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837588711
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837588844
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837592352
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837592717
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837595338
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837595364
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837600608
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837600724
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837605487
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837605586
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837608281
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837608425
-      },
-      {
-        "type": "user",
-        "timestamp": 1775837640633
-      },
-      {
-        "type": "assistant",
-        "timestamp": 1775837648202,
-        "text": "## Roadmap vs Código Atual\n\n| # | Item | Status |\n|---|------|--------|\n| 1 | `POST /api/query` REST síncrono | **PENDENTE** — toda comunicação com Claude é via WebSocket |\n| 2 | Provider `motor` nativo no picoclaw Go | **PENDENTE** — README documenta a ideia, mas sem código Go |\n| 3 | Suporte a Claude Mythos | **PARCIAL** — `task-runner.js:231` usa `process.env.MYTHOS_MODEL \\|\\| 'claude-opus-4-6'`, mas sem lógica específica de capacidades |\n| 4 | Roteamento automático por complexidade | **PENDENTE** — sem classificador ou roteamento |\n| 5 | Interface web de monitoramento | **PENDENTE** — só APIs REST de debug, sem frontend |\n\n**Resumo: 0 implementados, 1 parcial, 4 pendentes**\n\n### Funcionalidades extras (fora do roadmap)\n\nO desenvolvimento priorizou features não planejadas:\n\n- **Ciclo autônomo de tasks** — `task-runner.js` + `POST /api/tasks` com queue, retry, detecção de rate limit e cooldown\n- **Memory store persistente** — `memory-store.js` com changelog, débitos técnicos, concorrência via SHA256\n- **Expansão de skills** — transforma `/nome-skill` em conteúdo de `.md` com busca recursiva\n- **Health checker** — monitoramento periódico de SDK, Socket.IO e memória\n- **Tradução Instagram/imagem** — `POST /api/translate-instagram` e `POST /api/translate-image`\n- **Gerenciamento de sessões** — contexto persistente, limpeza automática, endpoints de debug"
-      },
-      {
-        "type": "result",
-        "timestamp": 1775837648228,
-        "result": "## Roadmap vs Código Atual\n\n| # | Item | Status |\n|---|------|--------|\n| 1 | `POST /api/query` REST síncrono | **PENDENTE** — toda comunicação com Claude é via WebSocket |\n| 2 | Provider `motor` nativo no picoclaw Go | **PENDENTE** — README documenta a ideia, mas sem código Go |\n| 3 | Suporte a Claude Mythos | **PARCIAL** — `task-runner.js:231` usa `process.env.MYTHOS_MODEL \\|\\| 'claude-opus-4-6'`, mas sem lógica específica de capacidades |\n| 4 | Roteamento automático por complexidade | **PENDENTE** — sem classificador ou roteamento |\n| 5 | Interface web de monitoramento | **PENDENTE** — só APIs REST de debug, sem frontend |\n\n**Resumo: 0 implementados, 1 parcial, 4 pendentes**\n\n### Funcionalidades extras (fora do roadmap)\n\nO desenvolvimento priorizou features não planejadas:\n\n- **Ciclo autônomo de tasks** — `task-runner.js` + `POST /api/tasks` com queue, retry, detecção de rate limit e cooldown\n- **Memory store persistente** — `memory-store.js` com changelog, débitos técnicos, concorrência via SHA256\n- **Expansão de skills** — transforma `/nome-skill` em conteúdo de `.md` com busca recursiva\n- **Health checker** — monitoramento periódico de SDK, Socket.IO e memória\n- **Tradução Instagram/imagem** — `POST /api/translate-instagram` e `POST /api/translate-image`\n- **Gerenciamento de sessões** — contexto persistente, limpeza automática, endpoints de debug",
-        "cost": 1.9460351999999999
-      }
-    ],
-    "cost": 1.9460351999999999,
-    "createdAt": 1775837506147,
-    "startedAt": 1775837506355,
-    "finishedAt": 1775837648841
   }
 ]
