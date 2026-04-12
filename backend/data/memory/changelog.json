@@ -2,34 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "b37ec862-71c9-4978-931c-9208ff0a7b43",
-      "desc": "/auto-commit-pr",
-      "cost": 0.9828277500000001,
-      "duration": 31409,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775871720028
-    },
-    {
-      "taskId": "3310c8c3-a0e3-4166-9a0e-c8394522c54f",
-      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 1.1237604,
-      "duration": 57493,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js",
-        "backend/sessionContext.js"
-      ],
-      "at": 1775873482329
-    },
-    {
       "taskId": "6c9c42db-d73f-4ca5-a25a-1d013812b2a6",
       "desc": "/auto-commit-pr",
       "cost": 1.0074435,
@@ -1418,8 +1390,29 @@
         "backend/data/tasks.json"
       ],
       "at": 1775991430093
+    },
+    {
+      "taskId": "4c92a0a0-1066-4e30-a409-b977f16f3a10",
+      "desc": "/auto-commit-pr",
+      "cost": 0.24859075000000005,
+      "duration": 63009,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775992323814
+    },
+    {
+      "taskId": "8a5d0eb9-1391-4350-a56b-c3b1ee7f4586",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 0.5666694999999999,
+      "duration": 88087,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775993339984
     }
   ],
-  "sha256": "d226d3f76b9c5e46",
-  "updatedAt": 1775991430095
+  "sha256": "a28f7eabb7b6c703",
+  "updatedAt": 1775993339986
 }
