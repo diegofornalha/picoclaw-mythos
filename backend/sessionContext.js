@@ -34,7 +34,7 @@ class SessionContextManager {
 
     context.lastActivity = Date.now();
     
-    console.log(`📝 [CONTEXT] Added ${role} message to session ${sessionId.slice(0, 8)}. Total messages: ${context.messages.length}`);
+    if (process.env.DEBUG) console.log(`📝 [CONTEXT] Added ${role} message to session ${sessionId.slice(0, 8)}. Total: ${context.messages.length}`);
   }
 
   // Obter contexto formatado para enviar ao Claude

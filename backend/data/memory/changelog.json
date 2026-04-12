@@ -2,669 +2,1461 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "00f2997f-5ffa-4232-811a-b6752e80a5ec",
-      "desc": "/self-review",
-      "cost": 1.763289,
-      "duration": 52633,
-      "at": 1775750948481
-    },
-    {
-      "taskId": "67dc3ba9-6ad3-432e-bd10-ef7f76335afb",
+      "taskId": "2ca0019e-d61c-43ca-9460-5978e8b77586",
       "desc": "/auto-commit-pr",
-      "cost": 1.1681595,
-      "duration": 48132,
-      "at": 1775751086195
+      "cost": 1.1119425,
+      "duration": 33306,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775859206614
     },
     {
-      "taskId": "f715e65c-c51b-4bfc-b7f1-d16734413ff5",
+      "taskId": "238a383e-052c-4c6b-81b5-858167f841e1",
       "desc": "/self-review",
-      "cost": 1.194945,
-      "duration": 49577,
-      "at": 1775751215325
+      "cost": 1.72299825,
+      "duration": 54258,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775860412631
     },
     {
-      "taskId": "a2fe921b-8132-4bcc-85f2-2a74dd0a8205",
+      "taskId": "fc8939fb-f7cf-41b4-8649-bc2bdb4e29a5",
       "desc": "/auto-commit-pr",
-      "cost": 1.18305375,
-      "duration": 54034,
-      "at": 1775751463423
+      "cost": 0.72027075,
+      "duration": 44526,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775860457260
     },
     {
-      "taskId": "e5b22ad1-d436-4939-a24d-6bd364493460",
+      "taskId": "ba2f384b-f067-4673-bcb8-ffbf70501142",
+      "desc": "/self-review",
+      "cost": 1.5268275,
+      "duration": 41963,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775860643559
+    },
+    {
+      "taskId": "7758afc6-c648-4374-9934-f44524c02fa5",
+      "desc": "/auto-commit-pr",
+      "cost": 0.44937000000000005,
+      "duration": 32415,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775860676278
+    },
+    {
+      "taskId": "b0357ca5-4d1f-46bb-b77a-4c166b1a960b",
+      "desc": "/self-review",
+      "cost": 0.9780314999999999,
+      "duration": 43110,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775860867369
+    },
+    {
+      "taskId": "18a02d69-92cc-4921-bc9b-f963289f1124",
+      "desc": "/auto-commit-pr",
+      "cost": 0.7242255,
+      "duration": 35741,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775860903229
+    },
+    {
+      "taskId": "af01e26b-77ab-4505-8081-7b2fe4a9ddf2",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.54974225,
-      "duration": 37277,
-      "at": 1775753003152
+      "cost": 1.7405205000000001,
+      "duration": 53320,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775862678326
     },
     {
-      "taskId": "b0aeacf9-df4f-45a3-80f6-3b446bc8d542",
-      "desc": "/self-review",
-      "cost": 1.4394285,
-      "duration": 51206,
-      "at": 1775755444592
-    },
-    {
-      "taskId": "db154b1c-5365-455f-a29d-aca997911f52",
+      "taskId": "1ae0f127-db29-4d63-af31-68d148da3231",
       "desc": "/auto-commit-pr",
-      "cost": 0.9738442500000001,
-      "duration": 37653,
-      "at": 1775755556386
+      "cost": 0.7841647500000001,
+      "duration": 52466,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775862731200
     },
     {
-      "taskId": "69523245-25cb-4b7a-8b2a-68b0700c44d9",
-      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 3.26187,
-      "duration": 41595,
-      "at": 1775757235148
-    },
-    {
-      "taskId": "ce69c4c1-db48-464f-8cab-607a1bf9a2ad",
-      "desc": "/auto-commit-pr",
-      "cost": 0.7604985,
-      "duration": 58846,
-      "at": 1775757294869
-    },
-    {
-      "taskId": "d7efbf94-dff7-419b-ac4b-d48244667f46",
+      "taskId": "77e2ae7b-42a6-4eee-bf68-4f848b1d6fa8",
       "desc": "/analyze-logs",
-      "cost": 1.005879,
-      "duration": 37629,
-      "at": 1775759031095
+      "cost": 1.074012,
+      "duration": 38494,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775864463070
     },
     {
-      "taskId": "94beadc6-aa1b-4a4c-941c-bdfca1302811",
+      "taskId": "637bf647-bda1-4474-9018-03631ab11332",
       "desc": "/auto-commit-pr",
-      "cost": 0.8719792500000001,
-      "duration": 44952,
-      "at": 1775759076083
+      "cost": 0.9871590000000001,
+      "duration": 28855,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775864492073
     },
     {
-      "taskId": "e8ff5ca3-8121-41df-9809-4c02abff191d",
+      "taskId": "b329f74f-c0b1-44b4-a4e0-b08f595eb4e3",
       "desc": "/eval-skills",
-      "cost": 6.628385699999999,
-      "duration": 412611,
-      "at": 1775761206128
+      "cost": 1.2179024999999999,
+      "duration": 50288,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775866274884
     },
     {
-      "taskId": "00969a5b-c083-4765-a533-c67ec3f87181",
+      "taskId": "230ff3ae-fde6-4b8b-b9bf-565dd7babaf3",
       "desc": "/auto-commit-pr",
-      "cost": 0.9673522500000001,
-      "duration": 34435,
-      "at": 1775761240655
+      "cost": 1.3714514999999998,
+      "duration": 43463,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775866318440
     },
     {
-      "taskId": "0c5cafa5-33fe-4d88-a392-f2cee44f9772",
+      "taskId": "96a49db5-457a-4e44-b8b3-28d4e9a94772",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.2065876999999998,
-      "duration": 98508,
-      "at": 1775762692044
+      "cost": 1.25333025,
+      "duration": 110289,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775868134958
     },
     {
-      "taskId": "a18de847-dd7e-42d1-b6a7-4c9f41654e38",
+      "taskId": "744c2c7f-6f5e-45e1-abf6-cc5ba2664ec5",
       "desc": "/auto-commit-pr",
-      "cost": 0.6180015,
-      "duration": 31045,
-      "at": 1775762723132
+      "cost": 0.44994825000000005,
+      "duration": 34792,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775868169853
     },
     {
-      "taskId": "91827933-bdc3-41ef-83e9-87ece605d54d",
+      "taskId": "4b00afe8-e659-40df-9da0-1187ace0c786",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.0186829999999998,
-      "duration": 41418,
-      "at": 1775764434989
+      "cost": 1.66577325,
+      "duration": 37380,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775869861908
     },
     {
-      "taskId": "eebeb7fb-29db-4668-9af7-90ea6d6ba742",
+      "taskId": "df281e85-e838-44da-9d4b-a8087c99e1da",
       "desc": "/auto-commit-pr",
-      "cost": 1.32412575,
-      "duration": 36586,
-      "at": 1775764471656
+      "cost": 1.04838075,
+      "duration": 33664,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775869895645
     },
     {
-      "taskId": "fd1015b7-14fa-429d-810f-f8b8ef6c1cf8",
+      "taskId": "33cbae92-59ac-4c1d-a121-7fe3860a7b55",
       "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
-      "cost": 1.9333319999999998,
-      "duration": 66073,
-      "at": 1775766259618
+      "cost": 1.7158425000000002,
+      "duration": 64005,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775871688527
     },
     {
-      "taskId": "1540752a-0e1b-4650-b2c4-22f623e55061",
+      "taskId": "b37ec862-71c9-4978-931c-9208ff0a7b43",
       "desc": "/auto-commit-pr",
-      "cost": 0.98632575,
-      "duration": 35965,
-      "at": 1775766295643
+      "cost": 0.9828277500000001,
+      "duration": 31409,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775871720028
     },
     {
-      "taskId": "964fbd31-9227-4011-9674-b0968d0ddb28",
+      "taskId": "3310c8c3-a0e3-4166-9a0e-c8394522c54f",
       "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 0.9503489999999999,
-      "duration": 37634,
-      "at": 1775768031808
+      "cost": 1.1237604,
+      "duration": 57493,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775873482329
     },
     {
-      "taskId": "5aef0a30-9d29-44d5-b5d9-0fb834392ec3",
+      "taskId": "6c9c42db-d73f-4ca5-a25a-1d013812b2a6",
       "desc": "/auto-commit-pr",
-      "cost": 1.107759,
-      "duration": 45534,
-      "at": 1775768077392
+      "cost": 1.0074435,
+      "duration": 38028,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775873520777
     },
     {
-      "taskId": "f1e21ff9-e84b-4959-a567-f4ca70274e2d",
+      "taskId": "692b4452-c36d-44b3-b015-4320b46d7019",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.0479154499999999,
-      "duration": 59350,
-      "at": 1775769853111
+      "cost": 1.5340445999999999,
+      "duration": 151945,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775875376681
     },
     {
-      "taskId": "2af80293-2d2f-4331-a589-d520ad4d50b7",
+      "taskId": "193cb1d8-fd54-486c-b8ea-c3eaac2fa573",
       "desc": "/auto-commit-pr",
-      "cost": 1.0792034999999998,
-      "duration": 36462,
-      "at": 1775769889621
+      "cost": 1.1400825,
+      "duration": 38837,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775875415726
     },
     {
-      "taskId": "dfb1517a-828c-460b-9b49-9d5be373d0ba",
+      "taskId": "18e3be1c-f85b-468e-9a60-322f000f6790",
       "desc": "Verifique os agentes em /Users/2a/.claude/agents/. Liste os mais relevantes para melhorar o picoclaw-mythos.",
-      "cost": 1.4710215,
-      "duration": 127463,
-      "at": 1775771721211
+      "cost": 0.9066118499999999,
+      "duration": 41408,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775877066058
     },
     {
-      "taskId": "9da916ae-3e0e-42c0-903e-ba5bcee2bcb2",
+      "taskId": "6038eafe-bb40-422d-9158-1318cc8b7d56",
       "desc": "/auto-commit-pr",
-      "cost": 1.12629825,
-      "duration": 46110,
-      "at": 1775771767393
+      "cost": 1.1501040000000002,
+      "duration": 35324,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775877101483
     },
     {
-      "taskId": "c8927f2f-e857-44b9-96a5-be7fcaa268d8",
+      "taskId": "b43ce307-f0fe-4354-957c-be084e5e0fb1",
       "desc": "/analyze-logs",
-      "cost": 0.9973169999999999,
-      "duration": 37356,
-      "at": 1775773431096
+      "cost": 1.0686255,
+      "duration": 41028,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775878865948
     },
     {
-      "taskId": "f837f632-bf6a-4ada-b7db-6b404ba310bb",
+      "taskId": "44a9503c-748e-46fd-bce5-dbc70438bc6c",
       "desc": "/auto-commit-pr",
-      "cost": 1.0853414999999997,
-      "duration": 35997,
-      "at": 1775773467130
+      "cost": 1.0422224999999998,
+      "duration": 35926,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775879243558
     },
     {
-      "taskId": "2116ddd7-3ebf-45fd-80e5-284c26fe9143",
+      "taskId": "1422d3c7-ab64-41b4-9f11-2c46814f543c",
       "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 0.8862300000000001,
-      "duration": 32448,
-      "at": 1775775226643
+      "cost": 0.9425677499999999,
+      "duration": 30508,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775880655171
     },
     {
-      "taskId": "15127dec-defc-4dbd-98a6-bfb544fe45c0",
+      "taskId": "bcaf889a-58d2-4697-abaa-870f1e64ed58",
       "desc": "/auto-commit-pr",
-      "cost": 1.1278792499999997,
-      "duration": 38849,
-      "at": 1775775265533
+      "cost": 1.2787687500000002,
+      "duration": 31876,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775880687127
     },
     {
-      "taskId": "200bc742-f827-4b64-840c-b2da2b34cf2d",
+      "taskId": "2bd22f10-54ef-499f-ae43-07a079b12f86",
       "desc": "Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corr",
-      "cost": 1.95710925,
-      "duration": 79498,
-      "at": 1775777073686
+      "cost": 1.80117225,
+      "duration": 76398,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775882500995
     },
     {
-      "taskId": "2a7de5f4-5f2e-4440-a702-96ea1756464a",
+      "taskId": "7564b91a-d983-47b8-a5e3-885b9c65caa5",
       "desc": "/auto-commit-pr",
-      "cost": 1.1816257500000003,
-      "duration": 53508,
-      "at": 1775777127428
+      "cost": 1.28052,
+      "duration": 31341,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775882532410
     },
     {
-      "taskId": "18157885-ea97-4010-96cf-0151c058c5de",
+      "taskId": "38390600-6e85-46b5-b203-1e8b94a6424f",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.6561694999999999,
-      "duration": 43973,
-      "at": 1775778837665
+      "cost": 0.9815707499999999,
+      "duration": 30553,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775884255196
     },
     {
-      "taskId": "74bd148c-2b8a-4982-85b3-f5008b785f3a",
+      "taskId": "e74243b7-6608-48f3-81e6-190d62f9631a",
       "desc": "/auto-commit-pr",
-      "cost": 1.07192625,
-      "duration": 41520,
-      "at": 1775778879225
+      "cost": 1.34469825,
+      "duration": 32810,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775884288092
     },
     {
-      "taskId": "d276df26-fae7-4705-a655-afad63b4844e",
+      "taskId": "546487a8-e940-43e1-9e25-9597b1fcdd05",
       "desc": "/self-review",
-      "cost": 1.078323,
-      "duration": 48690,
-      "at": 1775780642400
+      "cost": 1.7730045,
+      "duration": 46282,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775886071180
     },
     {
-      "taskId": "e19144f7-5536-4616-8742-5ea28d066dd3",
+      "taskId": "97f41902-a789-421e-a868-84917ea76980",
       "desc": "/auto-commit-pr",
-      "cost": 1.1030205,
-      "duration": 51063,
-      "at": 1775780693789
+      "cost": 0.5196465000000001,
+      "duration": 35502,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775886106771
     },
     {
-      "taskId": "09a3efd7-c421-46bf-80a2-ebb602fae5c6",
+      "taskId": "0334271e-3a8f-4acc-8303-77a9377dbc44",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.5132945,
-      "duration": 38767,
-      "at": 1775782432533
+      "cost": 1.8727612500000002,
+      "duration": 42349,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775887867491
     },
     {
-      "taskId": "60eb5539-cdd6-405e-af7c-db241a5c6d2c",
+      "taskId": "184585cd-e442-447e-8b29-195753c054bd",
       "desc": "/auto-commit-pr",
-      "cost": 1.085106,
-      "duration": 57203,
-      "at": 1775782490005
+      "cost": 0.7862805,
+      "duration": 33341,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775887900923
     },
     {
-      "taskId": "1de43071-8300-4660-8f21-0309cffb9f5d",
+      "taskId": "57cfc052-5aa3-45fa-aca8-e31cf7581c9a",
+      "desc": "/analyze-logs",
+      "cost": 1.1372437499999999,
+      "duration": 44789,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775889669573
+    },
+    {
+      "taskId": "5979252c-0e5c-4604-b327-0c42f4ce4989",
+      "desc": "/auto-commit-pr",
+      "cost": 1.0056862500000001,
+      "duration": 34581,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775889704231
+    },
+    {
+      "taskId": "711615d3-2856-48a5-b973-ad7b4e1f28ae",
+      "desc": "/eval-skills",
+      "cost": 1.67265675,
+      "duration": 66756,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775891491383
+    },
+    {
+      "taskId": "c1d829ba-b58e-4654-acaf-7ffc627b9f04",
+      "desc": "/auto-commit-pr",
+      "cost": 0.45126225000000003,
+      "duration": 31224,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775891522687
+    },
+    {
+      "taskId": "289b083f-b8fe-4a0b-9da4-eb54d9b447c0",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.16953185,
-      "duration": 75781,
-      "at": 1775787869464
+      "cost": 1.45202385,
+      "duration": 139599,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775893364341
     },
     {
-      "taskId": "c84455f7-f20b-41c9-aaa6-e9771431a516",
+      "taskId": "1fd37d37-d584-41aa-9f61-d3ad9f9a6528",
       "desc": "/auto-commit-pr",
-      "cost": 1.1011057499999999,
-      "duration": 41327,
-      "at": 1775787910837
+      "cost": 0.6084225,
+      "duration": 35972,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775893400395
     },
     {
-      "taskId": "92c1b901-d700-49dd-bfcb-ba7c8c54986e",
+      "taskId": "466523a5-c690-4698-92da-c5ec748745ad",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 2.105601450000001,
-      "duration": 128717,
-      "at": 1775789722475
+      "cost": 1.6719742499999999,
+      "duration": 42885,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775895067832
     },
     {
-      "taskId": "b27c4693-b7af-4367-a52f-034df5380f49",
+      "taskId": "8f1676fc-6312-4e3e-8b0e-526c75940840",
       "desc": "/auto-commit-pr",
-      "cost": 0.5459767499999999,
-      "duration": 42684,
-      "at": 1775789765199
+      "cost": 0.9808319999999999,
+      "duration": 31572,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775895099495
     },
     {
-      "taskId": "b044afcc-6407-48a1-af35-c8fda9c5ac35",
+      "taskId": "fbcb1c7d-90e1-49e0-9162-c33fae69a795",
       "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
-      "cost": 2.2838175,
-      "duration": 64789,
-      "at": 1775791458541
+      "cost": 2.3502982500000003,
+      "duration": 61391,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775896886208
     },
     {
-      "taskId": "6496f568-f7c4-4d7c-8ddc-5561128a5436",
+      "taskId": "d2436287-0c19-4623-93dc-4bc1b4731143",
       "desc": "/auto-commit-pr",
-      "cost": 1.0908262499999999,
-      "duration": 36783,
-      "at": 1775791495363
+      "cost": 0.51859575,
+      "duration": 32332,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775896918612
     },
     {
-      "taskId": "be5b43f4-1ec1-4c46-94d4-bb3f4fa0baa0",
+      "taskId": "74385bb9-285a-4881-a747-79179d2698ad",
       "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 0.766005,
-      "duration": 20710,
-      "at": 1775793214501
+      "cost": 0.8887455,
+      "duration": 30779,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775898655416
     },
     {
-      "taskId": "8ef45dcf-d09f-447b-b66c-da3521cc6cc1",
+      "taskId": "07456bc7-4de7-4f77-84c0-9434dc837ee7",
       "desc": "/auto-commit-pr",
-      "cost": 1.12568925,
-      "duration": 38720,
-      "at": 1775793253257
+      "cost": 1.014366,
+      "duration": 31152,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775898686656
     },
     {
-      "taskId": "ca00713d-7990-4c6c-b6eb-b30170aa205e",
+      "taskId": "f99e0304-149a-4881-ac5b-682ee87ee9a7",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.26037935,
-      "duration": 155828,
-      "at": 1775795149618
+      "cost": 1.2590287500000001,
+      "duration": 88639,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775900514035
     },
     {
-      "taskId": "96ac5e35-7083-4a60-8c36-9f0dac07f4c8",
+      "taskId": "4a355ca5-d175-4dd9-b590-c11e2f81335b",
       "desc": "/auto-commit-pr",
-      "cost": 0.43356225000000004,
-      "duration": 33119,
-      "at": 1775795182797
+      "cost": 0.48953775,
+      "duration": 42947,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775900557146
     },
     {
-      "taskId": "cc0261a1-c425-46dc-8c3b-6a4444f77eae",
+      "taskId": "73081cac-f9dc-44c0-97d9-278abc86c7a2",
       "desc": "Verifique os agentes em /Users/2a/.claude/agents/. Liste os mais relevantes para melhorar o picoclaw-mythos.",
-      "cost": 0.9797053499999998,
-      "duration": 70582,
-      "at": 1775796864882
+      "cost": 1.3009094999999997,
+      "duration": 109562,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775902334285
     },
     {
-      "taskId": "477d96bb-3723-4f5f-a3f1-36c5980df86b",
+      "taskId": "a1fd1f77-680c-4177-84b5-a020e1b4cc6d",
       "desc": "/auto-commit-pr",
-      "cost": 1.17301575,
-      "duration": 42487,
-      "at": 1775796907432
+      "cost": 0.5312497500000001,
+      "duration": 40097,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775902374504
     },
     {
-      "taskId": "2c8d5aaf-6b45-4e1d-afa2-4524266f5e34",
+      "taskId": "3de983ae-87e6-43ec-bec3-3ae16cf3ceb5",
       "desc": "/analyze-logs",
-      "cost": 1.9282476000000004,
-      "duration": 183037,
-      "at": 1775798776833
+      "cost": 0.943839,
+      "duration": 34945,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775904059651
     },
     {
-      "taskId": "3935751b-19a3-4c59-bfb5-0bd616541730",
+      "taskId": "b89af832-c207-4324-8b97-a85e18e7cd90",
       "desc": "/auto-commit-pr",
-      "cost": 1.06374375,
-      "duration": 35825,
-      "at": 1775798812724
+      "cost": 0.9982725000000001,
+      "duration": 31218,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775904090970
     },
     {
-      "taskId": "6bc36823-6eb9-402e-bf62-82e817329306",
+      "taskId": "ee57b915-a181-4930-a230-1ea2d73453e3",
       "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 2.9321710500000004,
-      "duration": 244012,
-      "at": 1775800637788
+      "cost": 0.9526334999999999,
+      "duration": 32932,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775905858081
     },
     {
-      "taskId": "74afba47-d5a3-4ad0-90dc-b5745dd24fc3",
+      "taskId": "30e412b0-f18b-4f47-8419-343c51020dd5",
       "desc": "/auto-commit-pr",
-      "cost": 0.6784665,
-      "duration": 48295,
-      "at": 1775800686139
+      "cost": 1.3888522500000002,
+      "duration": 43709,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775905901889
     },
     {
-      "taskId": "3756c42d-ee78-419f-909b-22ee46ead53e",
+      "taskId": "f7c675f6-efda-47ca-9d2f-8a0f9f9e5fa9",
       "desc": "Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corr",
-      "cost": 1.90121775,
-      "duration": 59559,
-      "at": 1775802253364
+      "cost": 1.4817915000000002,
+      "duration": 61246,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775907686287
     },
     {
-      "taskId": "8cc7cb4b-a373-404a-baec-af0a9cda0945",
+      "taskId": "aa979a66-9a57-4184-bd33-4fd2dbe738e1",
       "desc": "/auto-commit-pr",
-      "cost": 0.7050187499999999,
-      "duration": 45255,
-      "at": 1775802298672
+      "cost": 1.0133280000000002,
+      "duration": 43615,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775907730372
     },
     {
-      "taskId": "53673fe8-334b-4e5d-a656-28cab3034a2a",
+      "taskId": "e8e2af67-542c-4918-a9a8-e11541db20f8",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.5090967499999999,
-      "duration": 43981,
-      "at": 1775804037750
+      "cost": 1.9360459499999998,
+      "duration": 127795,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775909553233
     },
     {
-      "taskId": "58de44fb-665f-4656-b4ec-d580188f4749",
+      "taskId": "9b56751f-1629-4d32-baab-44e04ef40059",
       "desc": "/auto-commit-pr",
-      "cost": 1.28649675,
-      "duration": 45776,
-      "at": 1775804083609
+      "cost": 1.2803805000000001,
+      "duration": 54118,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775909607979
     },
     {
-      "taskId": "437e066f-7ac4-427a-bf56-8a80b19bc08c",
+      "taskId": "f725f5f6-06e0-45db-a463-d620c9ed408b",
       "desc": "/self-review",
-      "cost": 1.737303,
-      "duration": 52532,
-      "at": 1775805846531
+      "cost": 1.6502857499999999,
+      "duration": 51754,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775911278074
     },
     {
-      "taskId": "77801f1f-956b-4fd6-bd64-f67d749ec0f6",
+      "taskId": "e68866e9-e355-45eb-8db7-fa73e8e44c87",
       "desc": "/auto-commit-pr",
-      "cost": 1.1109045,
-      "duration": 42181,
-      "at": 1775805888776
+      "cost": 1.06872975,
+      "duration": 51634,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775911330411
     },
     {
-      "taskId": "8f452388-2c64-43aa-a40d-ec2f3d32acc8",
+      "taskId": "322331f0-7eee-40c0-9488-ed3a5b66d613",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.72407525,
-      "duration": 50189,
-      "at": 1775807644007
+      "cost": 1.60308525,
+      "duration": 42402,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775913067270
     },
     {
-      "taskId": "7e323f9a-f735-426d-b7ec-32eb1b09fa2f",
+      "taskId": "78b5148f-9836-42c4-8233-530f74848b92",
       "desc": "/auto-commit-pr",
-      "cost": 1.08575025,
-      "duration": 40991,
-      "at": 1775807685054
+      "cost": 1.05507225,
+      "duration": 36826,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775913104175
     },
     {
-      "taskId": "011b6be9-9576-4b01-b2d2-52c8dcf9e3bf",
+      "taskId": "b636fc18-fd16-4b07-8418-1d64ecc14b5f",
       "desc": "/analyze-logs",
-      "cost": 1.02432075,
-      "duration": 42506,
-      "at": 1775809436465
+      "cost": 1.8693318,
+      "duration": 169185,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775914994520
     },
     {
-      "taskId": "3856869e-72ba-48e7-9df4-111f646c19eb",
+      "taskId": "93225dcc-763e-44c1-b0ff-bcfdc8b01fe3",
       "desc": "/auto-commit-pr",
-      "cost": 1.0925557499999998,
-      "duration": 46758,
-      "at": 1775809483419
+      "cost": 0.9892087499999999,
+      "duration": 32168,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775915026862
     },
     {
-      "taskId": "a249fd47-c6d1-4511-b031-d0e8c5c538b5",
+      "taskId": "ae630056-99b9-438b-877c-e98c82146424",
       "desc": "/eval-skills",
-      "cost": 1.123968,
-      "duration": 44349,
-      "at": 1775811238168
+      "cost": 1.51848525,
+      "duration": 59182,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775916684393
     },
     {
-      "taskId": "49e614cb-ac69-4948-9d03-a34378d3df3f",
+      "taskId": "7566c06a-79f1-4387-9d5a-0a3340ebde54",
       "desc": "/auto-commit-pr",
-      "cost": 1.1086995,
-      "duration": 39541,
-      "at": 1775811277818
+      "cost": 1.0804935,
+      "duration": 46720,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775916731464
     },
     {
-      "taskId": "9072d542-9244-4957-afab-a0bfc42b9dca",
+      "taskId": "ca9ce0ef-f5b1-4de4-a806-90e27f112af4",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.2035967,
-      "duration": 106948,
-      "at": 1775813100946
+      "cost": 1.4000770499999995,
+      "duration": 151807,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775918576591
     },
     {
-      "taskId": "d44cedd4-410a-4da3-a6c2-65bb3c7f63bf",
+      "taskId": "3e5a157e-5946-405e-8026-5fe48ce26f78",
       "desc": "/auto-commit-pr",
-      "cost": 1.119939,
-      "duration": 42228,
-      "at": 1775813143269
+      "cost": 0.9995970000000001,
+      "duration": 34034,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775918610748
     },
     {
-      "taskId": "8c5ec725-c402-4045-a077-95736804e72b",
+      "taskId": "ed789157-1bb7-410f-9bd5-12b71c983445",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.4705085,
-      "duration": 50636,
-      "at": 1775814844769
+      "cost": 1.7940832499999995,
+      "duration": 126253,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775920351051
     },
     {
-      "taskId": "aa05bea6-4067-4921-bba8-e704e721944f",
+      "taskId": "66cfb7cd-b9a7-4fe2-8a17-e9fd601ecf3d",
       "desc": "/auto-commit-pr",
-      "cost": 1.00354575,
-      "duration": 32601,
-      "at": 1775814877428
+      "cost": 0.46420125,
+      "duration": 35047,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775920386194
     },
     {
-      "taskId": "f59a4644-284e-4883-946b-41e690263ec7",
+      "taskId": "ac1a9212-5687-4a08-bf04-8b8845ca3779",
       "desc": "Leia data/memory/debts.json. Se todos os debts estão \"resolved\", analise o código e adicione NOVOS débitos técnicos que ",
-      "cost": 2.3012122500000003,
-      "duration": 72849,
-      "at": 1775816666667
+      "cost": 1.7174092499999998,
+      "duration": 48604,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775922073759
     },
     {
-      "taskId": "c4049d69-bc0b-415d-8e08-b9bcf38bf66f",
-      "desc": "/auto-commit-pr",
-      "cost": 0.655953,
-      "duration": 44582,
-      "at": 1775816711342
-    },
-    {
-      "taskId": "d4eb149f-12bd-4478-8027-14d9a456fcd1",
-      "desc": "/analyze-logs",
-      "cost": 0.9270524999999998,
-      "duration": 35059,
-      "at": 1775823828844
-    },
-    {
-      "taskId": "2bf97bac-3593-4902-80fd-dbca09bb9432",
-      "desc": "/auto-commit-pr",
-      "cost": 1.1424487499999998,
-      "duration": 42071,
-      "at": 1775823870971
-    },
-    {
-      "taskId": "11b59554-362f-4e8f-9227-5afb9c4d9c43",
-      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
-      "cost": 0.93944025,
-      "duration": 34117,
-      "at": 1775825628590
-    },
-    {
-      "taskId": "43e0fc50-8672-4f46-b48f-f3d4c4ba4095",
-      "desc": "/auto-commit-pr",
-      "cost": 1.3017742499999998,
-      "duration": 45722,
-      "at": 1775825674397
-    },
-    {
-      "taskId": "d5cfbe10-3aa3-403d-9c83-ea5f67bb5f33",
-      "desc": "Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corr",
-      "cost": 1.3639027500000005,
-      "duration": 56018,
-      "at": 1775827449875
-    },
-    {
-      "taskId": "535d5f23-97e4-4989-b02b-6ee8a82efe59",
-      "desc": "/auto-commit-pr",
-      "cost": 0.6188565,
-      "duration": 37811,
-      "at": 1775827487765
-    },
-    {
-      "taskId": "f7079fd3-437a-4416-b750-bfef75ad92ef",
+      "taskId": "6161bf58-2efe-494a-9eb1-e3d9be430553",
       "desc": "/self-review",
-      "cost": 1.6497022499999998,
-      "duration": 41467,
+      "cost": 1.5523965,
+      "duration": 50292,
       "changes": [
         "backend/data/memory/changelog.json",
         "backend/data/memory/debts.json",
         "backend/data/tasks.json",
-        "backend/server.js"
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775828043757
+      "at": 1775923018691
     },
     {
-      "taskId": "df52149a-e65e-4a6a-bb95-046071a90a49",
-      "desc": "/auto-commit-pr",
-      "cost": 0.98894025,
-      "duration": 35438,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/memory/debts.json",
-        "backend/data/tasks.json",
-        "backend/server.js"
-      ],
-      "at": 1775828079260
-    },
-    {
-      "taskId": "7895b4b6-6a64-4ccc-8f4b-f79755b0baca",
+      "taskId": "86cdd684-05d8-4561-857e-6c4f8376728a",
       "desc": "/self-review",
-      "cost": 1.006644,
-      "duration": 42572,
+      "cost": 1.6695765000000002,
+      "duration": 42364,
       "changes": [
         "backend/data/memory/changelog.json",
         "backend/data/memory/debts.json",
         "backend/data/tasks.json",
-        "backend/server.js"
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775828548667
+      "at": 1775924772050
     },
     {
-      "taskId": "92ee0f9a-4977-4f60-92c4-e3bef3a5d10a",
+      "taskId": "8923ab75-b6c3-4751-ab62-3707d5392e5b",
       "desc": "/auto-commit-pr",
-      "cost": 1.4143095,
-      "duration": 43486,
+      "cost": 1.0785719999999999,
+      "duration": 35516,
       "changes": [
-        "backend/data/tasks.json"
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775828592263
+      "at": 1775924836681
     },
     {
-      "taskId": "428530df-3596-4335-b976-24d3f971439c",
+      "taskId": "7a21ecb4-072d-40e4-a995-ed420f55e90c",
+      "desc": "/self-review",
+      "cost": 1.5390224999999997,
+      "duration": 37608,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775925537218
+    },
+    {
+      "taskId": "ac30ff00-754b-45e5-a9a6-190340271ff0",
+      "desc": "/auto-commit-pr",
+      "cost": 1.08675525,
+      "duration": 39973,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775925577259
+    },
+    {
+      "taskId": "0b2d966f-fce3-42bc-afd6-4bde34d9d75c",
+      "desc": "/self-review",
+      "cost": 1.953876,
+      "duration": 53687,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775925932697
+    },
+    {
+      "taskId": "c842ac3f-fb59-4f3f-b604-c82e1855237d",
+      "desc": "/auto-commit-pr",
+      "cost": 0.514755,
+      "duration": 34797,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775925967591
+    },
+    {
+      "taskId": "c8e34664-a7db-4ea5-bbe4-d445e6c44c91",
       "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.9291390499999999,
-      "duration": 140093,
+      "cost": 0.9047729999999999,
+      "duration": 29748,
       "changes": [
         "backend/data/memory/changelog.json",
-        "backend/data/tasks.json"
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775830446483
+      "at": 1775927709719
     },
     {
-      "taskId": "7cbba25c-cbc0-4772-8614-e71d32d5dfe5",
+      "taskId": "b67eca37-80cd-43e6-8f79-7dc500587c7a",
       "desc": "/auto-commit-pr",
-      "cost": 1.2734490000000003,
-      "duration": 49067,
-      "changes": [
-        "backend/data/tasks.json"
-      ],
-      "at": 1775830495615
-    },
-    {
-      "taskId": "78ca3444-464d-4c8c-912b-011f526bac93",
-      "desc": "/analyze-logs",
-      "cost": 0.9251279999999998,
-      "duration": 37109,
+      "cost": 1.0682242499999999,
+      "duration": 44727,
       "changes": [
         "backend/data/memory/changelog.json",
-        "backend/data/tasks.json"
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775832143430
+      "at": 1775927754765
     },
     {
-      "taskId": "f17fa434-88c3-4b64-aace-0fd9f8e36fb3",
+      "taskId": "60bf6992-21b0-41f4-8d77-775292728b03",
+      "desc": "/self-review",
+      "cost": 1.8065774999999997,
+      "duration": 44191,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775928321080
+    },
+    {
+      "taskId": "8177e4c8-4cd4-4e65-a0cc-50258f4a9c00",
       "desc": "/auto-commit-pr",
-      "cost": 1.169136,
-      "duration": 36460,
-      "changes": [
-        "backend/data/tasks.json"
-      ],
-      "at": 1775832179966
-    },
-    {
-      "taskId": "14bc4d3c-4b73-4135-bfa9-5f256cf73a3c",
-      "desc": "/eval-skills",
-      "cost": 1.7233050000000003,
-      "duration": 79891,
+      "cost": 1.15222875,
+      "duration": 31847,
       "changes": [
         "backend/data/memory/changelog.json",
-        "backend/data/tasks.json"
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775833986346
+      "at": 1775928353029
     },
     {
-      "taskId": "f33eebfe-9121-42ba-8bcc-059c3c8f504b",
+      "taskId": "047542af-6200-4388-a9e2-3aecf287d1cf",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.04584875,
+      "duration": 121324,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775930200414
+    },
+    {
+      "taskId": "d331f6b3-7e81-49ae-b02c-8c01b0836c9d",
       "desc": "/auto-commit-pr",
-      "cost": 0.9814852500000001,
-      "duration": 33640,
+      "cost": 1.127574,
+      "duration": 41057,
       "changes": [
         "backend/data/memory/changelog.json",
-        "backend/data/tasks.json"
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775834020078
+      "at": 1775930241768
     },
     {
-      "taskId": "dd696270-6bff-4fab-b724-ad8efcb65a27",
+      "taskId": "cf1c4a27-b578-49cd-8b63-e136d03969b5",
+      "desc": "/self-review",
+      "cost": 1.7801205,
+      "duration": 47794,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775932159700
+    },
+    {
+      "taskId": "9514bb1b-944d-4bfa-9bdf-5e4d4139181a",
+      "desc": "/auto-commit-pr",
+      "cost": 0.46073925000000004,
+      "duration": 44014,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775932249061
+    },
+    {
+      "taskId": "08d1d2ab-072a-434d-8e15-6efd04d2f122",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.7902304999999998,
+      "duration": 49782,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775933961896
+    },
+    {
+      "taskId": "ad61e6d5-fadd-4654-9068-1d4f8758e1e5",
+      "desc": "/auto-commit-pr",
+      "cost": 0.995691,
+      "duration": 33529,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775933995672
+    },
+    {
+      "taskId": "b15fba37-3b1e-4066-bc9b-3774ccc051c8",
       "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
-      "cost": 1.265556,
-      "duration": 107696,
+      "cost": 1.3945813500000002,
+      "duration": 101973,
       "changes": [
         "backend/data/memory/changelog.json",
-        "backend/data/tasks.json"
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
       ],
-      "at": 1775835814164
+      "at": 1775946614535
+    },
+    {
+      "taskId": "3858bc0c-9931-4ba3-acf8-fa79fb16b952",
+      "desc": "/auto-commit-pr",
+      "cost": 0.51207,
+      "duration": 37332,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775946652014
+    },
+    {
+      "taskId": "7d9a5415-748f-4587-84dd-423ca77aca36",
+      "desc": "Verifique os agentes em /Users/2a/.claude/agents/. Liste os mais relevantes para melhorar o picoclaw-mythos.",
+      "cost": 1.5604065,
+      "duration": 62837,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775948375215
+    },
+    {
+      "taskId": "af74ea15-450b-432d-ab06-073d0db97f84",
+      "desc": "/auto-commit-pr",
+      "cost": 1.02234,
+      "duration": 33973,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775948409313
+    },
+    {
+      "taskId": "3df95075-74f2-4f2a-8413-1fb7c02e23b6",
+      "desc": "/analyze-logs",
+      "cost": 1.0184317500000002,
+      "duration": 36466,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775950148910
+    },
+    {
+      "taskId": "91ba09a4-a71c-4026-85d6-7f09249ec70d",
+      "desc": "/auto-commit-pr",
+      "cost": 1.350876,
+      "duration": 35135,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775950184148
+    },
+    {
+      "taskId": "a7b65aa8-0bcf-45d5-8961-4988b240cb52",
+      "desc": "Leia os logs em /Users/2a/.picoclaw/logs/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.",
+      "cost": 0.9469065,
+      "duration": 28308,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775952030371
+    },
+    {
+      "taskId": "73fa963e-ec90-45e4-8e68-a19db5b6cad9",
+      "desc": "/auto-commit-pr",
+      "cost": 0.99707175,
+      "duration": 30282,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775952060747
+    },
+    {
+      "taskId": "5a7a90e7-8078-4ff8-aa94-4570a7cc0d34",
+      "desc": "Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corr",
+      "cost": 1.8911475000000002,
+      "duration": 67948,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/memory/debts.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/health-checker.js",
+        "backend/services/task-runner.js",
+        "backend/sessionContext.js"
+      ],
+      "at": 1775953780947
     }
   ],
-  "sha256": "70377723c0193a5d",
-  "updatedAt": 1775835814167
+  "sha256": "404fb58694535a35",
+  "updatedAt": 1775953780960
 }

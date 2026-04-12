@@ -3,9 +3,9 @@
  * Monitora o status de todos os componentes do sistema
  */
 
-const { exec } = require('child_process');
+const { execFile } = require('child_process');
 const { promisify } = require('util');
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 class HealthChecker {
   constructor() {
@@ -20,8 +20,8 @@ class HealthChecker {
    */
   async checkClaudeSDK() {
     try {
-      const { stdout } = await execAsync('ps aux | grep -i claude | grep -v grep | wc -l');
-      const processCount = parseInt(stdout.trim());
+      const { stdout } = await execFileAsync('pgrep', ['-fi', 'claude']);
+      const processCount = stdout.trim().split('\n').filter(Boolean).length;
 
       return {
         name: 'Claude Code SDK',
@@ -30,6 +30,14 @@ class HealthChecker {
         message: processCount > 0 ? 'SDK operational' : 'No Claude processes detected'
       };
     } catch (error) {
+      if (error.code === 1) {
+        return {
+          name: 'Claude Code SDK',
+          status: 'unhealthy',
+          processCount: 0,
+          message: 'No Claude processes detected'
+        };
+      }
       return {
         name: 'Claude Code SDK',
         status: 'error',

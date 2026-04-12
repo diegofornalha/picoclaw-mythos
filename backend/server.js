@@ -23,14 +23,16 @@ const logger = {
 
 const app = express();
 const server = http.createServer(app);
+const ALLOWED_ORIGINS = (process.env.SOCKET_IO_CORS_ORIGIN || 'http://localhost:5173').split(',').map(s => s.trim());
+
 const io = socketIo(server, {
   cors: {
-    origin: "*",
+    origin: ALLOWED_ORIGINS,
     methods: ["GET", "POST"]
   }
 });
 
-app.use(cors());
+app.use(cors({ origin: ALLOWED_ORIGINS }));
 app.use(express.json());
 
 // Storage for uploaded files
@@ -555,18 +557,19 @@ app.post('/api/export', async (req, res) => {
   }
 });
 
-// Endpoint para debug - visualizar contexto de uma sessão
-app.get('/api/debug/session/:sessionId', async (req, res) => {
+const requireDevMode = (req, res, next) => {
+  if (process.env.NODE_ENV !== 'development') {
+    return res.status(403).json({ error: 'Debug endpoints disabled in production' });
+  }
+  next();
+};
+
+app.get('/api/debug/session/:sessionId', requireDevMode, async (req, res) => {
   const { sessionId } = req.params;
 
   try {
-    // Buscar informações da sessão
     const sessionData = sessions.get(sessionId);
-
-    // Obter contexto formatado da sessão local
     const contextFormatted = await sessionContextManager.getFormattedContext(sessionId, "[PRÓXIMA MENSAGEM]");
-
-    // Estatísticas do contexto
     const stats = await sessionContextManager.getStats();
 
     res.json({
@@ -583,8 +586,7 @@ app.get('/api/debug/session/:sessionId', async (req, res) => {
   }
 });
 
-// Endpoint para visualizar todos os diálogos ativos
-app.get('/api/debug/dialogs', async (req, res) => {
+app.get('/api/debug/dialogs', requireDevMode, async (req, res) => {
   try {
     const dialogs = [];
 
@@ -667,78 +669,6 @@ app.delete('/api/sessions/:sessionId', (req, res) => {
   res.json({ success: deleted });
 });
 
-// Funções auxiliares para respostas naturais
-function generateNaturalResponse(message) {
-  const lowerMessage = message.toLowerCase();
-  
-  // Respostas contextuais baseadas em padrões
-  if (lowerMessage.includes('olá') || lowerMessage.includes('oi') || lowerMessage.includes('hello')) {
-    const greetings = [
-      'Olá! É um prazer conversar com você. Como posso ajudar hoje?',
-      'Oi! Estou aqui para ajudar. Em que posso ser útil?',
-      'Olá! Bem-vindo! Estou pronto para auxiliar você com análise de dados, extração de informações ou qualquer outra necessidade.',
-      'Oi! Como está? Posso ajudar com análise de dados, geração de relatórios ou qualquer processamento que precisar.'
-    ];
-    return greetings[Math.floor(Math.random() * greetings.length)];
-  }
-  
-  if (lowerMessage.includes('como você está') || lowerMessage.includes('tudo bem')) {
-    return 'Estou funcionando perfeitamente e pronto para ajudar! Tenho o suporte do CrewAI com agentes especializados para análise de dados, extração de padrões e geração de relatórios. Como posso auxiliar você hoje?';
-  }
-  
-  if (lowerMessage.includes('dados') || lowerMessage.includes('extrair') || lowerMessage.includes('extract')) {
-    return `Entendi que você precisa trabalhar com dados. Vou acionar nossa equipe CrewAI especializada em extração de dados para processar sua solicitação: "${message}". Os agentes especializados já estão analisando o contexto para fornecer a melhor solução.`;
-  }
-  
-  if (lowerMessage.includes('analis') || lowerMessage.includes('padrão') || lowerMessage.includes('pattern')) {
-    return `Perfeito! Vejo que você precisa de análise de padrões. O CrewAI possui agentes especializados exatamente para isso. Estou coordenando com o analisador de padrões para processar: "${message}". Em breve terei insights valiosos para compartilhar.`;
-  }
-  
-  if (lowerMessage.includes('relatório') || lowerMessage.includes('resumo') || lowerMessage.includes('report')) {
-    return `Compreendi sua necessidade de um relatório. Vou mobilizar o agente gerador de relatórios do CrewAI para criar um documento estruturado sobre: "${message}". O relatório será completo e organizado.`;
-  }
-  
-  if (lowerMessage.includes('ajud') || lowerMessage.includes('help') || lowerMessage.includes('pode')) {
-    return `Claro! Posso ajudar você com diversas tarefas através do sistema CrewAI:\n\n• Extração de dados estruturados\n• Análise de padrões e tendências\n• Geração de relatórios detalhados\n• Processamento de informações complexas\n\nSobre o que especificamente você gostaria de ajuda?`;
-  }
-  
-  // Resposta genérica contextual
-  return `Entendi sua mensagem: "${message}". Estou processando sua solicitação com o suporte dos agentes especializados do CrewAI. Nossa equipe inclui extratores de dados, analisadores de padrões e geradores de relatórios. Vou coordenar o melhor approach para atender sua necessidade.`;
-}
-
-function detectCrewAINeeded(message) {
-  const lowerMessage = message.toLowerCase();
-  return lowerMessage.includes('dados') || 
-         lowerMessage.includes('extrair') || 
-         lowerMessage.includes('analis') ||
-         lowerMessage.includes('padrão') ||
-         lowerMessage.includes('relatório') ||
-         lowerMessage.includes('process') ||
-         lowerMessage.includes('arquivo') ||
-         lowerMessage.includes('resumo');
-}
-
-function detectTaskType(message) {
-  const lowerMessage = message.toLowerCase();
-  
-  if (lowerMessage.includes('extrair') || lowerMessage.includes('extract') || 
-      lowerMessage.includes('dados') || lowerMessage.includes('arquivo')) {
-    return 'data_extraction';
-  }
-  
-  if (lowerMessage.includes('analis') || lowerMessage.includes('padrão') || 
-      lowerMessage.includes('pattern') || lowerMessage.includes('trend')) {
-    return 'pattern_analysis';
-  }
-  
-  if (lowerMessage.includes('relatório') || lowerMessage.includes('resumo') || 
-      lowerMessage.includes('report') || lowerMessage.includes('summary')) {
-    return 'report_generation';
-  }
-  
-  return 'general_query';
-}
-
 // ══════════════════════════════════════════════
 // Task Runner — REST Endpoints
 // ══════════════════════════════════════════════
@@ -792,47 +722,113 @@ app.post('/api/tasks/:id/retry', (req, res) => {
   res.json({ success: true, task: _sanitizeTask(task) });
 });
 
-// POST /api/translate-instagram — traduz post do Instagram e envia via WhatsApp
+// POST /api/translate-instagram — traduz post do Instagram e publica nas 3 contas
 app.post('/api/translate-instagram', express.json(), (req, res) => {
-  const { url, to } = req.body;
+  const { url, to, rebrand_name, rebrand_handle, rebrand_photo, mode } = req.body;
   if (!url || !to) {
     return res.status(400).json({ error: 'url and to (LID) are required' });
   }
-  const prompt = `Traduza o post do Instagram para PT-BR e envie pro usuário:
 
-1. Baixar imagens:
-cd /Users/2a/.picoclaw/workspace/scripts && uv run download-instagram.py "${url}"
+  // Extrair shortcode da URL pra criar pasta isolada
+  const scMatch = url.match(/\/(?:p|reel)\/([A-Za-z0-9_-]+)/);
+  const shortcode = scMatch ? scMatch[1] : `post_${Date.now()}`;
+  const workDir = `/Users/2a/.picoclaw/workspace/media/jobs/${shortcode}`;
+  const scriptsDir = '/Users/2a/.picoclaw/workspace/scripts';
+  const igDir = '/Users/2a/.picoclaw/workspace/scripts/instagram';
 
-2. Para CADA imagem baixada (ig_*_.jpg), traduzir:
-cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png
+  // mode: "translate" (default) ou "rebrand" (só troca nome/handle/foto)
+  const isRebrand = mode === 'rebrand' && rebrand_name && rebrand_handle;
 
-3. Ler a legenda original em ig_*_caption.txt e traduzir para PT-BR. Adaptar CTA (ex: "Comenta CREAR" → "Comenta claude").
+  let imageStep;
+  if (isRebrand) {
+    const photoFlag = rebrand_photo ? ` --photo "${rebrand_photo}"` : '';
+    imageStep = `2. Para CADA imagem baixada em ${workDir}/images/ (ig_*_.jpg), customizar:
+cd ${scriptsDir} && uv run rebrand-image.py -i ARQUIVO_ORIGINAL -f ${workDir}/translated/NOME_ptbr.png --name "${rebrand_name}" --handle "${rebrand_handle}"${photoFlag}`;
+  } else {
+    imageStep = `2. Para CADA imagem baixada em ${workDir}/images/ (ig_*_.jpg), traduzir:
+cd ${scriptsDir} && uv run translate-image.py -i ARQUIVO_ORIGINAL -f ${workDir}/translated/NOME_ptbr.png`;
+  }
 
-4. Enviar legenda traduzida:
-curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
+  let captionStep;
+  if (isRebrand) {
+    captionStep = `3. Ler a legenda em ${workDir}/images/ig_${shortcode}_caption.txt. Substituir @ do autor por "${rebrand_handle}". Adaptar CTA.`;
+  } else {
+    captionStep = `3. Ler a legenda em ${workDir}/images/ig_${shortcode}_caption.txt e traduzir para PT-BR. Adaptar CTA (ex: "Comenta CREAR" → "Comenta claude").`;
+  }
 
-5. Enviar cada imagem traduzida SEM caption, intervalo de 2s:
-curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_TRADUZIDA"}'
+  const prompt = `${isRebrand ? 'Customiza' : 'Traduza'} o post do Instagram e publica nas 3 contas.
 
-6. Após enviar todas as imagens, gerar PDF com todas as imagens traduzidas e enviar como documento:
+IMPORTANTE: Todos os arquivos ficam na pasta isolada ${workDir}/
+
+0. Criar pastas:
+mkdir -p ${workDir}/images ${workDir}/translated
+
+1. Baixar imagens para a pasta isolada:
+cd ${scriptsDir} && DOWNLOAD_DIR=${workDir}/images uv run download-instagram.py "${url}"
+Se o script não suportar DOWNLOAD_DIR, mover os arquivos: mv /Users/2a/.picoclaw/workspace/media/images/ig_${shortcode}* ${workDir}/images/
+
+${imageStep}
+
+${captionStep}
+
+4. Publicar nas 3 contas do Instagram (uma de cada vez, usar caminhos ABSOLUTOS das imagens em ${workDir}/translated/):
+cd ${igDir} && python3 post.py ${workDir}/translated/ig_${shortcode}_1_ptbr.png [${workDir}/translated/ig_${shortcode}_2_ptbr.png ...] "LEGENDA_TRADUZIDA"
+cd ${igDir} && python3 post.py --account agentesintegrados ${workDir}/translated/ig_${shortcode}_1_ptbr.png [...] "LEGENDA_TRADUZIDA"
+cd ${igDir} && python3 post.py --account openclawde ${workDir}/translated/ig_${shortcode}_1_ptbr.png [...] "LEGENDA_TRADUZIDA"
+(post.py converte PNG→JPG automaticamente e limita a 10 imagens)
+
+5. Gerar PDF:
 python3 -c "
 from PIL import Image; import os, glob, re
-base = '/Users/2a/.picoclaw/workspace/media/translated'
-files = sorted(glob.glob(os.path.join(base, 'ig_POST_ID_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))
+base = '${workDir}/translated'
+files = sorted(glob.glob(os.path.join(base, 'ig_${shortcode}_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))
 imgs = [Image.open(f).convert('RGB') for f in files]
-out = os.path.join(base, 'ig_POST_ID_ptbr_completo.pdf')
+out = os.path.join(base, '${shortcode}_completo.pdf')
 imgs[0].save(out, save_all=True, append_images=imgs[1:])
 print(out)
 "
-Substituir POST_ID pelo ID do post (ex: DW1WZmhFFWa). Depois enviar:
-curl -s -X POST http://127.0.0.1:18790/api/send-document -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_PDF", "filename": "Post_Instagram_Traduzido.pdf"}'`;
+
+6. Postar o PDF como documento/carrossel no LinkedIn:
+cd /Users/2a/.picoclaw/workspace/scripts/linkedin && python3 linkedin_poster.py post "LEGENDA_TRADUZIDA" --doc ${workDir}/translated/${shortcode}_completo.pdf
+
+7. Enviar pro usuário a legenda traduzida + PDF:
+curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
+curl -s -X POST http://127.0.0.1:18790/api/send-document -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_PDF", "filename": "${shortcode}_traduzido.pdf"}'`;
 
   const task = taskRunner.createTask({
     prompt,
-    workspace: '/Users/2a/.picoclaw/workspace/scripts',
+    workspace: scriptsDir,
     tags: ['instagram', 'translate'],
     source: 'picoclaw',
     maxTurns: 80,
+  });
+  res.json({ success: true, taskId: task.id, status: task.status });
+});
+
+// POST /api/instagram-stories — publica stories nas 3 contas
+app.post('/api/instagram-stories', express.json(), (req, res) => {
+  const { images, text, to } = req.body;
+  if (!images || !images.length) {
+    return res.status(400).json({ error: 'images array is required' });
+  }
+
+  const igDir = '/Users/2a/.picoclaw/workspace/scripts/instagram';
+  const imageList = images.map(i => `"${i}"`).join(' ');
+
+  const prompt = `Publique stories nas 3 contas do Instagram.
+
+1. Postar em todas as contas:
+cd ${igDir} && python3 story.py --all ${imageList}
+
+${to ? `2. Notificar o usuário:
+curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "Stories publicados nas 3 contas!"}'` : ''}`;
+
+  const task = taskRunner.createTask({
+    prompt,
+    workspace: igDir,
+    tags: ['instagram', 'stories'],
+    source: 'picoclaw',
+    maxTurns: 20,
   });
   res.json({ success: true, taskId: task.id, status: task.status });
 });
@@ -1199,7 +1195,7 @@ io.on('connection', (socket) => {
       
       // Send error message in the correct format
       const errorMessage = {
-        id: crypto.randomUUID(),
+        id: uuidv4(),
         type: 'assistant',
         content: `Desculpe, não consegui processar sua solicitação corretamente. Por favor, tente novamente.\n\nDetalhes do erro: ${error.message}`,
         timestamp: Date.now(),

@@ -217,6 +217,15 @@ async function _runTask(task, io) {
   task.startedAt = Date.now();
   const abort = new AbortController();
   task._abortController = abort;
+
+  // Auto-abort após 15 minutos
+  const TASK_TIMEOUT_MS = 15 * 60 * 1000;
+  const timeoutId = setTimeout(() => {
+    console.warn(`⏰ Task ${task.id} auto-aborted after ${TASK_TIMEOUT_MS / 60000}min timeout`);
+    abort.abort();
+  }, TASK_TIMEOUT_MS);
+  task._timeoutId = timeoutId;
+
   _save();
 
   _emit(io, task.id, 'task_start', { taskId: task.id, prompt: task.prompt });
@@ -276,6 +285,10 @@ async function _runTask(task, io) {
         step.cost = task.cost;
       }
 
+      const MAX_STEPS = 200;
+      if (task.steps.length >= MAX_STEPS) {
+        task.steps = task.steps.slice(-Math.floor(MAX_STEPS / 2));
+      }
       task.steps.push(step);
       _emit(io, task.id, 'task_step', { taskId: task.id, step });
     }
@@ -305,6 +318,8 @@ async function _runTask(task, io) {
   }
 
   task.finishedAt = task.status === 'queued' ? null : Date.now();
+  if (task._timeoutId) clearTimeout(task._timeoutId);
+  task._timeoutId = null;
   task._abortController = null;
   _save();
 
