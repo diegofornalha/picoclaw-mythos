@@ -2,123 +2,6 @@
   "key": "changelog",
   "content": [
     {
-      "taskId": "2ca0019e-d61c-43ca-9460-5978e8b77586",
-      "desc": "/auto-commit-pr",
-      "cost": 1.1119425,
-      "duration": 33306,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775859206614
-    },
-    {
-      "taskId": "238a383e-052c-4c6b-81b5-858167f841e1",
-      "desc": "/self-review",
-      "cost": 1.72299825,
-      "duration": 54258,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775860412631
-    },
-    {
-      "taskId": "fc8939fb-f7cf-41b4-8649-bc2bdb4e29a5",
-      "desc": "/auto-commit-pr",
-      "cost": 0.72027075,
-      "duration": 44526,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775860457260
-    },
-    {
-      "taskId": "ba2f384b-f067-4673-bcb8-ffbf70501142",
-      "desc": "/self-review",
-      "cost": 1.5268275,
-      "duration": 41963,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775860643559
-    },
-    {
-      "taskId": "7758afc6-c648-4374-9934-f44524c02fa5",
-      "desc": "/auto-commit-pr",
-      "cost": 0.44937000000000005,
-      "duration": 32415,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775860676278
-    },
-    {
-      "taskId": "b0357ca5-4d1f-46bb-b77a-4c166b1a960b",
-      "desc": "/self-review",
-      "cost": 0.9780314999999999,
-      "duration": 43110,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775860867369
-    },
-    {
-      "taskId": "18a02d69-92cc-4921-bc9b-f963289f1124",
-      "desc": "/auto-commit-pr",
-      "cost": 0.7242255,
-      "duration": 35741,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775860903229
-    },
-    {
-      "taskId": "af01e26b-77ab-4505-8081-7b2fe4a9ddf2",
-      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
-      "cost": 1.7405205000000001,
-      "duration": 53320,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775862678326
-    },
-    {
-      "taskId": "1ae0f127-db29-4d63-af31-68d148da3231",
-      "desc": "/auto-commit-pr",
-      "cost": 0.7841647500000001,
-      "duration": 52466,
-      "changes": [
-        "backend/data/memory/changelog.json",
-        "backend/data/tasks.json",
-        "backend/server.js",
-        "backend/services/task-runner.js"
-      ],
-      "at": 1775862731200
-    },
-    {
       "taskId": "77e2ae7b-42a6-4eee-bf68-4f848b1d6fa8",
       "desc": "/analyze-logs",
       "cost": 1.074012,
@@ -1455,8 +1338,109 @@
         "backend/sessionContext.js"
       ],
       "at": 1775953780947
+    },
+    {
+      "taskId": "797393c2-77c5-474e-8b45-9a7e48f0b07d",
+      "desc": "/auto-commit-pr",
+      "cost": 1.2370694999999998,
+      "duration": 43724,
+      "changes": [
+        "backend/data/tasks.json"
+      ],
+      "at": 1775953824905
+    },
+    {
+      "taskId": "729abdd1-b874-4081-b195-7a597ce8d191",
+      "desc": "Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.",
+      "cost": 1.28339025,
+      "duration": 98496,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775964611248
+    },
+    {
+      "taskId": "c861bb7e-1620-4f80-bb3d-3b9f2cabe261",
+      "desc": "/auto-commit-pr",
+      "cost": 0.7583880000000001,
+      "duration": 39172,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775964650553
+    },
+    {
+      "taskId": "0d8a6329-a400-4e46-bbc0-b24808ce6a2d",
+      "desc": "Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.",
+      "cost": 1.0641045,
+      "duration": 38149,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775966350448
+    },
+    {
+      "taskId": "27978fff-f8f5-46b0-bb35-ff93c7ba8c8a",
+      "desc": "/auto-commit-pr",
+      "cost": 1.219221,
+      "duration": 38857,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775966389469
+    },
+    {
+      "taskId": "afead502-ecd9-4790-a8a8-5f8095c38339",
+      "desc": "/self-review",
+      "cost": 1.7923147499999998,
+      "duration": 38547,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775981326210
+    },
+    {
+      "taskId": "c939bac9-f5fb-4b94-9144-2b132c1fc782",
+      "desc": "/auto-commit-pr",
+      "cost": 1.3349504999999997,
+      "duration": 35859,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json"
+      ],
+      "at": 1775981362151
+    },
+    {
+      "taskId": "63d7ee9e-c45b-4d7d-a2a1-cdf4419b123d",
+      "desc": "/self-review",
+      "cost": 1.67594625,
+      "duration": 36959,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js"
+      ],
+      "at": 1775982811315
+    },
+    {
+      "taskId": "a203ff71-eb57-43a1-a2ee-b66f6360a919",
+      "desc": "/self-review",
+      "cost": 1.8405855000000002,
+      "duration": 39923,
+      "changes": [
+        "backend/data/memory/changelog.json",
+        "backend/data/tasks.json",
+        "backend/server.js",
+        "backend/services/task-runner.js"
+      ],
+      "at": 1775987100753
     }
   ],
-  "sha256": "404fb58694535a35",
-  "updatedAt": 1775953780960
+  "sha256": "1275d2cc4764f9fe",
+  "updatedAt": 1775987100753
 }

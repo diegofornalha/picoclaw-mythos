@@ -7,7 +7,7 @@ const multer = require('multer');
 const fs = require('fs-extra');
 const path = require('path');
 const { v4: uuidv4 } = require('uuid');
-const { query } = require('@anthropic-ai/claude-code');
+const { query } = require('./claude-query');
 const SessionContextManager = require('./sessionContext');
 const HealthChecker = require('./services/health-checker');
 const taskRunner = require('./services/task-runner');
@@ -724,7 +724,7 @@ app.post('/api/tasks/:id/retry', (req, res) => {
 
 // POST /api/translate-instagram — traduz post do Instagram e publica nas 3 contas
 app.post('/api/translate-instagram', express.json(), (req, res) => {
-  const { url, to, rebrand_name, rebrand_handle, rebrand_photo, mode } = req.body;
+  const { url, to, message_id, rebrand_name, rebrand_handle, rebrand_photo, mode } = req.body;
   if (!url || !to) {
     return res.status(400).json({ error: 'url and to (LID) are required' });
   }
@@ -791,9 +791,8 @@ print(out)
 6. Postar o PDF como documento/carrossel no LinkedIn:
 cd /Users/2a/.picoclaw/workspace/scripts/linkedin && python3 linkedin_poster.py post "LEGENDA_TRADUZIDA" --doc ${workDir}/translated/${shortcode}_completo.pdf
 
-7. Enviar pro usuário a legenda traduzida + PDF:
-curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "LEGENDA_TRADUZIDA"}'
-curl -s -X POST http://127.0.0.1:18790/api/send-document -H "Content-Type: application/json" -d '{"to": "${to}", "file": "CAMINHO_PDF", "filename": "${shortcode}_traduzido.pdf"}'`;
+7. Notificar o usuário que finalizou (respondendo a mensagem original):
+curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "Finalizado ✅"${message_id ? `, "reply_to": "${message_id}"` : ''}}'`;
 
   const task = taskRunner.createTask({
     prompt,
@@ -874,7 +873,7 @@ app.post('/api/autonomous/stop', (req, res) => {
 });
 
 function _sanitizeTask(task) {
-  const { _abortController, ...safe } = task;
+  const { _abortController, _timeoutId, ...safe } = task;
   return safe;
 }
 

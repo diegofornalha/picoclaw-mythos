@@ -1,4 +1,4 @@
-const { query } = require('@anthropic-ai/claude-code');
+const { query } = require('../claude-query');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs-extra');
 const path = require('path');
@@ -80,6 +80,7 @@ const queue = [];
 let running = false;
 let _io = null;          // Socket.IO ref (setado pelo startAutonomous)
 let _cooldownUntil = 0;  // timestamp até quando pausar (rate limit)
+let _retryTimer = null;  // timer para retomar fila após cooldown
 
 // ── Persistência leve ──
 
@@ -87,8 +88,11 @@ function _load() {
   try {
     if (fs.existsSync(TASKS_FILE)) {
       const data = fs.readJsonSync(TASKS_FILE);
-      for (const t of data) tasks.set(t.id, t);
-      console.log(`📋 Task Runner: loaded ${tasks.size} tasks`);
+      for (const t of data) {
+        tasks.set(t.id, t);
+        if (t.status === 'queued') queue.push(t.id);
+      }
+      console.log(`📋 Task Runner: loaded ${tasks.size} tasks (${queue.length} queued)`);
     }
   } catch (e) {
     console.warn('⚠️ task-runner: failed to load tasks:', e.message);
@@ -100,7 +104,8 @@ function _save() {
     fs.ensureDirSync(path.dirname(TASKS_FILE));
     const recent = Array.from(tasks.values())
       .sort((a, b) => b.createdAt - a.createdAt)
-      .slice(0, 200);
+      .slice(0, 200)
+      .map(({ _abortController, _timeoutId, ...safe }) => safe);
     fs.writeJsonSync(TASKS_FILE, recent, { spaces: 2 });
   } catch (e) {
     console.error('❌ task-runner: failed to save tasks:', e.message);
@@ -125,6 +130,69 @@ function _extractResetTimestamp(msg) {
   return Date.now() + 60 * 60 * 1000; // fallback: 1h
 }
 
+// ── Agendar retry após cooldown ──
+
+function _scheduleRetry() {
+  if (_retryTimer) clearTimeout(_retryTimer);
+  const waitMs = Math.max(_cooldownUntil - Date.now(), 60000); // mínimo 1min
+  console.log(`⏰ Retry agendado para daqui ${Math.ceil(waitMs / 60000)}min`);
+  _retryTimer = setTimeout(() => {
+    _retryTimer = null;
+    console.log(`🔄 Cooldown expirou — retomando fila (${queue.length} tasks)`);
+    _drainQueue();
+  }, waitMs);
+}
+
+// ── Extrair progresso dos steps pra montar contexto de retomada ──
+
+function _buildResumeContext(task) {
+  if (!task.steps || task.steps.length === 0) return null;
+
+  const completed = [];
+  const lastTexts = [];
+
+  for (const step of task.steps) {
+    if (step.type === 'tool_use' && step.toolName) {
+      completed.push(`- ${step.toolName}: ${step.inputSummary || step.toolName}`);
+    }
+    if (step.type === 'assistant' && step.text) {
+      lastTexts.push(step.text);
+    }
+  }
+
+  if (completed.length === 0 && lastTexts.length === 0) return null;
+
+  const parts = [];
+  parts.push(`<resume-context>`);
+  parts.push(`Esta tarefa foi INTERROMPIDA por rate limit e está sendo retomada.`);
+  parts.push(`Retry #${task.retryCount || 1} — NÃO repita passos já concluídos.`);
+  parts.push(``);
+
+  if (completed.length > 0) {
+    parts.push(`Ferramentas já executadas antes da interrupção:`);
+    // Limitar a últimos 20 pra não poluir contexto
+    for (const c of completed.slice(-20)) parts.push(c);
+    parts.push(``);
+  }
+
+  if (lastTexts.length > 0) {
+    const lastThought = lastTexts[lastTexts.length - 1];
+    if (lastThought.length > 0) {
+      parts.push(`Último raciocínio antes da pausa:`);
+      parts.push(lastThought.substring(0, 500));
+      parts.push(``);
+    }
+  }
+
+  parts.push(`IMPORTANTE: Verifique o estado atual do filesystem antes de agir.`);
+  parts.push(`Se arquivos já existem (imagens baixadas, traduzidas, etc), pule esses passos.`);
+  parts.push(`</resume-context>`);
+
+  return parts.join('\n');
+}
+
+const MAX_RETRIES = 5;
+
 // ── Criar task ──
 
 function createTask({ prompt, workspace, systemPrompt, maxTurns, model, tags, source }) {
@@ -143,6 +211,7 @@ function createTask({ prompt, workspace, systemPrompt, maxTurns, model, tags, so
     error: null,
     steps: [],
     cost: null,
+    retryCount: 0,
     createdAt: Date.now(),
     startedAt: null,
     finishedAt: null,
@@ -251,6 +320,13 @@ async function _runTask(task, io) {
       fullPrompt = `<system>\n${sysWithMem}\n</system>\n\n${fullPrompt}`;
     }
 
+    // Se é retry, injetar contexto de retomada
+    const resumeCtx = _buildResumeContext(task);
+    if (resumeCtx) {
+      fullPrompt = `${resumeCtx}\n\n${fullPrompt}`;
+      console.log(`🔄 Task ${task.id} retomando (retry #${task.retryCount || 1}, ${task.steps.length} steps anteriores)`);
+    }
+
     let lastAssistantText = '';
 
     for await (const msg of query({ prompt: fullPrompt, options: queryOptions })) {
@@ -263,6 +339,15 @@ async function _runTask(task, io) {
             lastAssistantText = block.text;
           }
         }
+      }
+
+      // Capturar info de tool_use pra contexto de retomada
+      if (msg.type === 'tool_use') {
+        step.toolName = msg.name;
+        step.inputSummary = msg.input?.command?.substring(0, 120)
+          || msg.input?.file_path?.split('/').pop()
+          || msg.input?.pattern
+          || msg.name;
       }
 
       if (msg.type === 'result') {
@@ -299,21 +384,36 @@ async function _runTask(task, io) {
 
     task.status = abort.signal.aborted ? 'cancelled' : 'done';
   } catch (err) {
-    // Rate limit → cooldown + requeue
-    if (_isRateLimitError(err.message)) {
-      _cooldownUntil = _extractResetTimestamp(err.message);
+    const errMsg = err.message || '';
+    // Rate limit → cooldown + requeue + agendar retry
+    if (_isRateLimitError(errMsg) ||
+        (errMsg.includes('exited with code 1') && task.steps.length === 0)) {
+      // exit code 1 sem steps = provável rate limit (não chegou a executar)
+      _cooldownUntil = _isRateLimitError(errMsg)
+        ? _extractResetTimestamp(errMsg)
+        : Date.now() + 5 * 60 * 1000; // 5min fallback — tenta rápido
       const resetDate = new Date(_cooldownUntil);
-      console.log(`⏸️  Rate limit hit — pausando até ${resetDate.toLocaleTimeString()}`);
-      // Requeue: não marca como error, volta pra fila
-      task.status = 'queued';
-      task.startedAt = null;
-      task.steps = [];
-      queue.unshift(task.id);
+      task.retryCount = (task.retryCount || 0) + 1;
+      console.log(`⏸️  Rate limit hit (retry #${task.retryCount}) — pausando até ${resetDate.toLocaleTimeString()}`);
+
+      if (task.retryCount >= MAX_RETRIES) {
+        task.status = 'error';
+        task.error = `Rate limit: max retries (${MAX_RETRIES}) exceeded`;
+        _emit(io, task.id, 'task_error', { taskId: task.id, error: task.error });
+        console.error(`❌ Task ${task.id} desistiu após ${MAX_RETRIES} retries`);
+      } else {
+        // Requeue: preserva steps (progresso), volta pra fila
+        task.status = 'queued';
+        task.startedAt = null;
+        // NÃO zera steps — _buildResumeContext usa pra retomar de onde parou
+        queue.unshift(task.id);
+        _scheduleRetry();
+      }
     } else {
       task.status = 'error';
-      task.error = err.message;
-      _emit(io, task.id, 'task_error', { taskId: task.id, error: err.message });
-      console.error(`❌ Task ${task.id} error:`, err.message);
+      task.error = errMsg;
+      _emit(io, task.id, 'task_error', { taskId: task.id, error: errMsg });
+      console.error(`❌ Task ${task.id} error:`, errMsg);
     }
   }
 
