@@ -733,10 +733,21 @@ app.post('/api/translate-instagram', express.json(), (req, res) => {
   const scMatch = url.match(/\/(?:p|reel)\/([A-Za-z0-9_-]+)/);
   const shortcode = scMatch ? scMatch[1] : `post_${Date.now()}`;
 
-  // Deduplicação: se já tem task ativa pro mesmo post, retornar ela
+  // Deduplicação inteligente: se já tem task pro mesmo post...
   const existing = taskRunner.findActiveByTag(`ig:${shortcode}`);
   if (existing) {
-    return res.json({ success: true, taskId: existing.id, status: existing.status, deduplicated: true });
+    const STALE_MS = 10 * 60 * 1000; // 10 min sem progresso = travada
+    const lastStep = existing.steps?.[existing.steps.length - 1];
+    const lastActivity = lastStep?.timestamp || existing.startedAt || existing.createdAt;
+    const isStale = existing.status === 'running' && (Date.now() - lastActivity) > STALE_MS;
+
+    if (!isStale) {
+      // Task saudável — retornar ela
+      return res.json({ success: true, taskId: existing.id, status: existing.status, deduplicated: true });
+    }
+    // Task travada — cancelar e deixar criar nova
+    taskRunner.cancelTask(existing.id);
+    console.log(`♻️  Stale task ${existing.id} cancelled — resubmitting ig:${shortcode}`);
   }
   const workDir = `/Users/2a/.picoclaw/workspace/media/jobs/${shortcode}`;
   const scriptsDir = '/Users/2a/.picoclaw/workspace/scripts';
