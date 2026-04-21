@@ -13,6 +13,12 @@ const HealthChecker = require('./services/health-checker');
 const taskRunner = require('./services/task-runner');
 
 
+// Workspaces
+const BETA_WORKSPACE = '/Users/2a/.picoclaw/workspace-beta';
+const BETA_SCRIPTS = `${BETA_WORKSPACE}/scripts`;
+const BETA_MEDIA = `${BETA_WORKSPACE}/media`;
+const GATEWAY_MEDIA = '/Users/2a/.picoclaw/workspace/media'; // gateway salva images aqui
+
 // Logger com níveis — TRACE só aparece em development
 const logger = {
   debug: (...args) => { if (process.env.NODE_ENV === 'development') console.log(...args); },
@@ -175,11 +181,8 @@ async function initializeSystem() {
 // Initialize on startup
 initializeSystem();
 
-// Autonomous mode
-const AUTONOMOUS_INTERVAL = parseInt(process.env.AUTONOMOUS_INTERVAL_MIN || '0') * 60 * 1000;
-if (AUTONOMOUS_INTERVAL > 0) {
-  taskRunner.startAutonomous(io, AUTONOMOUS_INTERVAL);
-}
+// Passar referência do Socket.IO para o task runner
+taskRunner.init(io);
 
 // Helper functions for processing step messages
 function getStepMessage(stepType, msg) {
@@ -674,6 +677,148 @@ app.delete('/api/sessions/:sessionId', (req, res) => {
 // ══════════════════════════════════════════════
 
 // POST /api/tasks — submete tarefa autônoma
+// POST /v1/chat/completions — OpenAI-compatible endpoint que usa Claude Code SDK
+app.post('/v1/chat/completions', express.json({ limit: '10mb' }), async (req, res) => {
+  const { messages = [], stream = false, model = 'claude-code', max_tokens, tools } = req.body;
+
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: { message: 'messages is required', type: 'invalid_request_error' } });
+  }
+
+  const lastUser = [...messages].reverse().find(m => m.role === 'user');
+  const preview = lastUser ? String(lastUser.content).substring(0, 80) : '';
+  console.log(`🎯 /v1/chat/completions [${stream ? 'stream' : 'sync'}] msgs=${messages.length} | "${preview}..."`);
+
+  // Separar system prompt das mensagens
+  const systemMessages = messages.filter(m => m.role === 'system');
+  const convoMessages = messages.filter(m => m.role !== 'system');
+
+  const systemPrompt = systemMessages.map(m =>
+    typeof m.content === 'string' ? m.content : JSON.stringify(m.content)
+  ).join('\n\n');
+
+  // Converter histórico de conversa em prompt
+  const fullPrompt = convoMessages.map(m => {
+    const content = typeof m.content === 'string'
+      ? m.content
+      : Array.isArray(m.content)
+        ? m.content.map(c => c.text || '').join(' ')
+        : JSON.stringify(m.content);
+    const roleLabel = m.role === 'user' ? 'User' : 'Assistant';
+    return `${roleLabel}: ${content}`;
+  }).join('\n\n');
+
+  const queryOpts = {
+    maxTurns: 1, // resposta direta, não workflow
+    includePartialMessages: stream === true,
+  };
+  if (systemPrompt) queryOpts.appendSystemPrompt = systemPrompt;
+
+  const completionId = `chatcmpl-${uuidv4()}`;
+  const createdAt = Math.floor(Date.now() / 1000);
+
+  if (stream) {
+    // Streaming SSE formato OpenAI
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    try {
+      // Chunk inicial com role
+      const firstChunk = {
+        id: completionId,
+        object: 'chat.completion.chunk',
+        created: createdAt,
+        model,
+        choices: [{ index: 0, delta: { role: 'assistant' }, finish_reason: null }],
+      };
+      res.write(`data: ${JSON.stringify(firstChunk)}\n\n`);
+
+      for await (const msg of query({ prompt: fullPrompt, options: queryOpts })) {
+        if (msg.type === 'stream_event' && msg.event?.type === 'content_block_delta' && msg.event?.delta?.text) {
+          const chunk = {
+            id: completionId,
+            object: 'chat.completion.chunk',
+            created: createdAt,
+            model,
+            choices: [{ index: 0, delta: { content: msg.event.delta.text }, finish_reason: null }],
+          };
+          res.write(`data: ${JSON.stringify(chunk)}\n\n`);
+        }
+      }
+
+      // Chunk final
+      const lastChunk = {
+        id: completionId,
+        object: 'chat.completion.chunk',
+        created: createdAt,
+        model,
+        choices: [{ index: 0, delta: {}, finish_reason: 'stop' }],
+      };
+      res.write(`data: ${JSON.stringify(lastChunk)}\n\n`);
+      res.write('data: [DONE]\n\n');
+      res.end();
+    } catch (err) {
+      logger.error('❌ /v1/chat/completions streaming error:', err.message);
+      res.write(`data: ${JSON.stringify({ error: { message: err.message } })}\n\n`);
+      res.end();
+    }
+  } else {
+    // Non-streaming: colher texto final
+    try {
+      let fullText = '';
+      let inputTokens = 0;
+      let outputTokens = 0;
+      for await (const msg of query({ prompt: fullPrompt, options: queryOpts })) {
+        if (msg.type === 'result') {
+          if (typeof msg.result === 'string' && msg.result.trim()) {
+            fullText = msg.result;
+          } else if (Array.isArray(msg.result)) {
+            fullText = msg.result.filter(b => b.type === 'text').map(b => b.text).join('\n');
+          }
+          if (msg.usage) {
+            inputTokens = msg.usage.input_tokens || 0;
+            outputTokens = msg.usage.output_tokens || 0;
+          }
+        } else if (msg.type === 'assistant' && msg.message?.content) {
+          const extracted = msg.message.content.filter(b => b.type === 'text').map(b => b.text).join('\n');
+          if (extracted) fullText = extracted;
+        }
+      }
+
+      res.json({
+        id: completionId,
+        object: 'chat.completion',
+        created: createdAt,
+        model,
+        choices: [{
+          index: 0,
+          message: { role: 'assistant', content: fullText || '(sem resposta)' },
+          finish_reason: 'stop',
+        }],
+        usage: {
+          prompt_tokens: inputTokens,
+          completion_tokens: outputTokens,
+          total_tokens: inputTokens + outputTokens,
+        },
+      });
+    } catch (err) {
+      logger.error('❌ /v1/chat/completions error:', err.message);
+      res.status(500).json({ error: { message: err.message, type: 'server_error' } });
+    }
+  }
+});
+
+// GET /v1/models — OpenAI-compatible models list
+app.get('/v1/models', (req, res) => {
+  res.json({
+    object: 'list',
+    data: [
+      { id: 'claude-code', object: 'model', created: Math.floor(Date.now() / 1000), owned_by: 'mythos' },
+    ],
+  });
+});
+
 app.post('/api/tasks', express.json(), (req, res) => {
   const { prompt, workspace, systemPrompt, maxTurns, model, tags, source } = req.body;
   if (!prompt || !prompt.trim()) {
@@ -697,10 +842,26 @@ app.get('/api/tasks/:id', (req, res) => {
   res.json(_sanitizeTask(task));
 });
 
-// DELETE /api/tasks/:id — cancelar task
+// DELETE /api/tasks/:id — cancelar task ativa ou deletar task concluida
 app.delete('/api/tasks/:id', (req, res) => {
+  const force = req.query.force === 'true';
+  if (force) {
+    const result = taskRunner.deleteTask(req.params.id);
+    return res.json(result);
+  }
   const cancelled = taskRunner.cancelTask(req.params.id);
-  res.json({ success: cancelled });
+  if (!cancelled) {
+    // Tentar deletar se não conseguiu cancelar (task já concluída)
+    const result = taskRunner.deleteTask(req.params.id);
+    return res.json(result);
+  }
+  res.json({ success: true, cancelled: true });
+});
+
+// DELETE /api/tasks — purge: limpar todas as tasks concluidas/canceladas/erro
+app.delete('/api/tasks', (req, res) => {
+  const count = taskRunner.purgeDoneTasks();
+  res.json({ success: true, purged: count });
 });
 
 // POST /api/tasks/:id/retry — reenviar task que falhou
@@ -749,9 +910,9 @@ app.post('/api/translate-instagram', express.json(), (req, res) => {
     taskRunner.cancelTask(existing.id);
     console.log(`♻️  Stale task ${existing.id} cancelled — resubmitting ig:${shortcode}`);
   }
-  const workDir = `/Users/2a/.picoclaw/workspace/media/jobs/${shortcode}`;
-  const scriptsDir = '/Users/2a/.picoclaw/workspace/scripts';
-  const igDir = '/Users/2a/.picoclaw/workspace/scripts/instagram';
+  const workDir = `${BETA_MEDIA}/jobs/${shortcode}`;
+  const scriptsDir = BETA_SCRIPTS;
+  const igDir = `${BETA_SCRIPTS}/instagram`;
 
   // mode: "translate" (default) ou "rebrand" (só troca nome/handle/foto)
   const isRebrand = mode === 'rebrand' && rebrand_name && rebrand_handle;
@@ -768,10 +929,23 @@ cd ${scriptsDir} && uv run translate-image.py -i ARQUIVO_ORIGINAL -f ${workDir}/
 
   let captionStep;
   if (isRebrand) {
-    captionStep = `3. Ler a legenda em ${workDir}/images/ig_${shortcode}_caption.txt. Substituir @ do autor por "${rebrand_handle}". Adaptar CTA.`;
+    captionStep = `3. Ler a legenda em ${workDir}/images/ig_${shortcode}_caption.txt. Substituir @ do autor por "${rebrand_handle}".
+REGRA DE CTA OBRIGATÓRIA: A legenda DEVE terminar com este bloco (sempre, sem exceção):
+
+Comenta claude que eu mando na DM pra você testar gratuitamente 🦞
+
+Se o post original já tiver um CTA, substituir pelo CTA acima. Se não tiver, adicionar no final.`;
   } else {
-    captionStep = `3. Ler a legenda em ${workDir}/images/ig_${shortcode}_caption.txt e traduzir para PT-BR. Adaptar CTA (ex: "Comenta CREAR" → "Comenta claude").`;
+    captionStep = `3. Ler a legenda em ${workDir}/images/ig_${shortcode}_caption.txt e traduzir para PT-BR.
+REGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):
+
+Comenta claude que eu mando na DM pra você testar gratuitamente 🦞
+
+Se o post original já tiver um CTA (ex: "Comenta CREAR", "Link na bio", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.`;
   }
+
+  const notifyStep = `Notificar o usuário que finalizou (respondendo a mensagem original):
+curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "Finalizado ✅"${message_id ? `, "reply_to": "${message_id}"` : ''}}'`;
 
   const prompt = `${isRebrand ? 'Customiza' : 'Traduza'} o post do Instagram e publica nas 3 contas.
 
@@ -780,21 +954,56 @@ IMPORTANTE: Todos os arquivos ficam na pasta isolada ${workDir}/
 0. Criar pastas:
 mkdir -p ${workDir}/images ${workDir}/translated
 
-1. Baixar imagens para a pasta isolada:
+1. Baixar mídia para a pasta isolada:
 cd ${scriptsDir} && DOWNLOAD_DIR=${workDir}/images uv run download-instagram.py "${url}"
-Se o script não suportar DOWNLOAD_DIR, mover os arquivos: mv /Users/2a/.picoclaw/workspace/media/images/ig_${shortcode}* ${workDir}/images/
+Se o script não suportar DOWNLOAD_DIR, mover os arquivos: mv ${GATEWAY_MEDIA}/images/ig_${shortcode}* ${workDir}/images/
 
-${imageStep}
+2. DETECTAR TIPO DE MÍDIA — verificar o que foi baixado:
+- Contar arquivos .jpg e .mp4 em ${workDir}/images/
+- Se APENAS .mp4 (sem .jpg) → FLUXO VÍDEO
+- Se APENAS .jpg (sem .mp4) → FLUXO IMAGEM
+- Se .jpg E .mp4 juntos → FLUXO MISTO
 
-${captionStep}
+═══════════════════════════════════════
+FLUXO VÍDEO (reel/vídeo puro, sem imagens)
+═══════════════════════════════════════
 
-4. Publicar nas 3 contas do Instagram (uma de cada vez, usar caminhos ABSOLUTOS das imagens em ${workDir}/translated/):
+V1. Identificar o arquivo de vídeo:
+VIDEO_FILE=$(ls ${workDir}/images/ig_${shortcode}*.mp4 | head -1)
+
+V2. ${captionStep}
+
+V3. Publicar reel nas 3 contas do Instagram:
+cd ${igDir} && python3 instagram.py reel --account all "$VIDEO_FILE" "LEGENDA_TRADUZIDA"
+
+V4. Publicar vídeo no LinkedIn:
+cd ${BETA_SCRIPTS}/linkedin && python3 linkedin_poster.py post "LEGENDA_TRADUZIDA" --video "$VIDEO_FILE"
+
+V5. ${notifyStep}
+
+FIM DO FLUXO VÍDEO — não executar outros fluxos.
+
+═══════════════════════════════════════
+FLUXO MISTO (imagens + vídeo no mesmo post)
+═══════════════════════════════════════
+
+M1. ${imageStep}
+(Traduzir APENAS os .jpg — ignorar os .mp4 na tradução)
+
+M2. ${captionStep}
+
+M3. VALIDAÇÃO OBRIGATÓRIA antes de publicar:
+- Contar quantas imagens originais .jpg existem em ${workDir}/images/ (ig_*_.jpg, excluindo caption.txt e .mp4)
+- Contar quantas traduzidas existem em ${workDir}/translated/ (*_ptbr.png)
+- Se o número de traduzidas for MENOR que o de originais: NÃO PUBLICAR. Parar e reportar "Tradução incompleta: X de Y imagens traduzidas. Publicação cancelada."
+- Só continuar se TODAS as imagens foram traduzidas com sucesso.
+
+M4. Publicar nas 3 contas do Instagram (imagens traduzidas — sem vídeo no carrossel):
 cd ${igDir} && python3 post.py ${workDir}/translated/ig_${shortcode}_1_ptbr.png [${workDir}/translated/ig_${shortcode}_2_ptbr.png ...] "LEGENDA_TRADUZIDA"
 cd ${igDir} && python3 post.py --account agentesintegrados ${workDir}/translated/ig_${shortcode}_1_ptbr.png [...] "LEGENDA_TRADUZIDA"
 cd ${igDir} && python3 post.py --account openclawde ${workDir}/translated/ig_${shortcode}_1_ptbr.png [...] "LEGENDA_TRADUZIDA"
-(post.py converte PNG→JPG automaticamente e limita a 10 imagens)
 
-5. Gerar PDF:
+M5. Gerar PDF (apenas com as imagens traduzidas, sem vídeo):
 python3 -c "
 from PIL import Image; import os, glob, re
 base = '${workDir}/translated'
@@ -805,11 +1014,55 @@ imgs[0].save(out, save_all=True, append_images=imgs[1:])
 print(out)
 "
 
-6. Postar o PDF como documento/carrossel no LinkedIn:
-cd /Users/2a/.picoclaw/workspace/scripts/linkedin && python3 linkedin_poster.py post "LEGENDA_TRADUZIDA" --doc ${workDir}/translated/${shortcode}_completo.pdf
+M6. LinkedIn — DUAS postagens separadas:
+POST 1 (PDF/carrossel com imagens):
+cd ${BETA_SCRIPTS}/linkedin && python3 linkedin_poster.py post "LEGENDA_TRADUZIDA" --doc ${workDir}/translated/${shortcode}_completo.pdf
 
-7. Notificar o usuário que finalizou (respondendo a mensagem original):
-curl -s -X POST http://127.0.0.1:18790/api/send-message -H "Content-Type: application/json" -d '{"to": "${to}", "text": "Finalizado ✅"${message_id ? `, "reply_to": "${message_id}"` : ''}}'`;
+POST 2 (vídeo separado — usar legenda curta referenciando o carrossel):
+VIDEO_FILE=$(ls ${workDir}/images/ig_${shortcode}*.mp4 | head -1)
+cd ${BETA_SCRIPTS}/linkedin && python3 linkedin_poster.py post "Continuação do post anterior 👆 Vídeo completo:" --video "$VIDEO_FILE"
+
+M7. ${notifyStep}
+
+FIM DO FLUXO MISTO — não executar outros fluxos.
+
+═══════════════════════════════════════
+FLUXO IMAGEM (foto/carrossel puro, sem vídeo)
+═══════════════════════════════════════
+
+I1. ${imageStep}
+
+I2. ${captionStep}
+
+I3. VALIDAÇÃO OBRIGATÓRIA antes de publicar:
+- Contar quantas imagens originais existem em ${workDir}/images/ (ig_*_.jpg, excluindo caption.txt)
+- Contar quantas traduzidas existem em ${workDir}/translated/ (*_ptbr.png)
+- Se o número de traduzidas for MENOR que o de originais: NÃO PUBLICAR. Parar e reportar "Tradução incompleta: X de Y imagens traduzidas. Publicação cancelada."
+- Só continuar se TODAS as imagens foram traduzidas com sucesso.
+
+I4. Publicar nas 3 contas do Instagram (usar APENAS os arquivos .png traduzidos — post.py converte internamente, NÃO gerar JPG manualmente):
+cd ${igDir} && python3 post.py ${workDir}/translated/ig_${shortcode}_1_ptbr.png [${workDir}/translated/ig_${shortcode}_2_ptbr.png ...] "LEGENDA_TRADUZIDA"
+cd ${igDir} && python3 post.py --account agentesintegrados ${workDir}/translated/ig_${shortcode}_1_ptbr.png [...] "LEGENDA_TRADUZIDA"
+cd ${igDir} && python3 post.py --account openclawde ${workDir}/translated/ig_${shortcode}_1_ptbr.png [...] "LEGENDA_TRADUZIDA"
+(post.py converte PNG→JPG internamente e limita a 10 imagens. NÃO converter manualmente.)
+
+I5. Gerar PDF:
+python3 -c "
+from PIL import Image; import os, glob, re
+base = '${workDir}/translated'
+files = sorted(glob.glob(os.path.join(base, 'ig_${shortcode}_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))
+imgs = [Image.open(f).convert('RGB') for f in files]
+out = os.path.join(base, '${shortcode}_completo.pdf')
+imgs[0].save(out, save_all=True, append_images=imgs[1:])
+print(out)
+"
+
+I6. Postar o PDF como documento/carrossel no LinkedIn:
+cd ${BETA_SCRIPTS}/linkedin && python3 linkedin_poster.py post "LEGENDA_TRADUZIDA" --doc ${workDir}/translated/${shortcode}_completo.pdf
+
+I7. ${notifyStep}
+
+FIM DO FLUXO IMAGEM.`;
 
   const task = taskRunner.createTask({
     prompt,
@@ -828,7 +1081,7 @@ app.post('/api/instagram-stories', express.json(), (req, res) => {
     return res.status(400).json({ error: 'images array is required' });
   }
 
-  const igDir = '/Users/2a/.picoclaw/workspace/scripts/instagram';
+  const igDir = `${BETA_SCRIPTS}/instagram`;
   const imageList = images.map(i => `"${i}"`).join(' ');
 
   const prompt = `Publique stories nas 3 contas do Instagram.
@@ -859,16 +1112,16 @@ app.post('/api/translate-image', express.json(), (req, res) => {
   const prompt = `Traduza a imagem para ${targetLang} e envie pro usuário:
 
 1. Traduzir a imagem:
-cd /Users/2a/.picoclaw/workspace/scripts && uv run translate-image.py -i "${file}" -f "/Users/2a/.picoclaw/workspace/media/translated/$(require('path').basename('${file}', require('path').extname('${file}'))}_ptbr.png"
+cd ${BETA_SCRIPTS} && uv run translate-image.py -i "${file}" -f "${BETA_MEDIA}/translated/$(require('path').basename('${file}', require('path').extname('${file}'))}_ptbr.png"
 
 2. Enviar a imagem traduzida:
-curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "/Users/2a/.picoclaw/workspace/media/translated/NOME_ptbr.png"}'
+curl -s -X POST http://127.0.0.1:18790/api/send-image -H "Content-Type: application/json" -d '{"to": "${to}", "file": "${BETA_MEDIA}/translated/NOME_ptbr.png"}'
 
 Substituir NOME pelo nome do arquivo sem extensão.`;
 
   const task = taskRunner.createTask({
     prompt,
-    workspace: '/Users/2a/.picoclaw/workspace/scripts',
+    workspace: BETA_SCRIPTS,
     tags: ['instagram', 'translate'],
     source: 'picoclaw',
     maxTurns: 10,
@@ -876,18 +1129,6 @@ Substituir NOME pelo nome do arquivo sem extensão.`;
   res.json({ success: true, taskId: task.id, status: task.status });
 });
 
-// POST /api/autonomous/start — iniciar modo autônomo
-app.post('/api/autonomous/start', express.json(), (req, res) => {
-  const intervalMin = parseInt(req.body.intervalMin || 60);
-  taskRunner.startAutonomous(io, intervalMin * 60 * 1000);
-  res.json({ success: true, intervalMin });
-});
-
-// POST /api/autonomous/stop — parar modo autônomo
-app.post('/api/autonomous/stop', (req, res) => {
-  taskRunner.stopAutonomous();
-  res.json({ success: true });
-});
 
 function _sanitizeTask(task) {
   const { _abortController, _timeoutId, ...safe } = task;
