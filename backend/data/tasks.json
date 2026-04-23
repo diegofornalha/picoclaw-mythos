@@ -1,24 +1,692 @@
 [
   {
-    "id": "77ba3abe-fc21-4883-8dd1-42149c985986",
-    "prompt": "/self-review",
-    "workspace": "/Users/2a/.claude/batalha/picoclaw-mythos/backend",
+    "id": "5229a78b-d9f7-4471-9555-f2b425924f0c",
+    "prompt": "Traduza o post do Instagram e publica nas 3 contas.\n\nIMPORTANTE: Todos os arquivos ficam na pasta isolada /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/\n\n0. Criar pastas:\nmkdir -p /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated\n\n1. Baixar mídia para a pasta isolada:\ncd /Users/2a/.picoclaw/workspace-beta/scripts && DOWNLOAD_DIR=/Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images uv run download-instagram.py \"https://www.instagram.com/p/DW6iIpzDlQ6/?img_index=4&igsh=dzR0MDN4c2diOXdz\"\nSe o script não suportar DOWNLOAD_DIR, mover os arquivos: mv /Users/2a/.picoclaw/workspace/media/images/ig_DW6iIpzDlQ6* /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/\n\n2. DETECTAR TIPO DE MÍDIA — verificar o que foi baixado:\n- Contar arquivos .jpg e .mp4 em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/\n- Se APENAS .mp4 (sem .jpg) → FLUXO VÍDEO\n- Se APENAS .jpg (sem .mp4) → FLUXO IMAGEM\n- Se .jpg E .mp4 juntos → FLUXO MISTO\n\n═══════════════════════════════════════\nFLUXO VÍDEO (reel/vídeo puro, sem imagens)\n═══════════════════════════════════════\n\nV1. Identificar o arquivo de vídeo:\nVIDEO_FILE=$(ls /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ig_DW6iIpzDlQ6*.mp4 | head -1)\n\nV2. 3. Ler a legenda em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ig_DW6iIpzDlQ6_caption.txt e traduzir para PT-BR.\nREGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\nSe o post original já tiver um CTA (ex: \"Comenta CREAR\", \"Link na bio\", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.\n\nV3. Publicar reel nas 3 contas do Instagram:\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 instagram.py reel --account all \"$VIDEO_FILE\" \"LEGENDA_TRADUZIDA\"\n\nV4. Publicar vídeo no LinkedIn:\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"LEGENDA_TRADUZIDA\" --video \"$VIDEO_FILE\"\n\nV5. Notificar o usuário que finalizou (respondendo a mensagem original):\ncurl -s -X POST http://127.0.0.1:18790/api/send-message -H \"Content-Type: application/json\" -d '{\"to\": \"140029540204660@lid\", \"text\": \"Finalizado ✅\"}'\n\nFIM DO FLUXO VÍDEO — não executar outros fluxos.\n\n═══════════════════════════════════════\nFLUXO MISTO (imagens + vídeo no mesmo post)\n═══════════════════════════════════════\n\nM1. 2. Para CADA imagem baixada em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ (ig_*_.jpg), traduzir:\ncd /Users/2a/.picoclaw/workspace-beta/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/NOME_ptbr.png\n(Traduzir APENAS os .jpg — ignorar os .mp4 na tradução)\n\nM2. 3. Ler a legenda em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ig_DW6iIpzDlQ6_caption.txt e traduzir para PT-BR.\nREGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\nSe o post original já tiver um CTA (ex: \"Comenta CREAR\", \"Link na bio\", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.\n\nM3. VALIDAÇÃO OBRIGATÓRIA antes de publicar:\n- Contar quantas imagens originais .jpg existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ (ig_*_.jpg, excluindo caption.txt e .mp4)\n- Contar quantas traduzidas existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ (*_ptbr.png)\n- Se o número de traduzidas for MENOR que o de originais: NÃO PUBLICAR. Parar e reportar \"Tradução incompleta: X de Y imagens traduzidas. Publicação cancelada.\"\n- Só continuar se TODAS as imagens foram traduzidas com sucesso.\n\nM4. Publicar nas 3 contas do Instagram (imagens traduzidas — sem vídeo no carrossel):\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_1_ptbr.png [/Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_2_ptbr.png ...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account agentesintegrados /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account openclawde /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\n\nM5. Gerar PDF (apenas com as imagens traduzidas, sem vídeo):\npython3 -c \"\nfrom PIL import Image; import os, glob, re\nbase = '/Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated'\nfiles = sorted(glob.glob(os.path.join(base, 'ig_DW6iIpzDlQ6_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))\nimgs = [Image.open(f).convert('RGB') for f in files]\nout = os.path.join(base, 'DW6iIpzDlQ6_completo.pdf')\nimgs[0].save(out, save_all=True, append_images=imgs[1:])\nprint(out)\n\"\n\nM6. LinkedIn — DUAS postagens separadas:\nPOST 1 (PDF/carrossel com imagens):\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"LEGENDA_TRADUZIDA\" --doc /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/DW6iIpzDlQ6_completo.pdf\n\nPOST 2 (vídeo separado — usar legenda curta referenciando o carrossel):\nVIDEO_FILE=$(ls /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ig_DW6iIpzDlQ6*.mp4 | head -1)\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"Continuação do post anterior 👆 Vídeo completo:\" --video \"$VIDEO_FILE\"\n\nM7. Notificar o usuário que finalizou (respondendo a mensagem original):\ncurl -s -X POST http://127.0.0.1:18790/api/send-message -H \"Content-Type: application/json\" -d '{\"to\": \"140029540204660@lid\", \"text\": \"Finalizado ✅\"}'\n\nFIM DO FLUXO MISTO — não executar outros fluxos.\n\n═══════════════════════════════════════\nFLUXO IMAGEM (foto/carrossel puro, sem vídeo)\n═══════════════════════════════════════\n\nI1. 2. Para CADA imagem baixada em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ (ig_*_.jpg), traduzir:\ncd /Users/2a/.picoclaw/workspace-beta/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/NOME_ptbr.png\n\nI2. 3. Ler a legenda em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ig_DW6iIpzDlQ6_caption.txt e traduzir para PT-BR.\nREGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\nSe o post original já tiver um CTA (ex: \"Comenta CREAR\", \"Link na bio\", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.\n\nI3. VALIDAÇÃO OBRIGATÓRIA antes de publicar:\n- Contar quantas imagens originais existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/images/ (ig_*_.jpg, excluindo caption.txt)\n- Contar quantas traduzidas existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ (*_ptbr.png)\n- Se o número de traduzidas for MENOR que o de originais: NÃO PUBLICAR. Parar e reportar \"Tradução incompleta: X de Y imagens traduzidas. Publicação cancelada.\"\n- Só continuar se TODAS as imagens foram traduzidas com sucesso.\n\nI4. Publicar nas 3 contas do Instagram (usar APENAS os arquivos .png traduzidos — post.py converte internamente, NÃO gerar JPG manualmente):\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_1_ptbr.png [/Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_2_ptbr.png ...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account agentesintegrados /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account openclawde /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/ig_DW6iIpzDlQ6_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\n(post.py converte PNG→JPG internamente e limita a 10 imagens. NÃO converter manualmente.)\n\nI5. Gerar PDF:\npython3 -c \"\nfrom PIL import Image; import os, glob, re\nbase = '/Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated'\nfiles = sorted(glob.glob(os.path.join(base, 'ig_DW6iIpzDlQ6_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))\nimgs = [Image.open(f).convert('RGB') for f in files]\nout = os.path.join(base, 'DW6iIpzDlQ6_completo.pdf')\nimgs[0].save(out, save_all=True, append_images=imgs[1:])\nprint(out)\n\"\n\nI6. Postar o PDF como documento/carrossel no LinkedIn:\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"LEGENDA_TRADUZIDA\" --doc /Users/2a/.picoclaw/workspace-beta/media/jobs/DW6iIpzDlQ6/translated/DW6iIpzDlQ6_completo.pdf\n\nI7. Notificar o usuário que finalizou (respondendo a mensagem original):\ncurl -s -X POST http://127.0.0.1:18790/api/send-message -H \"Content-Type: application/json\" -d '{\"to\": \"140029540204660@lid\", \"text\": \"Finalizado ✅\"}'\n\nFIM DO FLUXO IMAGEM.",
+    "workspace": "/Users/2a/.picoclaw/workspace-beta/scripts",
     "systemPrompt": null,
-    "maxTurns": 15,
+    "maxTurns": 80,
     "model": null,
     "tags": [
-      "autonomous",
-      "self-review"
+      "instagram",
+      "translate",
+      "ig:DW6iIpzDlQ6"
     ],
-    "source": "cron",
-    "status": "queued",
-    "result": null,
+    "source": "picoclaw",
+    "status": "done",
+    "result": "Tudo concluído. Resumo:\n\n**Instagram** (3 contas):\n- Conta principal: https://instagram.com/p/DXZEcNDFfoX\n- agentesintegrados: https://instagram.com/p/DXZEirLDmwj\n- openclawde: https://instagram.com/p/DXZEn5yFvr_\n\n**LinkedIn**: Carrossel PDF publicado com sucesso.\n\n**Detalhes**: 7 imagens traduzidas do espanhol para PT-BR via `gemini-3-pro-image-preview`, legenda traduzida com CTA obrigatório, e notificação enviada via WhatsApp.",
     "error": null,
-    "steps": [],
-    "cost": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1776769645165
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769645167
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769645167
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769645167
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769645428
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769649279
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769650116,
+        "text": "Vou começar criando as pastas e baixando a mídia do Instagram."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769650594
+      },
+      {
+        "type": "rate_limit_event",
+        "timestamp": 1776769650696
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769654475
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769657791
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769658117
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769660955,
+        "text": "Pastas criadas. Agora vou baixar a mídia do Instagram."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769663559
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769663735
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769668142
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769668438
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769672595
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769672764
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769676348
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769685787
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769685788
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769689210,
+        "text": "O script não suportou DOWNLOAD_DIR, baixou para a pasta padrão. Vou mover os arquivos para a pasta isolada do job."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769690105
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769690372
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769692678,
+        "text": "Agora vou detectar o tipo de mídia."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769694713
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769694996
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769697531
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769697570
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769701112,
+        "text": "\n\n**FLUXO IMAGEM** detectado — 7 imagens JPG, sem vídeo. Vou seguir o fluxo de imagens."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769705775
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769705883
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769709188,
+        "text": "Vou traduzir as 7 imagens. Vou iniciar traduzindo as primeiras 3 em paralelo."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769711685
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769713588
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769715372
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769768113
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769768113
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769825481
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769825481
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769884284
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769884285
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769887047,
+        "text": "3 de 7 traduzidas. Vou continuar com as próximas 4."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769889325
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769890374
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769892220
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769893712
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769960914
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769960914
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770029634
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770029635
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770081763
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770081763
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770133369
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770133370
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770136652,
+        "text": "Todas as 7 imagens traduzidas. Agora vou ler a legenda e traduzir, e validar a contagem de imagens."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770141441
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770141456
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770145795
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770146832
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770146860
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770147120
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770153517,
+        "text": "Validação OK: 7/7 imagens traduzidas. Legenda original lida. Vou preparar a legenda traduzida com o CTA obrigatório.\n\nA legenda traduzida será:\n\n> @claudeai tem respostas diferentes dependendo de como você escreve.\n> \n> Esses 4 códigos mudam completamente o nível e o tom do que ele te devolve.\n> \n> Não são funções oficiais anunciadas pela Anthropic, são padrões que usuários repetem e que dão resultados consistentemente diferentes.\n> \n> Se não funcionarem diretamente, tem duas soluções no final do carrossel.\n> \n> Salva pra próxima vez que precisar tirar mais proveito do Claude 👇\n> \n> Comenta claude que eu mando na DM pra você testar gratuitamente 🦞"
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770156429
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770156442
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770158755,
+        "text": "Agora vou publicar nas 3 contas do Instagram."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770163951
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770206045
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770206045
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770208474,
+        "text": "Conta principal publicada. Agora as outras duas contas em paralelo."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770213682
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770218698
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770260148
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770260149
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770302364
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770302364
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770304925,
+        "text": "3 contas do Instagram publicadas. Agora vou gerar o PDF e publicar no LinkedIn."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770308794
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770308935
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770314101
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770315112
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770318121,
+        "text": "PDF gerado. Agora publicar no LinkedIn."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770320985
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770321014
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770326503
+      },
+      {
+        "type": "system",
+        "timestamp": 1776770329856
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770329857
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770332794,
+        "text": "LinkedIn publicado. Agora a notificação final via WhatsApp."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770335785
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770335800
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770340659
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770341155
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770351697
+      },
+      {
+        "type": "user",
+        "timestamp": 1776770351931
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776770356957,
+        "text": "Tudo concluído. Resumo:\n\n**Instagram** (3 contas):\n- Conta principal: https://instagram.com/p/DXZEcNDFfoX\n- agentesintegrados: https://instagram.com/p/DXZEirLDmwj\n- openclawde: https://instagram.com/p/DXZEn5yFvr_\n\n**LinkedIn**: Carrossel PDF publicado com sucesso.\n\n**Detalhes**: 7 imagens traduzidas do espanhol para PT-BR via `gemini-3-pro-image-preview`, legenda traduzida com CTA obrigatório, e notificação enviada via WhatsApp."
+      },
+      {
+        "type": "result",
+        "timestamp": 1776770356990,
+        "result": "Tudo concluído. Resumo:\n\n**Instagram** (3 contas):\n- Conta principal: https://instagram.com/p/DXZEcNDFfoX\n- agentesintegrados: https://instagram.com/p/DXZEirLDmwj\n- openclawde: https://instagram.com/p/DXZEn5yFvr_\n\n**LinkedIn**: Carrossel PDF publicado com sucesso.\n\n**Detalhes**: 7 imagens traduzidas do espanhol para PT-BR via `gemini-3-pro-image-preview`, legenda traduzida com CTA obrigatório, e notificação enviada via WhatsApp.",
+        "cost": 1.04463925
+      }
+    ],
+    "cost": 1.04463925,
     "retryCount": 0,
-    "createdAt": 1775991451760,
-    "startedAt": null,
-    "finishedAt": null
+    "createdAt": 1776769447960,
+    "startedAt": 1776769632967,
+    "finishedAt": 1776770357249
+  },
+  {
+    "id": "b29f8b43-1275-48f3-8441-8aec8f7659f1",
+    "prompt": "Traduza o post do Instagram e publica nas 3 contas.\n\nIMPORTANTE: Todos os arquivos ficam na pasta isolada /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/\n\n0. Criar pastas:\nmkdir -p /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated\n\n1. Baixar mídia para a pasta isolada:\ncd /Users/2a/.picoclaw/workspace-beta/scripts && DOWNLOAD_DIR=/Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images uv run download-instagram.py \"https://www.instagram.com/reel/DW-Y21dDdy8/?igsh=NjN6d2wxeXlnem9k\"\nSe o script não suportar DOWNLOAD_DIR, mover os arquivos: mv /Users/2a/.picoclaw/workspace/media/images/ig_DW-Y21dDdy8* /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/\n\n2. DETECTAR TIPO DE MÍDIA — verificar o que foi baixado:\n- Contar arquivos .jpg e .mp4 em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/\n- Se APENAS .mp4 (sem .jpg) → FLUXO VÍDEO\n- Se APENAS .jpg (sem .mp4) → FLUXO IMAGEM\n- Se .jpg E .mp4 juntos → FLUXO MISTO\n\n═══════════════════════════════════════\nFLUXO VÍDEO (reel/vídeo puro, sem imagens)\n═══════════════════════════════════════\n\nV1. Identificar o arquivo de vídeo:\nVIDEO_FILE=$(ls /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ig_DW-Y21dDdy8*.mp4 | head -1)\n\nV2. 3. Ler a legenda em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ig_DW-Y21dDdy8_caption.txt e traduzir para PT-BR.\nREGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\nSe o post original já tiver um CTA (ex: \"Comenta CREAR\", \"Link na bio\", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.\n\nV3. Publicar reel nas 3 contas do Instagram:\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 instagram.py reel --account all \"$VIDEO_FILE\" \"LEGENDA_TRADUZIDA\"\n\nV4. Publicar vídeo no LinkedIn:\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"LEGENDA_TRADUZIDA\" --video \"$VIDEO_FILE\"\n\nV5. Notificar o usuário que finalizou (respondendo a mensagem original):\ncurl -s -X POST http://127.0.0.1:18790/api/send-message -H \"Content-Type: application/json\" -d '{\"to\": \"140029540204660@lid\", \"text\": \"Finalizado ✅\"}'\n\nFIM DO FLUXO VÍDEO — não executar outros fluxos.\n\n═══════════════════════════════════════\nFLUXO MISTO (imagens + vídeo no mesmo post)\n═══════════════════════════════════════\n\nM1. 2. Para CADA imagem baixada em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ (ig_*_.jpg), traduzir:\ncd /Users/2a/.picoclaw/workspace-beta/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/NOME_ptbr.png\n(Traduzir APENAS os .jpg — ignorar os .mp4 na tradução)\n\nM2. 3. Ler a legenda em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ig_DW-Y21dDdy8_caption.txt e traduzir para PT-BR.\nREGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\nSe o post original já tiver um CTA (ex: \"Comenta CREAR\", \"Link na bio\", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.\n\nM3. VALIDAÇÃO OBRIGATÓRIA antes de publicar:\n- Contar quantas imagens originais .jpg existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ (ig_*_.jpg, excluindo caption.txt e .mp4)\n- Contar quantas traduzidas existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ (*_ptbr.png)\n- Se o número de traduzidas for MENOR que o de originais: NÃO PUBLICAR. Parar e reportar \"Tradução incompleta: X de Y imagens traduzidas. Publicação cancelada.\"\n- Só continuar se TODAS as imagens foram traduzidas com sucesso.\n\nM4. Publicar nas 3 contas do Instagram (imagens traduzidas — sem vídeo no carrossel):\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_1_ptbr.png [/Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_2_ptbr.png ...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account agentesintegrados /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account openclawde /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\n\nM5. Gerar PDF (apenas com as imagens traduzidas, sem vídeo):\npython3 -c \"\nfrom PIL import Image; import os, glob, re\nbase = '/Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated'\nfiles = sorted(glob.glob(os.path.join(base, 'ig_DW-Y21dDdy8_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))\nimgs = [Image.open(f).convert('RGB') for f in files]\nout = os.path.join(base, 'DW-Y21dDdy8_completo.pdf')\nimgs[0].save(out, save_all=True, append_images=imgs[1:])\nprint(out)\n\"\n\nM6. LinkedIn — DUAS postagens separadas:\nPOST 1 (PDF/carrossel com imagens):\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"LEGENDA_TRADUZIDA\" --doc /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/DW-Y21dDdy8_completo.pdf\n\nPOST 2 (vídeo separado — usar legenda curta referenciando o carrossel):\nVIDEO_FILE=$(ls /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ig_DW-Y21dDdy8*.mp4 | head -1)\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"Continuação do post anterior 👆 Vídeo completo:\" --video \"$VIDEO_FILE\"\n\nM7. Notificar o usuário que finalizou (respondendo a mensagem original):\ncurl -s -X POST http://127.0.0.1:18790/api/send-message -H \"Content-Type: application/json\" -d '{\"to\": \"140029540204660@lid\", \"text\": \"Finalizado ✅\"}'\n\nFIM DO FLUXO MISTO — não executar outros fluxos.\n\n═══════════════════════════════════════\nFLUXO IMAGEM (foto/carrossel puro, sem vídeo)\n═══════════════════════════════════════\n\nI1. 2. Para CADA imagem baixada em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ (ig_*_.jpg), traduzir:\ncd /Users/2a/.picoclaw/workspace-beta/scripts && uv run translate-image.py -i ARQUIVO_ORIGINAL -f /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/NOME_ptbr.png\n\nI2. 3. Ler a legenda em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ig_DW-Y21dDdy8_caption.txt e traduzir para PT-BR.\nREGRA DE CTA OBRIGATÓRIA: A legenda traduzida DEVE terminar com este bloco (sempre, sem exceção):\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\nSe o post original já tiver um CTA (ex: \"Comenta CREAR\", \"Link na bio\", etc.), substituir pelo CTA acima. Se não tiver CTA, adicionar no final.\n\nI3. VALIDAÇÃO OBRIGATÓRIA antes de publicar:\n- Contar quantas imagens originais existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/images/ (ig_*_.jpg, excluindo caption.txt)\n- Contar quantas traduzidas existem em /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ (*_ptbr.png)\n- Se o número de traduzidas for MENOR que o de originais: NÃO PUBLICAR. Parar e reportar \"Tradução incompleta: X de Y imagens traduzidas. Publicação cancelada.\"\n- Só continuar se TODAS as imagens foram traduzidas com sucesso.\n\nI4. Publicar nas 3 contas do Instagram (usar APENAS os arquivos .png traduzidos — post.py converte internamente, NÃO gerar JPG manualmente):\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_1_ptbr.png [/Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_2_ptbr.png ...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account agentesintegrados /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\ncd /Users/2a/.picoclaw/workspace-beta/scripts/instagram && python3 post.py --account openclawde /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/ig_DW-Y21dDdy8_1_ptbr.png [...] \"LEGENDA_TRADUZIDA\"\n(post.py converte PNG→JPG internamente e limita a 10 imagens. NÃO converter manualmente.)\n\nI5. Gerar PDF:\npython3 -c \"\nfrom PIL import Image; import os, glob, re\nbase = '/Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated'\nfiles = sorted(glob.glob(os.path.join(base, 'ig_DW-Y21dDdy8_*_ptbr.png')), key=lambda f: int(re.search(r'_(\\d+)_ptbr', f).group(1)))\nimgs = [Image.open(f).convert('RGB') for f in files]\nout = os.path.join(base, 'DW-Y21dDdy8_completo.pdf')\nimgs[0].save(out, save_all=True, append_images=imgs[1:])\nprint(out)\n\"\n\nI6. Postar o PDF como documento/carrossel no LinkedIn:\ncd /Users/2a/.picoclaw/workspace-beta/scripts/linkedin && python3 linkedin_poster.py post \"LEGENDA_TRADUZIDA\" --doc /Users/2a/.picoclaw/workspace-beta/media/jobs/DW-Y21dDdy8/translated/DW-Y21dDdy8_completo.pdf\n\nI7. Notificar o usuário que finalizou (respondendo a mensagem original):\ncurl -s -X POST http://127.0.0.1:18790/api/send-message -H \"Content-Type: application/json\" -d '{\"to\": \"140029540204660@lid\", \"text\": \"Finalizado ✅\"}'\n\nFIM DO FLUXO IMAGEM.",
+    "workspace": "/Users/2a/.picoclaw/workspace-beta/scripts",
+    "systemPrompt": null,
+    "maxTurns": 80,
+    "model": null,
+    "tags": [
+      "instagram",
+      "translate",
+      "ig:DW-Y21dDdy8"
+    ],
+    "source": "picoclaw",
+    "status": "done",
+    "result": "Tudo finalizado. Resumo:\n\n**Tipo detectado:** Vídeo (reel) - FLUXO VÍDEO\n\n**Instagram** (reel publicado nas 3 contas):\n- @diegofornalha: https://instagram.com/p/DXZDG9sjKS3\n- @agentesintegrados: https://instagram.com/p/DXZDLRJDL6X\n- @openclawde: https://instagram.com/p/DXZDPcujLHj\n\n**LinkedIn** (vídeo publicado):\n- Post ID: `urn:li:ugcPost:7452311894922608640`\n\n**Legenda:** Original já era PT-BR, apenas substituí o CTA por \"Comenta claude que eu mando na DM pra você testar gratuitamente 🦞\"\n\n**Notificação WhatsApp:** Enviada.",
+    "error": null,
+    "steps": [
+      {
+        "type": "system",
+        "timestamp": 1776769405047
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769405049
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769405050
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769405050
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769405407
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769409542
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769410146,
+        "text": "Vou começar criando as pastas e baixando a mídia do Instagram."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769410770
+      },
+      {
+        "type": "rate_limit_event",
+        "timestamp": 1776769410802
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769415178
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769419870
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769420238
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769422594,
+        "text": "Pastas criadas. Agora vou baixar a mídia do Instagram."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769425431
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769425555
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769429473
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769439758
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769439758
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769442731,
+        "text": "O script salvou na pasta padrão. Vou mover os arquivos para a pasta do job."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769443565
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769443862
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769446580,
+        "text": "Agora vou detectar o tipo de mídia."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769448524
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769448692
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769453184
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769453653
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769459516,
+        "text": "**APENAS .mp4** (sem .jpg) - seguindo o **FLUXO VÍDEO**."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769459773
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769459820
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769465213
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769465225
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769468880,
+        "text": "Vou ler a legenda original."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769469573
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769469941
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769476128,
+        "text": "A legenda já está em PT-BR. Preciso apenas substituir o CTA original (\"Concorda com essa lista ou mudaria algo? Comenta aqui 👇\") pelo CTA obrigatório. A legenda traduzida fica:\n\n```\nO que mudou na IA em apenas 1 ano? Muita coisa. 🔄\n\nEm 2025 a gente usava um set de ferramentas. Em 2026, cada categoria tem um novo líder:\n- Estudo: ChatGPT → NotebookLM \n- Pesquisa: Grok → Perplexity \n- Automação: n8n → Claude Code \n- Vídeo: Luma AI → Veo 3.1\n\nNão quer dizer que as de 2025 morreram — mas as de 2026 estão dominando em cada categoria.\n\nComenta claude que eu mando na DM pra você testar gratuitamente 🦞\n\n. . .\n\n#InteligenciaArtificial #FerramentasDeIA #IAem2026 #TecnologiaIA #ia\n```"
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769478601
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769478625
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769481116,
+        "text": "Agora vou publicar o reel nas 3 contas do Instagram."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769484977
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769596608
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769596609
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769601183,
+        "text": "Reel publicado nas 3 contas com sucesso. Agora o LinkedIn."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769603269
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769603300
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769608816
+      },
+      {
+        "type": "system",
+        "timestamp": 1776769613513
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769613514
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769616136,
+        "text": "Publicado no LinkedIn. Agora vou notificar via WhatsApp."
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769618402
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769618407
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769622601
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769623154
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769627310
+      },
+      {
+        "type": "user",
+        "timestamp": 1776769627314
+      },
+      {
+        "type": "assistant",
+        "timestamp": 1776769632650,
+        "text": "Tudo finalizado. Resumo:\n\n**Tipo detectado:** Vídeo (reel) - FLUXO VÍDEO\n\n**Instagram** (reel publicado nas 3 contas):\n- @diegofornalha: https://instagram.com/p/DXZDG9sjKS3\n- @agentesintegrados: https://instagram.com/p/DXZDLRJDL6X\n- @openclawde: https://instagram.com/p/DXZDPcujLHj\n\n**LinkedIn** (vídeo publicado):\n- Post ID: `urn:li:ugcPost:7452311894922608640`\n\n**Legenda:** Original já era PT-BR, apenas substituí o CTA por \"Comenta claude que eu mando na DM pra você testar gratuitamente 🦞\"\n\n**Notificação WhatsApp:** Enviada."
+      },
+      {
+        "type": "result",
+        "timestamp": 1776769632697,
+        "result": "Tudo finalizado. Resumo:\n\n**Tipo detectado:** Vídeo (reel) - FLUXO VÍDEO\n\n**Instagram** (reel publicado nas 3 contas):\n- @diegofornalha: https://instagram.com/p/DXZDG9sjKS3\n- @agentesintegrados: https://instagram.com/p/DXZDLRJDL6X\n- @openclawde: https://instagram.com/p/DXZDPcujLHj\n\n**LinkedIn** (vídeo publicado):\n- Post ID: `urn:li:ugcPost:7452311894922608640`\n\n**Legenda:** Original já era PT-BR, apenas substituí o CTA por \"Comenta claude que eu mando na DM pra você testar gratuitamente 🦞\"\n\n**Notificação WhatsApp:** Enviada.",
+        "cost": 0.6907734999999999
+      }
+    ],
+    "cost": 0.6907734999999999,
+    "retryCount": 0,
+    "createdAt": 1776769391805,
+    "startedAt": 1776769391811,
+    "finishedAt": 1776769632964
   }
 ]

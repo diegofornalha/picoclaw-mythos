@@ -88,11 +88,38 @@ function _load() {
   try {
     if (fs.existsSync(TASKS_FILE)) {
       const data = fs.readJsonSync(TASKS_FILE);
+      let orphanCount = 0;
       for (const t of data) {
         tasks.set(t.id, t);
-        if (t.status === 'queued') queue.push(t.id);
+        if (t.status === 'queued') {
+          queue.push(t.id);
+        } else if (t.status === 'running') {
+          // Task órfã: estava running quando o backend reiniciou
+          console.log(`♻️  Orphan detected: ${t.id} — requeueing`);
+          t.status = 'queued';
+          t.startedAt = null;
+          t.retryCount = (t.retryCount || 0) + 1;
+          queue.push(t.id);
+          orphanCount++;
+        }
       }
-      console.log(`📋 Task Runner: loaded ${tasks.size} tasks (${queue.length} queued)`);
+      // Limpar tasks terminadas com mais de 24h
+      const DAY_MS = 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      let cleanedCount = 0;
+      for (const [id, t] of tasks) {
+        if (['done', 'error', 'cancelled'].includes(t.status) && t.createdAt && (now - t.createdAt) > DAY_MS) {
+          tasks.delete(id);
+          cleanedCount++;
+        }
+      }
+
+      if (orphanCount > 0 || cleanedCount > 0) {
+        if (orphanCount > 0) console.log(`♻️  ${orphanCount} orphaned task(s) requeued`);
+        if (cleanedCount > 0) console.log(`🧹 ${cleanedCount} old task(s) cleaned up`);
+        _save();
+      }
+      console.log(`📋 Task Runner: loaded ${tasks.size} tasks (${queue.length} queued, ${orphanCount} recovered, ${cleanedCount} cleaned)`);
     }
   } catch (e) {
     console.warn('⚠️ task-runner: failed to load tasks:', e.message);
@@ -113,6 +140,8 @@ function _save() {
 }
 
 _load();
+// Drenar fila após carregar tasks (inclui órfãs recuperadas)
+setTimeout(() => _drainQueue(), 5000);
 
 // ── Rate limit detection ──
 
@@ -235,6 +264,15 @@ function listTasks({ status, source, limit = 50 } = {}) {
   return all.slice(0, limit);
 }
 
+function findActiveByTag(tag) {
+  for (const task of tasks.values()) {
+    if ((task.status === 'running' || task.status === 'queued') && task.tags && task.tags.includes(tag)) {
+      return task;
+    }
+  }
+  return null;
+}
+
 function cancelTask(id) {
   const task = tasks.get(id);
   if (!task) return false;
@@ -251,6 +289,29 @@ function cancelTask(id) {
     return true;
   }
   return false;
+}
+
+function deleteTask(id) {
+  const task = tasks.get(id);
+  if (!task) return { deleted: false, reason: 'not_found' };
+  if (task.status === 'running' || task.status === 'queued') {
+    return { deleted: false, reason: 'still_active' };
+  }
+  tasks.delete(id);
+  _save();
+  return { deleted: true };
+}
+
+function purgeDoneTasks() {
+  let count = 0;
+  for (const [id, task] of tasks.entries()) {
+    if (task.status === 'done' || task.status === 'cancelled' || task.status === 'error') {
+      tasks.delete(id);
+      count++;
+    }
+  }
+  if (count > 0) _save();
+  return count;
 }
 
 // ── Worker ──
@@ -440,150 +501,27 @@ async function _runTask(task, io) {
     });
     console.log(`✅ Task ${task.id} ${task.status} (${((task.finishedAt - task.startedAt) / 1000).toFixed(1)}s)`);
 
-    if (task.status === 'done' && task.source === 'cron') {
-      const entry = {
-        taskId: task.id,
-        desc: task.prompt.substring(0, 120),
-        cost: task.cost,
-        duration: task.finishedAt - task.startedAt,
-      };
-      const changedFiles = _getChangedFiles(task.workspace);
-      if (changedFiles.length > 0) entry.changes = changedFiles;
-      memory.append('changelog', entry, 100);
-
-      if (task.prompt !== '/auto-commit-pr') {
-        _checkAndCommit(task.workspace);
-      }
-    }
   }
-}
-
-function _getChangedFiles(workspace) {
-  try {
-    const { execSync } = require('child_process');
-    const output = execSync('git diff --name-only HEAD 2>/dev/null || git diff --name-only', {
-      cwd: workspace, encoding: 'utf8', timeout: 5000,
-    }).trim();
-    if (!output) return [];
-    return output.split('\n').filter(Boolean).slice(0, 20);
-  } catch { return []; }
-}
-
-function _checkAndCommit(workspace) {
-  try {
-    const { execSync } = require('child_process');
-    const changes = execSync('git status --porcelain', { cwd: workspace, encoding: 'utf8' }).trim();
-    if (changes) {
-      console.log(`📝 Mudanças detectadas após task autônoma — agendando auto-commit-pr`);
-      createTask({
-        prompt: '/auto-commit-pr',
-        workspace,
-        tags: ['autonomous', 'auto-pr'],
-        source: 'cron',
-        maxTurns: 10,
-      });
-    }
-  } catch { /* sem git ou erro — ignora */ }
 }
 
 function _emit(io, taskId, event, data) {
   if (io) io.emit(event, data);
 }
 
-// ── Modo autônomo ──
+// ── Inicialização ──
 
-let autonomousTimer = null;
-
-function startAutonomous(io, intervalMs) {
-  if (autonomousTimer) return;
-  _io = io; // Guarda ref do Socket.IO
-  console.log(`🤖 Autonomous mode: ciclo a cada ${intervalMs / 60000}min`);
-  _scheduleAutonomousTask();
-  autonomousTimer = setInterval(() => {
-    _scheduleAutonomousTask();
-  }, intervalMs);
-}
-
-function stopAutonomous() {
-  if (autonomousTimer) {
-    clearInterval(autonomousTimer);
-    autonomousTimer = null;
-    console.log('🤖 Autonomous mode stopped');
-  }
-}
-
-const LOGS_PATH = process.env.PICOCLAW_LOGS || '/Users/2a/.picoclaw/logs';
-const AGENTS_PATH = process.env.CLAUDE_AGENTS_PATH || '/Users/2a/.claude/agents';
-
-const SELF_MISSIONS = [
-  // Diagnóstico
-  '/self-review',
-  '/analyze-logs',
-  // Resolução de débitos (a cada 3 ciclos)
-  'Leia data/memory/debts.json. Escolha o debt aberto de maior severidade. Corrija-o editando o arquivo indicado. Após corrigir, atualize debts.json mudando status para "resolved" e resolvedAt com Date.now(). Teste com node --check.',
-  // Avaliação de skills
-  '/eval-skills',
-  // Diagnóstico profundo
-  '/self-review',
-  `Leia os logs em ${LOGS_PATH}/ e verifique se as skills cobrem os padrões de erro encontrados. Sugira novas skills se necessário.`,
-  // Mais resolução de débitos
-  'Leia data/memory/debts.json. Se todos os debts estão "resolved", analise o código e adicione NOVOS débitos técnicos que encontrar (com id, desc, file, severity, status:"open"). Se houver debts open, resolva o de maior severidade.',
-  // Melhoria contínua
-  '/self-improve',
-  '/analyze-logs',
-  `Verifique os agentes em ${AGENTS_PATH}/. Liste os mais relevantes para melhorar o picoclaw-mythos.`,
-];
-
-const PICOCLAW_MISSIONS = [
-  'Analise pkg/providers/ do picoclaw. Identifique providers com padrões inconsistentes. Lista priorizada.',
-  'Leia ROADMAP.md e compare com o código atual. Liste: implementado, parcial, pendente.',
-  '/analyze-logs',
-  `Leia os logs em ${LOGS_PATH}/ e sugira melhorias concretas no código Go para reduzir os erros encontrados.`,
-];
-
-let missionIndex = 0;
-const TOTAL_MISSIONS = SELF_MISSIONS.length + PICOCLAW_MISSIONS.length;
-
-function _scheduleAutonomousTask() {
-  // Cooldown ativo — pula ciclo
-  if (_cooldownUntil > Date.now()) {
-    const waitMin = Math.ceil((_cooldownUntil - Date.now()) / 60000);
-    console.log(`⏸️  [mission skip] Rate limit cooldown — ${waitMin}min restantes`);
-    return;
-  }
-
-  const workspace = process.env.PICOCLAW_WORKSPACE || path.join(__dirname, '..');
-  const goPath = process.env.PICOCLAW_GOPATH;
-  let prompt, taskWorkspace, tags;
-
-  if (missionIndex % 3 === 0 || !goPath || !require('fs').existsSync(goPath)) {
-    prompt = SELF_MISSIONS[missionIndex % SELF_MISSIONS.length];
-    taskWorkspace = workspace;
-    tags = ['autonomous', 'self-review'];
-  } else {
-    prompt = PICOCLAW_MISSIONS[missionIndex % PICOCLAW_MISSIONS.length];
-    taskWorkspace = goPath;
-    tags = ['autonomous', 'picoclaw-analysis'];
-  }
-
-  missionIndex = (missionIndex + 1) % TOTAL_MISSIONS;
-
-  console.log(`🤖 [mission ${missionIndex}] ${prompt.substring(0, 70)}`);
-  createTask({
-    prompt,
-    workspace: taskWorkspace,
-    tags,
-    source: 'cron',
-    maxTurns: 15,
-  });
+function init(io) {
+  _io = io;
 }
 
 module.exports = {
+  init,
   createTask,
   getTask,
   listTasks,
   cancelTask,
-  startAutonomous,
-  stopAutonomous,
+  deleteTask,
+  purgeDoneTasks,
+  findActiveByTag,
   _drainQueue,
 };
